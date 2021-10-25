@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">ふるよにデッキ管理アプリ</string>
+    <string name="modeButton1">デッキ登録</string>
+    <string name="modeButton2">デッキ参照</string>
+    <string name="yurina">ユリナ</string>
+    <string name="saine">サイネ</string>
+    <string name="tokoyo">トコヨ</string>
+    <string name="himika">ヒミカ</string>
+    <string name="oboro">オボロ</string>
+    <string name="yukihi">ユキ匕</string>
+    <string name="shinra">シンラ</string>
+    <string name="hagane">ハガネ</string>
+    <string name="chikage">チカゲ</string>
+    <string name="kururu">クルル</string>
+    <string name="sariya">サリヤ</string>
+    <string name="utsuro">ウツロ</string>
+    <string name="honoka">ホノカ</string>
+    <string name="raira">ライラ</string>
+    <string name="korunu">コルヌ</string>
+    <string name="yatsuha">ヤツハ</string>
+    <string name="hatsumi">ハツミ</string>
+    <string name="mizuki">ミズキ</string>
+    <string name="megumi">メグミ</string>
+    <string name="kanae">カナヱ</string>
+    <string name="startCreation">デッキ構築開始</string>
+</resources>
