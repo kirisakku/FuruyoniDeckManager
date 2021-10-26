@@ -28,7 +28,7 @@
                 android:contentDescription="@string/yurina"
                 android:padding="5dp"
                 android:scaleType="centerInside"
-                app:srcCompat="@drawable/twiicon_sa_01"
+                app:srcCompat="@drawable/yurina"
                 tools:layout_editor_absoluteX="16dp"
                 tools:layout_editor_absoluteY="16dp" />
 
@@ -44,7 +44,7 @@
                 android:contentDescription="@string/himika"
                 android:padding="5dp"
                 android:scaleType="centerInside"
-                app:srcCompat="@drawable/twiicon_sa_02"
+                app:srcCompat="@drawable/himika"
                 tools:layout_editor_absoluteX="16dp"
                 tools:layout_editor_absoluteY="16dp" />
 
@@ -60,7 +60,7 @@
                 android:contentDescription="@string/tokoyo"
                 android:padding="5dp"
                 android:scaleType="centerInside"
-                app:srcCompat="@drawable/twiicon_sa_03"
+                app:srcCompat="@drawable/tokoyo"
                 tools:layout_editor_absoluteX="16dp"
                 tools:layout_editor_absoluteY="16dp" />
 
@@ -76,7 +76,7 @@
                 android:contentDescription="@string/oboro"
                 android:padding="5dp"
                 android:scaleType="centerInside"
-                app:srcCompat="@drawable/twiicon_sa_04"
+                app:srcCompat="@drawable/oboro"
                 tools:layout_editor_absoluteX="16dp"
                 tools:layout_editor_absoluteY="16dp" />
 
@@ -92,7 +92,7 @@
                 android:contentDescription="@string/yukihi"
                 android:padding="5dp"
                 android:scaleType="centerInside"
-                app:srcCompat="@drawable/twiicon_sa_05a"
+                app:srcCompat="@drawable/yukihi"
                 tools:layout_editor_absoluteX="16dp"
                 tools:layout_editor_absoluteY="16dp" />
         </TableRow>
@@ -114,7 +114,7 @@
                 android:contentDescription="@string/shinra"
                 android:padding="5dp"
                 android:scaleType="centerInside"
-                app:srcCompat="@drawable/twiicon_sa_06"
+                app:srcCompat="@drawable/shinra"
                 tools:layout_editor_absoluteX="16dp"
                 tools:layout_editor_absoluteY="16dp" />
 
@@ -130,7 +130,7 @@
                 android:contentDescription="@string/saine"
                 android:padding="5dp"
                 android:scaleType="centerInside"
-                app:srcCompat="@drawable/twiicon_sa_07"
+                app:srcCompat="@drawable/saine"
                 tools:layout_editor_absoluteX="16dp"
                 tools:layout_editor_absoluteY="16dp" />
 
@@ -146,7 +146,7 @@
                 android:contentDescription="@string/hagane"
                 android:padding="5dp"
                 android:scaleType="centerInside"
-                app:srcCompat="@drawable/twiicon_sa_08"
+                app:srcCompat="@drawable/hagane"
                 tools:layout_editor_absoluteX="16dp"
                 tools:layout_editor_absoluteY="16dp" />
 
@@ -162,7 +162,7 @@
                 android:contentDescription="@string/chikage"
                 android:padding="5dp"
                 android:scaleType="centerInside"
-                app:srcCompat="@drawable/twiicon_sa_09"
+                app:srcCompat="@drawable/chikage"
                 tools:layout_editor_absoluteX="16dp"
                 tools:layout_editor_absoluteY="16dp" />
 
@@ -178,7 +178,7 @@
                 android:contentDescription="@string/kururu"
                 android:padding="5dp"
                 android:scaleType="centerInside"
-                app:srcCompat="@drawable/twiicon_sa_10"
+                app:srcCompat="@drawable/kururu"
                 tools:layout_editor_absoluteX="16dp"
                 tools:layout_editor_absoluteY="16dp" />
         </TableRow>
@@ -200,7 +200,7 @@
                 android:contentDescription="@string/sariya"
                 android:padding="5dp"
                 android:scaleType="centerInside"
-                app:srcCompat="@drawable/twiicon_sa_11"
+                app:srcCompat="@drawable/sariya"
                 tools:layout_editor_absoluteX="16dp"
                 tools:layout_editor_absoluteY="16dp" />
 
@@ -216,7 +216,7 @@
                 android:contentDescription="@string/utsuro"
                 android:padding="5dp"
                 android:scaleType="centerInside"
-                app:srcCompat="@drawable/twiicon_sa_12"
+                app:srcCompat="@drawable/utsuro"
                 tools:layout_editor_absoluteX="16dp"
                 tools:layout_editor_absoluteY="16dp" />
 
@@ -232,7 +232,7 @@
                 android:contentDescription="@string/honoka"
                 android:padding="5dp"
                 android:scaleType="centerInside"
-                app:srcCompat="@drawable/twiicon_sa_13"
+                app:srcCompat="@drawable/honoka"
                 tools:layout_editor_absoluteX="16dp"
                 tools:layout_editor_absoluteY="16dp" />
 
@@ -248,7 +248,7 @@
                 android:contentDescription="@string/raira"
                 android:padding="5dp"
                 android:scaleType="centerInside"
-                app:srcCompat="@drawable/twiicon_sa_14"
+                app:srcCompat="@drawable/raira"
                 tools:layout_editor_absoluteX="16dp"
                 tools:layout_editor_absoluteY="16dp" />
 
@@ -264,7 +264,7 @@
                 android:contentDescription="@string/korunu"
                 android:padding="5dp"
                 android:scaleType="centerInside"
-                app:srcCompat="@drawable/twiicon_sa_22"
+                app:srcCompat="@drawable/korunu"
                 tools:layout_editor_absoluteX="16dp"
                 tools:layout_editor_absoluteY="16dp" />
         </TableRow>
@@ -286,7 +286,7 @@
                 android:contentDescription="@string/yatsuha"
                 android:padding="5dp"
                 android:scaleType="centerInside"
-                app:srcCompat="@drawable/twiicon_sa_23"
+                app:srcCompat="@drawable/yatsuha"
                 tools:layout_editor_absoluteX="16dp"
                 tools:layout_editor_absoluteY="16dp" />
 
@@ -302,7 +302,7 @@
                 android:contentDescription="@string/hatsumi"
                 android:padding="5dp"
                 android:scaleType="centerInside"
-                app:srcCompat="@drawable/twiicon_sa_27"
+                app:srcCompat="@drawable/hatsumi"
                 tools:layout_editor_absoluteX="16dp"
                 tools:layout_editor_absoluteY="16dp" />
 
@@ -318,7 +318,7 @@
                 android:contentDescription="@string/mizuki"
                 android:padding="5dp"
                 android:scaleType="centerInside"
-                app:srcCompat="@drawable/twiicon_sa_28"
+                app:srcCompat="@drawable/mizuki"
                 tools:layout_editor_absoluteX="16dp"
                 tools:layout_editor_absoluteY="16dp" />
 
@@ -334,7 +334,7 @@
                 android:contentDescription="@string/megumi"
                 android:padding="5dp"
                 android:scaleType="centerInside"
-                app:srcCompat="@drawable/twiicon_sa_33"
+                app:srcCompat="@drawable/megumi"
                 tools:layout_editor_absoluteX="16dp"
                 tools:layout_editor_absoluteY="16dp" />
 
@@ -350,7 +350,7 @@
                 android:contentDescription="@string/kanae"
                 android:padding="5dp"
                 android:scaleType="centerInside"
-                app:srcCompat="@drawable/twiicon_sa_34"
+                app:srcCompat="@drawable/kanae"
                 tools:layout_editor_absoluteX="16dp"
                 tools:layout_editor_absoluteY="16dp" />
         </TableRow>

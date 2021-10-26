@@ -1,5 +1,6 @@
 package com.example.furuyonideckmanager
 
+import android.content.Intent
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -63,5 +64,14 @@ class RegistrationActivity : AppCompatActivity() {
 
         // 全メガミボタンに押下時ハンドラ追加
         setClickListeners();
+
+        // 登録画面に遷移するためのボタンにハンドラ追加
+        startCreationButton.setOnClickListener {
+            val intent = Intent(this, ChooseCardsActivity::class.java);
+            // 選ばれたメガミの情報を渡す
+            val selectedMegamiArray: Array<String> = selectedMegamiList.toTypedArray()
+            intent.putExtra("CHOSEN_MEGAMI", selectedMegamiArray)
+            startActivity(intent);
+        }
     }
 }
