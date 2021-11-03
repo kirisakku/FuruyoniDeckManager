@@ -1,15 +1,44 @@
 package com.example.furuyonideckmanager
 
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color.parseColor
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.annotation.ColorInt
+import android.view.View
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_choose_cards.*
-import java.io.IOException
-import java.io.InputStream
+import java.io.*
 
 class ChooseCardsActivity : AppCompatActivity() {
+    fun readFile(fileId: Int): List<List<String>> {
+        val res: Resources = this.getResources();
+        var bufferReader: BufferedReader? = null;
+        var separatedList = mutableListOf<List<String>>();
+        try {
+            try {
+                val inputStream = res.openRawResource(fileId);
+                bufferReader = BufferedReader(InputStreamReader(inputStream));
+                var str = bufferReader.readLine();
+                while(str != null) {
+                    separatedList.add(str.split(','))
+                    str = bufferReader.readLine();
+                }
+            } finally {
+                if (bufferReader != null) {
+                    bufferReader.close();
+                }
+            }
+        } catch (e: IOException) {
+            Toast.makeText(this, "読み込み失敗", Toast.LENGTH_SHORT).show();
+        }
+
+        return separatedList;
+    }
 
     fun setMegamiImage(imageName: String, position: String) {
         var instream: InputStream? = null;
@@ -35,14 +64,104 @@ class ChooseCardsActivity : AppCompatActivity() {
         }
     }
 
+    fun getLeftMegamiCardButtons(): Array<Map<String, Button?>> {
+        return arrayOf(
+            mapOf("card" to megami0_card0, "type0" to megami0_type00, "type1" to megami0_type01),
+            mapOf("card" to megami0_card1, "type0" to megami0_type10, "type1" to megami0_type11),
+            mapOf("card" to megami0_card2, "type0" to megami0_type20, "type1" to megami0_type21),
+            mapOf("card" to megami0_card3, "type0" to megami0_type30, "type1" to megami0_type31),
+            mapOf("card" to megami0_card4, "type0" to megami0_type40, "type1" to megami0_type41),
+            mapOf("card" to megami0_card5, "type0" to megami0_type50, "type1" to megami0_type51),
+            mapOf("card" to megami0_card6, "type0" to megami0_type60, "type1" to megami0_type61),
+            mapOf("card" to megami0_s_card0, "type0" to megami0_s_type00, "type1" to megami0_s_type01),
+            mapOf("card" to megami0_s_card1, "type0" to megami0_s_type10, "type1" to megami0_s_type11),
+            mapOf("card" to megami0_s_card2, "type0" to megami0_s_type20, "type1" to megami0_s_type21),
+            mapOf("card" to megami0_s_card3, "type0" to megami0_s_type30, "type1" to megami0_s_type31)
+        );
+    }
+
+    fun getRightMegamiCardButtons(): Array<Map<String, Button?>> {
+        return arrayOf(
+            mapOf("card" to megami1_card0, "type0" to megami1_type00, "type1" to megami1_type01),
+            mapOf("card" to megami1_card1, "type0" to megami1_type10, "type1" to megami1_type11),
+            mapOf("card" to megami1_card2, "type0" to megami1_type20, "type1" to megami1_type21),
+            mapOf("card" to megami1_card3, "type0" to megami1_type30, "type1" to megami1_type31),
+            mapOf("card" to megami1_card4, "type0" to megami1_type40, "type1" to megami1_type41),
+            mapOf("card" to megami1_card5, "type0" to megami1_type50, "type1" to megami1_type51),
+            mapOf("card" to megami1_card6, "type0" to megami1_type60, "type1" to megami1_type61),
+            mapOf("card" to megami1_s_card0, "type0" to megami1_s_type00, "type1" to megami1_s_type01),
+            mapOf("card" to megami1_s_card1, "type0" to megami1_s_type10, "type1" to megami1_s_type11),
+            mapOf("card" to megami1_s_card2, "type0" to megami1_s_type20, "type1" to megami1_s_type21),
+            mapOf("card" to megami1_s_card3, "type0" to megami1_s_type30, "type1" to megami1_s_type31)
+        );
+    }
+
+    fun setButtonStyles(button: Button?, type: String) {
+        when(type) {
+            "攻撃" -> {
+                button?.setBackgroundResource(R.drawable.circle_red);
+                button?.setText("攻");
+            };
+            "行動" -> {
+                button?.setBackgroundResource(R.drawable.circle_blue)
+                button?.setText("行");
+            };
+            "付与" -> {
+                button?.setBackgroundResource(R.drawable.circle_green)
+                button?.setText("付");
+            };
+            "全力" -> {
+                button?.setBackgroundResource(R.drawable.circle_yellow)
+                button?.setText("全");
+            };
+            "対応" -> {
+                button?.setBackgroundResource(R.drawable.circle_purple)
+                button?.setText("対");
+            };
+            else -> {
+                button?.setVisibility(View.INVISIBLE);
+            }
+        }
+    }
+
+    fun setButtons(buttons: Array<Map<String, Button?>>, csvData: List<List<String>>) {
+        for (i in csvData.indices) {
+            val targetData = csvData[i];
+            val targetButtons = buttons[i];
+            // カード名設定
+            targetButtons.get("card")?.setText(targetData[1]);
+            // 色変更
+            setButtonStyles(targetButtons.get("type0"), targetData[2]);
+            setButtonStyles(targetButtons.get("type1"), targetData[3]);
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_choose_cards)
 
-        // メガミ画像の設定
-        // データの取得
         var chosenMegami = intent.getStringArrayExtra("CHOSEN_MEGAMI")
-        setMegamiImage(chosenMegami?.get(0) + ".jpg", "left");
-        setMegamiImage(chosenMegami?.get(1) + ".jpg", "right");
+        var megami0 = chosenMegami?.get(0);
+        var megami1 = chosenMegami?.get(1);
+        if (megami0 == null || megami1 ==null) {
+            // TODO: 後でエラー処理書きたい
+            return;
+        }
+
+        // メガミ画像の設定
+        setMegamiImage(megami0 + ".jpg", "left");
+        setMegamiImage(megami1 + ".jpg", "right");
+
+        // カード情報の取得
+        val megamiCardList0 = readFile(getResources().getIdentifier(megami0, "raw", getPackageName()));
+        val megamiCardList1 = readFile(getResources().getIdentifier(megami1, "raw", getPackageName()));
+
+        // 画面の初期化
+        // ボタン一覧を取得する
+        val megamiButtonList0 = getLeftMegamiCardButtons();
+        val megamiButtonList1 = getRightMegamiCardButtons();
+        // ボタンの見た目設定
+        setButtons(megamiButtonList0, megamiCardList0);
+        setButtons(megamiButtonList1, megamiCardList1);
     }
 }
