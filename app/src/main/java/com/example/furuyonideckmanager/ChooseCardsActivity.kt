@@ -1,5 +1,6 @@
 package com.example.furuyonideckmanager
 
+import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -124,7 +125,7 @@ class ChooseCardsActivity : AppCompatActivity() {
         }
     }
 
-    fun setButtons(buttons: Array<Map<String, Button?>>, csvData: List<List<String>>) {
+    fun setButtonsView(buttons: Array<Map<String, Button?>>, csvData: List<List<String>>) {
         for (i in csvData.indices) {
             val targetData = csvData[i];
             val targetButtons = buttons[i];
@@ -133,6 +134,25 @@ class ChooseCardsActivity : AppCompatActivity() {
             // 色変更
             setButtonStyles(targetButtons.get("type0"), targetData[2]);
             setButtonStyles(targetButtons.get("type1"), targetData[3]);
+        }
+    }
+
+    fun setButtonsHandler(buttons: Array<Map<String, Button?>>, csvData: List<List<String>>) {
+        for (i in csvData.indices) {
+            val targetData = csvData[i];
+            val targetButtons = buttons[i];
+
+            // ハンドラ定義
+            val cardButton = targetButtons.get("card");
+            cardButton?.setOnClickListener {
+                // 画面遷移
+                val intent = Intent(this, ShowCardActivity::class.java);
+                // 画像データ
+                val image = targetData[4];
+                // 画像データを渡す
+                intent.putExtra("IMAGE_FILE_NAME", image);
+                startActivity(intent);
+            }
         }
     }
 
@@ -161,7 +181,11 @@ class ChooseCardsActivity : AppCompatActivity() {
         val megamiButtonList0 = getLeftMegamiCardButtons();
         val megamiButtonList1 = getRightMegamiCardButtons();
         // ボタンの見た目設定
-        setButtons(megamiButtonList0, megamiCardList0);
-        setButtons(megamiButtonList1, megamiCardList1);
+        setButtonsView(megamiButtonList0, megamiCardList0);
+        setButtonsView(megamiButtonList1, megamiCardList1);
+
+        // カード表示画面に遷移するためのハンドラ設定
+        setButtonsHandler(megamiButtonList0, megamiCardList0);
+        setButtonsHandler(megamiButtonList1, megamiCardList1);
     }
 }
