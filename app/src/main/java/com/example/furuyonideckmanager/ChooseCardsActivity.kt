@@ -4,18 +4,23 @@ import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Color.parseColor
+import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.annotation.ColorInt
 import android.view.View
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_choose_cards.*
 import java.io.*
 
 class ChooseCardsActivity : AppCompatActivity() {
+    // 通常札の選択されたカード
+    val chosenNormalCards = mutableListOf<List<String>>();
+    // 切札の選択されたカード
+    val chosenSpecialCards = mutableListOf<List<String>>();
+
     fun readFile(fileId: Int): List<List<String>> {
         val res: Resources = this.getResources();
         var bufferReader: BufferedReader? = null;
@@ -156,6 +161,93 @@ class ChooseCardsActivity : AppCompatActivity() {
         }
     }
 
+    fun setRegisterButtonEnable() {
+        // 作成ボタンの活性状態を変える
+        if (chosenNormalCards.size == 7 && chosenSpecialCards.size == 3) {
+            registerDeck.setEnabled(true);
+        } else {
+            registerDeck.setEnabled(false);
+        }
+    }
+
+    fun getRightMegamiCheckBoxes(): Array<CheckBox> {
+        return arrayOf(
+            megami0_check0,
+            megami0_check1,
+            megami0_check2,
+            megami0_check3,
+            megami0_check4,
+            megami0_check5,
+            megami0_check6,
+            megami0_s_check0,
+            megami0_s_check1,
+            megami0_s_check2,
+            megami0_s_check3
+        );
+    }
+
+    fun getLeftMegamiCheckBoxes(): Array<CheckBox> {
+        return arrayOf(
+            megami1_check0,
+            megami1_check1,
+            megami1_check2,
+            megami1_check3,
+            megami1_check4,
+            megami1_check5,
+            megami1_check6,
+            megami1_s_check0,
+            megami1_s_check1,
+            megami1_s_check2,
+            megami1_s_check3
+        );
+    }
+
+    fun setCheckBoxHandlers(csvData: List<List<String>>, isRight: Boolean) {
+        var checkBoxes = if (isRight == true) getRightMegamiCheckBoxes() else getLeftMegamiCheckBoxes();
+
+        // 通常カードのチェックボックスにハンドラ設定
+        for (i in 0..6) {
+            val checkBox = checkBoxes[i];
+            checkBox.setOnCheckedChangeListener {_, isChecked ->
+                val targetData = csvData[i];
+                if (isChecked) {
+                    chosenNormalCards.add(targetData);
+                } else {
+                    chosenNormalCards.remove(targetData);
+                }
+
+                // TODO: 関数化したい
+                // テキスト更新
+                cardCount_main_normal.setText((chosenNormalCards.size).toString());
+                // 色更新
+                val textColor = if (chosenNormalCards.size != 7) "#CC0000" else "#000000";
+                cardCount_main_normal.setTextColor(Color.parseColor((textColor)));
+                // ボタン活性/非活性制御
+                setRegisterButtonEnable();
+            }
+        }
+
+        // 切札のチェックボックスにハンドラ設定
+        for (i in 7..10) {
+            val checkBox = checkBoxes[i];
+            checkBox.setOnCheckedChangeListener {_, isChecked ->
+                if (isChecked) {
+                    chosenSpecialCards.add(csvData[i]);
+                } else {
+                    chosenSpecialCards.remove(csvData[i]);
+                }
+
+                // テキスト更新
+                cardCount_main_special.setText((chosenSpecialCards.size).toString());
+                // 色更新
+                val textColor = if (chosenSpecialCards.size != 3) "#CC0000" else "#000000";
+                cardCount_main_special.setTextColor(Color.parseColor((textColor)));
+                // ボタン活性/非活性制御
+                setRegisterButtonEnable();
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_choose_cards)
@@ -187,5 +279,15 @@ class ChooseCardsActivity : AppCompatActivity() {
         // カード表示画面に遷移するためのハンドラ設定
         setButtonsHandler(megamiButtonList0, megamiCardList0);
         setButtonsHandler(megamiButtonList1, megamiCardList1);
+
+        // チェックボックスにハンドラ設定
+        setCheckBoxHandlers(megamiCardList0, true);
+        setCheckBoxHandlers(megamiCardList0, false);
+
+        // 登録
+        registerDeck.setOnClickListener {
+            val dialog = DeckNameDialog();
+            dialog.show(supportFragmentManager, "register_dialog")
+        }
     }
 }
