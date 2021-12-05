@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ChooseCardsActivity">
+    tools:context=".ViewDeckActivity">
 
     <Button
         android:id="@+id/megami1_card0"
         android:layout_width="90dp"
         android:layout_height="30dp"
-        android:layout_marginTop="90dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="4dp"
         android:background="#D6D7D7"
         android:ellipsize="end"
@@ -64,14 +64,6 @@
         android:text="Button"
         app:layout_constraintEnd_toStartOf="@+id/megami1_type20"
         app:layout_constraintTop_toBottomOf="@+id/megami1_card1" />
-
-    <CheckBox
-        android:id="@+id/megami1_s_check3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        app:layout_constraintEnd_toStartOf="@+id/megami1_s_card3"
-        app:layout_constraintTop_toBottomOf="@+id/megami1_s_check2" />
 
     <Button
         android:id="@+id/megami1_s_type30"
@@ -132,14 +124,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/megami1_s_type21" />
 
-    <CheckBox
-        android:id="@+id/megami1_check5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        app:layout_constraintEnd_toStartOf="@+id/megami1_card5"
-        app:layout_constraintTop_toBottomOf="@+id/megami1_check4" />
-
     <Button
         android:id="@+id/megami1_card6"
         android:layout_width="90dp"
@@ -157,7 +141,7 @@
         android:id="@+id/megami1_type01"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginTop="94dp"
+        android:layout_marginTop="28dp"
         android:layout_marginEnd="4dp"
         android:background="@drawable/circle_default"
         android:text="Button"
@@ -199,19 +183,11 @@
         app:layout_constraintEnd_toStartOf="@+id/megami1_s_type20"
         app:layout_constraintTop_toBottomOf="@+id/megami1_s_card1" />
 
-    <CheckBox
-        android:id="@+id/megami1_check0"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="90dp"
-        app:layout_constraintEnd_toStartOf="@+id/megami1_card0"
-        app:layout_constraintTop_toBottomOf="@+id/megamiImage2" />
-
     <Button
         android:id="@+id/megami1_type00"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginTop="94dp"
+        android:layout_marginTop="28dp"
         android:layout_marginEnd="4dp"
         android:background="@drawable/circle_default"
         android:text="Button"
@@ -250,30 +226,6 @@
         android:text="Button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/megami1_s_type11" />
-
-    <CheckBox
-        android:id="@+id/megami1_check1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        app:layout_constraintEnd_toStartOf="@+id/megami1_card1"
-        app:layout_constraintTop_toBottomOf="@+id/megami1_check0" />
-
-    <CheckBox
-        android:id="@+id/megami1_check6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        app:layout_constraintEnd_toStartOf="@+id/megami1_card6"
-        app:layout_constraintTop_toBottomOf="@+id/megami1_check5" />
-
-    <CheckBox
-        android:id="@+id/megami1_s_check0"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        app:layout_constraintEnd_toStartOf="@+id/megami1_s_card0"
-        app:layout_constraintTop_toBottomOf="@+id/megami1_check6" />
 
     <Button
         android:id="@+id/megami1_type60"
@@ -323,14 +275,6 @@
         app:layout_constraintEnd_toStartOf="@+id/megami1_type10"
         app:layout_constraintTop_toBottomOf="@+id/megami1_card0" />
 
-    <CheckBox
-        android:id="@+id/megami1_check3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        app:layout_constraintEnd_toStartOf="@+id/megami1_card3"
-        app:layout_constraintTop_toBottomOf="@+id/megami1_check2" />
-
     <Button
         android:id="@+id/megami1_card4"
         android:layout_width="90dp"
@@ -355,14 +299,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/megami1_type31" />
 
-    <CheckBox
-        android:id="@+id/megami1_s_check2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        app:layout_constraintEnd_toStartOf="@+id/megami1_s_card2"
-        app:layout_constraintTop_toBottomOf="@+id/megami1_s_check1" />
-
     <Button
         android:id="@+id/megami1_type10"
         android:layout_width="20dp"
@@ -373,14 +309,6 @@
         android:text="Button"
         app:layout_constraintEnd_toStartOf="@+id/megami1_type11"
         app:layout_constraintTop_toBottomOf="@+id/megami1_type00" />
-
-    <CheckBox
-        android:id="@+id/megami1_check2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        app:layout_constraintEnd_toStartOf="@+id/megami1_card2"
-        app:layout_constraintTop_toBottomOf="@+id/megami1_check1" />
 
     <Button
         android:id="@+id/megami1_type31"
@@ -428,14 +356,6 @@
         app:layout_constraintEnd_toStartOf="@+id/megami1_s_type10"
         app:layout_constraintTop_toBottomOf="@+id/megami1_s_card0" />
 
-    <CheckBox
-        android:id="@+id/megami1_s_check1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        app:layout_constraintEnd_toStartOf="@+id/megami1_s_card1"
-        app:layout_constraintTop_toBottomOf="@+id/megami1_s_check0" />
-
     <Button
         android:id="@+id/megami1_card3"
         android:layout_width="90dp"
@@ -459,14 +379,6 @@
         android:text="Button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/megami1_type41" />
-
-    <CheckBox
-        android:id="@+id/megami1_check4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        app:layout_constraintEnd_toStartOf="@+id/megami1_card4"
-        app:layout_constraintTop_toBottomOf="@+id/megami1_check3" />
 
     <Button
         android:id="@+id/megami1_s_type00"
@@ -501,15 +413,6 @@
         app:layout_constraintStart_toEndOf="@+id/megami0_s_card0"
         app:layout_constraintTop_toBottomOf="@+id/megami0_type60" />
 
-    <CheckBox
-        android:id="@+id/megami0_s_check1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="6dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/megami0_s_check0" />
-
     <Button
         android:id="@+id/megami0_s_type11"
         android:layout_width="20dp"
@@ -531,15 +434,6 @@
         android:text="Button"
         app:layout_constraintStart_toEndOf="@+id/megami0_s_card1"
         app:layout_constraintTop_toBottomOf="@+id/megami0_s_type00" />
-
-    <CheckBox
-        android:id="@+id/megami0_s_check0"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="6dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/megami0_check6" />
 
     <Button
         android:id="@+id/megami0_s_type21"
@@ -563,15 +457,6 @@
         app:layout_constraintStart_toEndOf="@+id/megami0_s_card2"
         app:layout_constraintTop_toBottomOf="@+id/megami0_s_type10" />
 
-    <CheckBox
-        android:id="@+id/megami0_s_check3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="6dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/megami0_s_check2" />
-
     <Button
         android:id="@+id/megami0_s_type31"
         android:layout_width="20dp"
@@ -593,15 +478,6 @@
         android:text="Button"
         app:layout_constraintStart_toEndOf="@+id/megami0_s_card3"
         app:layout_constraintTop_toBottomOf="@+id/megami0_s_type20" />
-
-    <CheckBox
-        android:id="@+id/megami0_s_check2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="6dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/megami0_s_check1" />
 
     <Button
         android:id="@+id/megami0_type61"
@@ -625,15 +501,6 @@
         app:layout_constraintStart_toEndOf="@+id/megami0_card6"
         app:layout_constraintTop_toBottomOf="@+id/megami0_type50" />
 
-    <CheckBox
-        android:id="@+id/megami0_check6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="6dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/megami0_check5" />
-
     <Button
         android:id="@+id/megami0_type50"
         android:layout_width="20dp"
@@ -655,15 +522,6 @@
         android:text="Button"
         app:layout_constraintStart_toEndOf="@+id/megami0_type50"
         app:layout_constraintTop_toBottomOf="@+id/megami0_type41" />
-
-    <CheckBox
-        android:id="@+id/megami0_check5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="6dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/megami0_check4" />
 
     <Button
         android:id="@+id/megami0_type41"
@@ -687,15 +545,6 @@
         app:layout_constraintStart_toEndOf="@+id/megami0_card4"
         app:layout_constraintTop_toBottomOf="@+id/megami0_type30" />
 
-    <CheckBox
-        android:id="@+id/megami0_check4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="6dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/megami0_check3" />
-
     <Button
         android:id="@+id/megami0_type31"
         android:layout_width="20dp"
@@ -717,33 +566,6 @@
         android:text="Button"
         app:layout_constraintStart_toEndOf="@+id/megami0_card3"
         app:layout_constraintTop_toBottomOf="@+id/megami0_type20" />
-
-    <CheckBox
-        android:id="@+id/megami0_check3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="6dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/megami0_check2" />
-
-    <CheckBox
-        android:id="@+id/megami0_check2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="6dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/megami0_check1" />
-
-    <CheckBox
-        android:id="@+id/megami0_check1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="6dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/megami0_check0" />
 
     <Button
         android:id="@+id/megami0_type21"
@@ -771,108 +593,117 @@
         android:id="@+id/megami0_card6"
         android:layout_width="90dp"
         android:layout_height="30dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="#D6D7D7"
         android:ellipsize="end"
         android:maxLines="1"
         android:text="Button"
-        app:layout_constraintStart_toEndOf="@+id/megami0_check6"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/megami0_card5" />
 
     <Button
         android:id="@+id/megami0_s_card3"
         android:layout_width="90dp"
         android:layout_height="30dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="#eee8aa"
         android:ellipsize="end"
         android:maxLines="1"
         android:text="Button"
-        app:layout_constraintStart_toEndOf="@+id/megami0_s_check3"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/megami0_s_card2" />
 
     <Button
         android:id="@+id/megami0_s_card0"
         android:layout_width="90dp"
         android:layout_height="30dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="#eee8aa"
         android:ellipsize="end"
         android:maxLines="1"
         android:text="Button"
-        app:layout_constraintStart_toEndOf="@+id/megami0_s_check0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/megami0_card6" />
 
     <Button
         android:id="@+id/megami0_s_card1"
         android:layout_width="90dp"
         android:layout_height="30dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="#eee8aa"
         android:ellipsize="end"
         android:maxLines="1"
         android:text="Button"
-        app:layout_constraintStart_toEndOf="@+id/megami0_s_check1"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/megami0_s_card0" />
 
     <Button
         android:id="@+id/megami0_s_card2"
         android:layout_width="90dp"
         android:layout_height="30dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="#eee8aa"
         android:ellipsize="end"
         android:maxLines="1"
         android:text="Button"
-        app:layout_constraintStart_toEndOf="@+id/megami0_s_check2"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/megami0_s_card1" />
 
     <Button
         android:id="@+id/megami0_card4"
         android:layout_width="90dp"
         android:layout_height="30dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="#D6D7D7"
         android:ellipsize="end"
         android:maxLines="1"
         android:text="Button"
-        app:layout_constraintStart_toEndOf="@+id/megami0_check4"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/megami0_card3" />
 
     <Button
         android:id="@+id/megami0_card5"
         android:layout_width="90dp"
         android:layout_height="30dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="#D6D7D7"
         android:ellipsize="end"
         android:maxLines="1"
         android:text="Button"
-        app:layout_constraintStart_toEndOf="@+id/megami0_check5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/megami0_card4" />
 
     <Button
         android:id="@+id/megami0_card3"
         android:layout_width="90dp"
         android:layout_height="30dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="#D6D7D7"
         android:ellipsize="end"
         android:maxLines="1"
         android:text="Button"
-        app:layout_constraintStart_toEndOf="@+id/megami0_check3"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/megami0_card2" />
 
     <Button
         android:id="@+id/megami0_card2"
         android:layout_width="90dp"
         android:layout_height="30dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="#D6D7D7"
         android:ellipsize="end"
         android:maxLines="1"
         android:text="Button"
-        app:layout_constraintStart_toEndOf="@+id/megami0_check2"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/megami0_card1" />
 
     <Button
@@ -891,7 +722,7 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="94dp"
+        android:layout_marginTop="28dp"
         android:background="@drawable/circle_default"
         android:text="Button"
         app:layout_constraintStart_toEndOf="@+id/megami0_type00"
@@ -901,12 +732,13 @@
         android:id="@+id/megami0_card1"
         android:layout_width="90dp"
         android:layout_height="30dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="#D6D7D7"
         android:ellipsize="end"
         android:maxLines="1"
         android:text="Button"
-        app:layout_constraintStart_toEndOf="@+id/megami0_check1"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/megami0_card0" />
 
     <Button
@@ -925,25 +757,25 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/deckName" />
 
     <ImageView
         android:id="@+id/megamiImage2"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/deckName" />
 
     <Button
         android:id="@+id/megami0_type00"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="94dp"
+        android:layout_marginTop="28dp"
         android:background="@drawable/circle_default"
         android:text="Button"
         app:layout_constraintStart_toEndOf="@+id/megami0_card0"
@@ -953,90 +785,24 @@
         android:id="@+id/megami0_card0"
         android:layout_width="90dp"
         android:layout_height="30dp"
-        android:layout_marginTop="90dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
         android:background="#D6D7D7"
         android:ellipsize="end"
         android:maxLines="1"
         android:text="Button"
-        app:layout_constraintStart_toEndOf="@+id/megami0_check0"
-        app:layout_constraintTop_toBottomOf="@+id/megamiImage1" />
-
-    <CheckBox
-        android:id="@+id/megami0_check0"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="90dp"
-        app:layout_constraintEnd_toStartOf="@+id/megami0_card0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/megamiImage1" />
 
-    <Button
-        android:id="@+id/registerDeck"
+    <TextView
+        android:id="@+id/deckName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="162dp"
-        android:layout_marginEnd="162dp"
-        android:layout_marginBottom="16dp"
-        android:enabled="false"
-        android:text="@string/registerDeck"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="92dp"
-        android:layout_marginEnd="92dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/registerDeck"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <TextView
-            android:id="@+id/cardCount_prefix_normal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="通常札: " />
-
-        <TextView
-            android:id="@+id/cardCount_main_normal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:text="0"
-            android:textColor="@android:color/holo_red_dark" />
-
-        <TextView
-            android:id="@+id/cardCount_suffix_normal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:text="/ 7枚" />
-
-        <TextView
-            android:id="@+id/cardCount_prefix_special"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="切札: " />
-
-        <TextView
-            android:id="@+id/cardCount_main_special"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:text="0"
-            android:textColor="@android:color/holo_red_dark" />
-
-        <TextView
-            android:id="@+id/cardCount_suffix_special"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:text="/ 3枚" />
-    </LinearLayout>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

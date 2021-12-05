@@ -5,21 +5,31 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.annotation.RequiresApi
+import android.support.v7.app.AlertDialog
+import android.view.Gravity
 import android.view.View
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import kotlinx.android.synthetic.main.activity_choose_cards.*
 import java.io.*
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
-class ChooseCardsActivity : AppCompatActivity() {
+class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
     // 通常札の選択されたカード
     val chosenNormalCards = mutableListOf<List<String>>();
     // 切札の選択されたカード
     val chosenSpecialCards = mutableListOf<List<String>>();
+    // 選ばれたメガミその1
+    var megami0: String? = null;
+    // 選ばれたメガミその2
+    var megami1: String? = null;
+    // ダイアログ
+    val dialog = DeckNameDialog();
 
     fun readFile(fileId: Int): List<List<String>> {
         val res: Resources = this.getResources();
@@ -63,8 +73,7 @@ class ChooseCardsActivity : AppCompatActivity() {
             instream = assets.open(imageName);
             if (instream != null && target != null) {
                 bitmap = BitmapFactory.decodeStream(instream);
-                target.setImageBitmap(bitmap);
-            }
+                target.setImageBitmap(bitmap);            }
         } catch (e: IOException) {
             e.printStackTrace();
         }
@@ -248,13 +257,71 @@ class ChooseCardsActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun addDeckToList(fileName: String) {
+        // 書き込むデータの作成
+        val title = dialog.getInput();//findViewById<TextView>(R.id.deckNameField)?.text;
+        val date = ZonedDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
+        val dataList = listOf(title, megami0, megami1, fileName, date);
+        val data = dataList.joinToString(",") + "\n";
+        val deckList = File(applicationContext.filesDir, "deckList.csv");
+
+        // データの書き込み
+        if(deckList.exists()) {
+            val fileWriter = FileWriter(deckList, true);
+            val bufferedWriter = BufferedWriter(fileWriter);
+
+            bufferedWriter.append(data);
+            bufferedWriter.close();
+        } else {
+            File(applicationContext.filesDir, "deckList.csv").writer().use {
+                it.write(data);
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun saveFile(fileName: String, data: String) {
+        File(applicationContext.filesDir, fileName).writer().use {
+            try {
+                it.write(data);
+                addDeckToList(fileName);
+                Toast.makeText(applicationContext, "デッキを登録しました", Toast.LENGTH_SHORT).show();
+            }
+            catch (e: IOException) {
+                Toast.makeText(applicationContext, "デッキ登録に失敗しました。もう1度試してみて下さい", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun register() {
+        val normalCsvDataList = chosenNormalCards.map{it.joinToString(",")};
+        val specialCsvDataList = chosenSpecialCards.map{it.joinToString(",")};
+        val normalCsvData = normalCsvDataList.joinToString("\n");
+        val specialCsvData = specialCsvDataList.joinToString("\n");
+        // 連結
+        val resultCsvData = normalCsvData + "\n" + specialCsvData;
+        // ファイル名作成
+        val fileName = UUID.randomUUID().toString() + ".csv";
+        // データ保存
+        saveFile(fileName, resultCsvData);
+        // デッキ参照画面に遷移
+        val intent = Intent(this, DeckListActivity::class.java);
+        startActivity(intent);
+    }
+
+    override fun cancel() {
+        // 処理なし
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_choose_cards)
 
         var chosenMegami = intent.getStringArrayExtra("CHOSEN_MEGAMI")
-        var megami0 = chosenMegami?.get(0);
-        var megami1 = chosenMegami?.get(1);
+        megami0 = chosenMegami?.get(0);
+        megami1 = chosenMegami?.get(1);
         if (megami0 == null || megami1 ==null) {
             // TODO: 後でエラー処理書きたい
             return;
@@ -282,12 +349,11 @@ class ChooseCardsActivity : AppCompatActivity() {
 
         // チェックボックスにハンドラ設定
         setCheckBoxHandlers(megamiCardList0, true);
-        setCheckBoxHandlers(megamiCardList0, false);
+        setCheckBoxHandlers(megamiCardList1, false);
 
         // 登録
         registerDeck.setOnClickListener {
-            val dialog = DeckNameDialog();
-            dialog.show(supportFragmentManager, "register_dialog")
+            dialog.show(supportFragmentManager, "register_dialog");
         }
     }
 }

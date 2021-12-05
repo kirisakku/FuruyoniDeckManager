@@ -14,5 +14,10 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, RegistrationActivity::class.java);
             startActivity(intent);
         }
+
+        view.setOnClickListener {
+            val intent = Intent(this, DeckListActivity::class.java);
+            startActivity(intent);
+        }
     }
 }
