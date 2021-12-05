@@ -30,4 +30,7 @@
     <string name="credit">本アプリは以下の画像を用いております。</string>
     <string name="credit_name">ふるよにコモンズ/BakaFire,TOKIAME</string>
     <string name="credit_url">https://main-bakafire.ssl-lolipop.jp/furuyoni/na/rule.html</string>
+    <string name="zeroDeckError_0">デッキが1件もありません。</string>
+    <string name="zeroDeckError_1">デッキを登録しましょう。</string>
+    <string name="letsCreateDeck">デッキを登録する</string>
 </resources>
