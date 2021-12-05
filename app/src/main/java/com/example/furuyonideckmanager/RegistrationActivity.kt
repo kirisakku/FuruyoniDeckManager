@@ -11,6 +11,11 @@ class RegistrationActivity : AppCompatActivity() {
     // 選択済みのメガミを管理するリスト
     val selectedMegamiList: MutableList<String> = mutableListOf();
 
+    /**
+     * メガミのボタンタップ時の処理。
+     * @param imageButton タップされたボタン。
+     * @param megamiName タップされたメガミの名前。
+     */
     fun onButtonTapped(imageButton: ImageButton, megamiName: String) {
         val isPressed = imageButton.isSelected();
         if (!isPressed) {
@@ -35,6 +40,9 @@ class RegistrationActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * ボタンタップ時の処理を設定。
+     */
     fun setClickListeners() {
         yurina.setOnClickListener {onButtonTapped(yurina, "yurina")}
         himika.setOnClickListener {onButtonTapped(himika, "himika")}

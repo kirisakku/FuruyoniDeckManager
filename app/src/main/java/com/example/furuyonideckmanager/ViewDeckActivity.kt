@@ -1,148 +1,66 @@
 package com.example.furuyonideckmanager
 
+import CsvUtil.readInternalFile
+import CsvUtil.readRawCsv
+import PartsUtil.setButtonStyles
+import SetImageUtil.setImageToImageView
 import android.content.Intent
-import android.content.res.Resources
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import android.widget.ImageView
-import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_view_deck.*
-import java.io.*
 
 class ViewDeckActivity : AppCompatActivity() {
-    fun readOrigFile(fileId: Int): List<List<String>> {
-        val res: Resources = this.getResources();
-        var bufferReader: BufferedReader? = null;
-        var separatedList = mutableListOf<List<String>>();
-        try {
-            try {
-                val inputStream = res.openRawResource(fileId);
-                bufferReader = BufferedReader(InputStreamReader(inputStream));
-                var str = bufferReader.readLine();
-                while(str != null) {
-                    separatedList.add(str.split(','))
-                    str = bufferReader.readLine();
-                }
-            } finally {
-                if (bufferReader != null) {
-                    bufferReader.close();
-                }
-            }
-        } catch (e: IOException) {
-            Toast.makeText(this, "読み込み失敗", Toast.LENGTH_SHORT).show();
-        }
-
-        return separatedList;
-    }
-
-    // TODO: 後で共通関数化
-    fun readFile(fileName: String): List<List<String>> {
-        var separatedList = listOf<List<String>>();
-        val file = File(applicationContext.filesDir, fileName);
-        if (file.exists()) {
-            file.bufferedReader().use {
-                val content = it.readText();
-                // 空欄行削除
-                // TODO: ここは後でロジック見直したい
-                val dataList = content.split('\n');
-                separatedList = dataList.map{it.split(',')}
-            }
-        }
-
-        return separatedList;
-    }
-
-    // TODO: 後で共通関数化
-    fun setMegamiImage(imageName: String, position: String) {
-        var instream: InputStream? = null;
-        var bitmap: Bitmap? = null;
-        var target: ImageView? = null;
-
-        // 画像を設定するターゲット取得
-        // TODO: 後で関数化
-        if (position == "left") {
-            target = megamiImage1;
-        } else if (position == "right") {
-            target = megamiImage2;
-        }
-
-        try {
-            instream = assets.open(imageName);
-            if (instream != null && target != null) {
-                bitmap = BitmapFactory.decodeStream(instream);
-                target.setImageBitmap(bitmap);            }
-        } catch (e: IOException) {
-            e.printStackTrace();
-        }
-    }
-
+    /**
+     * 左側のメガミのボタン情報を取得。
+     * @return ボタンの種類とボタンのマップの配列を返します。
+     */
     fun getLeftMegamiCardButtons(): Array<Map<String, Button?>> {
         return arrayOf(
-            mapOf("card" to megami0_card0, "type0" to megami0_type00, "type1" to megami0_type01),
-            mapOf("card" to megami0_card1, "type0" to megami0_type10, "type1" to megami0_type11),
-            mapOf("card" to megami0_card2, "type0" to megami0_type20, "type1" to megami0_type21),
-            mapOf("card" to megami0_card3, "type0" to megami0_type30, "type1" to megami0_type31),
-            mapOf("card" to megami0_card4, "type0" to megami0_type40, "type1" to megami0_type41),
-            mapOf("card" to megami0_card5, "type0" to megami0_type50, "type1" to megami0_type51),
-            mapOf("card" to megami0_card6, "type0" to megami0_type60, "type1" to megami0_type61),
-            mapOf("card" to megami0_s_card0, "type0" to megami0_s_type00, "type1" to megami0_s_type01),
-            mapOf("card" to megami0_s_card1, "type0" to megami0_s_type10, "type1" to megami0_s_type11),
-            mapOf("card" to megami0_s_card2, "type0" to megami0_s_type20, "type1" to megami0_s_type21),
-            mapOf("card" to megami0_s_card3, "type0" to megami0_s_type30, "type1" to megami0_s_type31)
+            mapOf("card" to megami0_card0_view, "type0" to megami0_type00_view, "type1" to megami0_type01_view),
+            mapOf("card" to megami0_card1_view, "type0" to megami0_type10_view, "type1" to megami0_type11_view),
+            mapOf("card" to megami0_card2_view, "type0" to megami0_type20_view, "type1" to megami0_type21_view),
+            mapOf("card" to megami0_card3_view, "type0" to megami0_type30_view, "type1" to megami0_type31_view),
+            mapOf("card" to megami0_card4_view, "type0" to megami0_type40_view, "type1" to megami0_type41_view),
+            mapOf("card" to megami0_card5_view, "type0" to megami0_type50_view, "type1" to megami0_type51_view),
+            mapOf("card" to megami0_card6_view, "type0" to megami0_type60_view, "type1" to megami0_type61_view),
+            mapOf("card" to megami0_s_card0_view, "type0" to megami0_s_type00_view, "type1" to megami0_s_type01_view),
+            mapOf("card" to megami0_s_card1_view, "type0" to megami0_s_type10_view, "type1" to megami0_s_type11_view),
+            mapOf("card" to megami0_s_card2_view, "type0" to megami0_s_type20_view, "type1" to megami0_s_type21_view),
+            mapOf("card" to megami0_s_card3_view, "type0" to megami0_s_type30_view, "type1" to megami0_s_type31_view)
         );
     }
 
+    /**
+     * 右側のメガミのボタン情報を取得。
+     * @return ボタンの種類とボタンのマップの配列を返します。
+     */
     fun getRightMegamiCardButtons(): Array<Map<String, Button?>> {
         return arrayOf(
-            mapOf("card" to megami1_card0, "type0" to megami1_type00, "type1" to megami1_type01),
-            mapOf("card" to megami1_card1, "type0" to megami1_type10, "type1" to megami1_type11),
-            mapOf("card" to megami1_card2, "type0" to megami1_type20, "type1" to megami1_type21),
-            mapOf("card" to megami1_card3, "type0" to megami1_type30, "type1" to megami1_type31),
-            mapOf("card" to megami1_card4, "type0" to megami1_type40, "type1" to megami1_type41),
-            mapOf("card" to megami1_card5, "type0" to megami1_type50, "type1" to megami1_type51),
-            mapOf("card" to megami1_card6, "type0" to megami1_type60, "type1" to megami1_type61),
-            mapOf("card" to megami1_s_card0, "type0" to megami1_s_type00, "type1" to megami1_s_type01),
-            mapOf("card" to megami1_s_card1, "type0" to megami1_s_type10, "type1" to megami1_s_type11),
-            mapOf("card" to megami1_s_card2, "type0" to megami1_s_type20, "type1" to megami1_s_type21),
-            mapOf("card" to megami1_s_card3, "type0" to megami1_s_type30, "type1" to megami1_s_type31)
+            mapOf("card" to megami1_card0_view, "type0" to megami1_type00_view, "type1" to megami1_type01_view),
+            mapOf("card" to megami1_card1_view, "type0" to megami1_type10_view, "type1" to megami1_type11_view),
+            mapOf("card" to megami1_card2_view, "type0" to megami1_type20_view, "type1" to megami1_type21_view),
+            mapOf("card" to megami1_card3_view, "type0" to megami1_type30_view, "type1" to megami1_type31_view),
+            mapOf("card" to megami1_card4_view, "type0" to megami1_type40_view, "type1" to megami1_type41_view),
+            mapOf("card" to megami1_card5_view, "type0" to megami1_type50_view, "type1" to megami1_type51_view),
+            mapOf("card" to megami1_card6_view, "type0" to megami1_type60_view, "type1" to megami1_type61_view),
+            mapOf("card" to megami1_s_card0_view, "type0" to megami1_s_type00_view, "type1" to megami1_s_type01_view),
+            mapOf("card" to megami1_s_card1_view, "type0" to megami1_s_type10_view, "type1" to megami1_s_type11_view),
+            mapOf("card" to megami1_s_card2_view, "type0" to megami1_s_type20_view, "type1" to megami1_s_type21_view),
+            mapOf("card" to megami1_s_card3_view, "type0" to megami1_s_type30_view, "type1" to megami1_s_type31_view)
         );
     }
 
-    fun setButtonStyles(button: Button?, type: String) {
-        when(type) {
-            "攻撃" -> {
-                button?.setBackgroundResource(R.drawable.circle_red);
-                button?.setText("攻");
-            };
-            "行動" -> {
-                button?.setBackgroundResource(R.drawable.circle_blue)
-                button?.setText("行");
-            };
-            "付与" -> {
-                button?.setBackgroundResource(R.drawable.circle_green)
-                button?.setText("付");
-            };
-            "全力" -> {
-                button?.setBackgroundResource(R.drawable.circle_yellow)
-                button?.setText("全");
-            };
-            "対応" -> {
-                button?.setBackgroundResource(R.drawable.circle_purple)
-                button?.setText("対");
-            };
-            else -> {
-                button?.setVisibility(View.INVISIBLE);
-            }
-        }
-    }
-
-    fun setButtonsView(buttons: Array<Map<String, Button?>>, csvData: List<List<String>>, chosenCardList: List<List<String>>) {
-        for (i in csvData.indices) {
-            val targetData = csvData[i];
+    /**
+     * ボタンの見た目を設定。
+     * @param buttons ボタン配列。
+     * @param cardCsv カードのcsvデータ。
+     * @param chosenCardCsv 選ばれたーカードのcsvデータ
+     */
+    fun setButtonsView(buttons: Array<Map<String, Button?>>, cardCsv: List<List<String>>, chosenCardCsv: List<List<String>>) {
+        for (i in cardCsv.indices) {
+            val targetData = cardCsv[i];
             val targetButtons = buttons[i];
             // カード名設定
             targetButtons.get("card")?.setText(targetData[1]);
@@ -151,7 +69,7 @@ class ViewDeckActivity : AppCompatActivity() {
             setButtonStyles(targetButtons.get("type1"), targetData[3]);
             // 活性か非活性か（リストにあれば活性）
             // TODO: ここの処理は別関数に分けたほうが綺麗な気がする
-            val isEnable = chosenCardList.any{it[1] == targetData[1]}
+            val isEnable = chosenCardCsv.any{it[1] == targetData[1]}
             targetButtons.get("card")?.isEnabled = isEnable;
             if (isEnable == false) {
                 targetButtons.get("card")?.alpha = 0.75F;
@@ -161,9 +79,14 @@ class ViewDeckActivity : AppCompatActivity() {
         }
     }
 
-    fun setButtonsHandler(buttons: Array<Map<String, Button?>>, csvData: List<List<String>>) {
-        for (i in csvData.indices) {
-            val targetData = csvData[i];
+    /**
+     * ボタンにハンドラを設定。
+     * @param buttons ボタン配列。
+     * @param cardCsv カードのcsvデータ。
+     */
+    fun setButtonsHandler(buttons: Array<Map<String, Button?>>, cardCsv: List<List<String>>) {
+        for (i in cardCsv.indices) {
+            val targetData = cardCsv[i];
             val targetButtons = buttons[i];
 
             // ハンドラ定義
@@ -184,6 +107,9 @@ class ViewDeckActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_deck);
 
+        val res = resources;
+        val context = applicationContext;
+
         // データの取り出し
         var deckTitle = intent.getStringExtra("DECK_TITLE");
         var chosenMegami = intent.getStringArrayExtra("CHOSEN_MEGAMI");
@@ -200,16 +126,16 @@ class ViewDeckActivity : AppCompatActivity() {
         }
 
         // メガミ画像の設定
-        setMegamiImage(megami0 + ".jpg", "left");
-        setMegamiImage(megami1 + ".jpg", "right");
+        setImageToImageView(megami0 + ".jpg", megamiImage0_view, assets);
+        setImageToImageView(megami1 + ".jpg", megamiImage1_view, assets);
 
         // カード情報の取得
-        val megamiCardList0 = readOrigFile(getResources().getIdentifier(megami0, "raw", getPackageName()));
-        val megamiCardList1 = readOrigFile(getResources().getIdentifier(megami1, "raw", getPackageName()));
+        val megamiCardList0 = readRawCsv(res.getIdentifier(megami0, "raw", packageName), res, context);
+        val megamiCardList1 = readRawCsv(res.getIdentifier(megami1, "raw", packageName), res, context);
         var deckCardList: List<List<String>> = listOf();
         // csvファイルからデッキ情報を読み込む
         if (deckCSV != null) {
-            deckCardList = readFile(deckCSV);
+            deckCardList = readInternalFile(deckCSV, applicationContext);
         }
 
         // 画面の初期化

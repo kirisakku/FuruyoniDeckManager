@@ -1,17 +1,14 @@
 package com.example.furuyonideckmanager
 
+import CsvUtil.readRawCsv
+import PartsUtil.setButtonStyles
+import SetImageUtil.setImageToImageView
 import android.content.Intent
-import android.content.res.Resources
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.annotation.RequiresApi
-import android.support.v7.app.AlertDialog
-import android.view.Gravity
-import android.view.View
 import android.widget.*
 import kotlinx.android.synthetic.main.activity_choose_cards.*
 import java.io.*
@@ -31,114 +28,51 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
     // ダイアログ
     val dialog = DeckNameDialog();
 
-    fun readFile(fileId: Int): List<List<String>> {
-        val res: Resources = this.getResources();
-        var bufferReader: BufferedReader? = null;
-        var separatedList = mutableListOf<List<String>>();
-        try {
-            try {
-                val inputStream = res.openRawResource(fileId);
-                bufferReader = BufferedReader(InputStreamReader(inputStream));
-                var str = bufferReader.readLine();
-                while(str != null) {
-                    separatedList.add(str.split(','))
-                    str = bufferReader.readLine();
-                }
-            } finally {
-                if (bufferReader != null) {
-                    bufferReader.close();
-                }
-            }
-        } catch (e: IOException) {
-            Toast.makeText(this, "読み込み失敗", Toast.LENGTH_SHORT).show();
-        }
-
-        return separatedList;
-    }
-
-    fun setMegamiImage(imageName: String, position: String) {
-        var instream: InputStream? = null;
-        var bitmap: Bitmap? = null;
-        var target: ImageView? = null;
-
-        // 画像を設定するターゲット取得
-        // TODO: 後で関数化
-        if (position == "left") {
-            target = megamiImage1;
-        } else if (position == "right") {
-            target = megamiImage2;
-        }
-
-        try {
-            instream = assets.open(imageName);
-            if (instream != null && target != null) {
-                bitmap = BitmapFactory.decodeStream(instream);
-                target.setImageBitmap(bitmap);            }
-        } catch (e: IOException) {
-            e.printStackTrace();
-        }
-    }
-
+    /**
+     * 左側のメガミのボタン情報を取得。
+     * @return ボタンの種類とボタンのマップの配列を返します。
+     */
     fun getLeftMegamiCardButtons(): Array<Map<String, Button?>> {
         return arrayOf(
-            mapOf("card" to megami0_card0, "type0" to megami0_type00, "type1" to megami0_type01),
-            mapOf("card" to megami0_card1, "type0" to megami0_type10, "type1" to megami0_type11),
-            mapOf("card" to megami0_card2, "type0" to megami0_type20, "type1" to megami0_type21),
-            mapOf("card" to megami0_card3, "type0" to megami0_type30, "type1" to megami0_type31),
-            mapOf("card" to megami0_card4, "type0" to megami0_type40, "type1" to megami0_type41),
-            mapOf("card" to megami0_card5, "type0" to megami0_type50, "type1" to megami0_type51),
-            mapOf("card" to megami0_card6, "type0" to megami0_type60, "type1" to megami0_type61),
-            mapOf("card" to megami0_s_card0, "type0" to megami0_s_type00, "type1" to megami0_s_type01),
-            mapOf("card" to megami0_s_card1, "type0" to megami0_s_type10, "type1" to megami0_s_type11),
-            mapOf("card" to megami0_s_card2, "type0" to megami0_s_type20, "type1" to megami0_s_type21),
-            mapOf("card" to megami0_s_card3, "type0" to megami0_s_type30, "type1" to megami0_s_type31)
+            mapOf("card" to megami0_card0_view, "type0" to megami0_type00_view, "type1" to megami0_type01_view),
+            mapOf("card" to megami0_card1_view, "type0" to megami0_type10_view, "type1" to megami0_type11_view),
+            mapOf("card" to megami0_card2_view, "type0" to megami0_type20_view, "type1" to megami0_type21_view),
+            mapOf("card" to megami0_card3_view, "type0" to megami0_type30_view, "type1" to megami0_type31_view),
+            mapOf("card" to megami0_card4_view, "type0" to megami0_type40_view, "type1" to megami0_type41_view),
+            mapOf("card" to megami0_card5_view, "type0" to megami0_type50_view, "type1" to megami0_type51_view),
+            mapOf("card" to megami0_card6_view, "type0" to megami0_type60_view, "type1" to megami0_type61_view),
+            mapOf("card" to megami0_s_card0_view, "type0" to megami0_s_type00_view, "type1" to megami0_s_type01_view),
+            mapOf("card" to megami0_s_card1_view, "type0" to megami0_s_type10_view, "type1" to megami0_s_type11_view),
+            mapOf("card" to megami0_s_card2_view, "type0" to megami0_s_type20_view, "type1" to megami0_s_type21_view),
+            mapOf("card" to megami0_s_card3_view, "type0" to megami0_s_type30_view, "type1" to megami0_s_type31_view)
         );
     }
 
+    /**
+     * 右側のメガミのボタン情報を取得。
+     * @return ボタンの種類とボタンのマップの配列を返します。
+     */
     fun getRightMegamiCardButtons(): Array<Map<String, Button?>> {
         return arrayOf(
-            mapOf("card" to megami1_card0, "type0" to megami1_type00, "type1" to megami1_type01),
-            mapOf("card" to megami1_card1, "type0" to megami1_type10, "type1" to megami1_type11),
-            mapOf("card" to megami1_card2, "type0" to megami1_type20, "type1" to megami1_type21),
-            mapOf("card" to megami1_card3, "type0" to megami1_type30, "type1" to megami1_type31),
-            mapOf("card" to megami1_card4, "type0" to megami1_type40, "type1" to megami1_type41),
-            mapOf("card" to megami1_card5, "type0" to megami1_type50, "type1" to megami1_type51),
-            mapOf("card" to megami1_card6, "type0" to megami1_type60, "type1" to megami1_type61),
-            mapOf("card" to megami1_s_card0, "type0" to megami1_s_type00, "type1" to megami1_s_type01),
-            mapOf("card" to megami1_s_card1, "type0" to megami1_s_type10, "type1" to megami1_s_type11),
-            mapOf("card" to megami1_s_card2, "type0" to megami1_s_type20, "type1" to megami1_s_type21),
-            mapOf("card" to megami1_s_card3, "type0" to megami1_s_type30, "type1" to megami1_s_type31)
+            mapOf("card" to megami1_card0_view, "type0" to megami1_type00_view, "type1" to megami1_type01_view),
+            mapOf("card" to megami1_card1_view, "type0" to megami1_type10_view, "type1" to megami1_type11_view),
+            mapOf("card" to megami1_card2_view, "type0" to megami1_type20_view, "type1" to megami1_type21_view),
+            mapOf("card" to megami1_card3_view, "type0" to megami1_type30_view, "type1" to megami1_type31_view),
+            mapOf("card" to megami1_card4_view, "type0" to megami1_type40_view, "type1" to megami1_type41_view),
+            mapOf("card" to megami1_card5_view, "type0" to megami1_type50_view, "type1" to megami1_type51_view),
+            mapOf("card" to megami1_card6_view, "type0" to megami1_type60_view, "type1" to megami1_type61_view),
+            mapOf("card" to megami1_s_card0_view, "type0" to megami1_s_type00_view, "type1" to megami1_s_type01_view),
+            mapOf("card" to megami1_s_card1_view, "type0" to megami1_s_type10_view, "type1" to megami1_s_type11_view),
+            mapOf("card" to megami1_s_card2_view, "type0" to megami1_s_type20_view, "type1" to megami1_s_type21_view),
+            mapOf("card" to megami1_s_card3_view, "type0" to megami1_s_type30_view, "type1" to megami1_s_type31_view)
         );
     }
 
-    fun setButtonStyles(button: Button?, type: String) {
-        when(type) {
-            "攻撃" -> {
-                button?.setBackgroundResource(R.drawable.circle_red);
-                button?.setText("攻");
-            };
-            "行動" -> {
-                button?.setBackgroundResource(R.drawable.circle_blue)
-                button?.setText("行");
-            };
-            "付与" -> {
-                button?.setBackgroundResource(R.drawable.circle_green)
-                button?.setText("付");
-            };
-            "全力" -> {
-                button?.setBackgroundResource(R.drawable.circle_yellow)
-                button?.setText("全");
-            };
-            "対応" -> {
-                button?.setBackgroundResource(R.drawable.circle_purple)
-                button?.setText("対");
-            };
-            else -> {
-                button?.setVisibility(View.INVISIBLE);
-            }
-        }
-    }
-
+    /**
+     * ボタンの見た目を設定。
+     * @param buttons ボタン配列。
+     * @param cardCsv カードのcsvデータ。
+     */
     fun setButtonsView(buttons: Array<Map<String, Button?>>, csvData: List<List<String>>) {
         for (i in csvData.indices) {
             val targetData = csvData[i];
@@ -151,9 +85,14 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
         }
     }
 
-    fun setButtonsHandler(buttons: Array<Map<String, Button?>>, csvData: List<List<String>>) {
-        for (i in csvData.indices) {
-            val targetData = csvData[i];
+    /**
+     * ボタンにハンドラを設定。
+     * @param buttons ボタン配列。
+     * @param cardCsv カードのcsvデータ。
+     */
+    fun setButtonsHandler(buttons: Array<Map<String, Button?>>, cardCsv: List<List<String>>) {
+        for (i in cardCsv.indices) {
+            val targetData = cardCsv[i];
             val targetButtons = buttons[i];
 
             // ハンドラ定義
@@ -170,15 +109,24 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
         }
     }
 
+    /**
+     * 登録ボタンの活性/非活性状態切替。
+     */
     fun setRegisterButtonEnable() {
         // 作成ボタンの活性状態を変える
+        // 通常札が7枚かつ切札が3枚の場合は活性にする
         if (chosenNormalCards.size == 7 && chosenSpecialCards.size == 3) {
             registerDeck.setEnabled(true);
         } else {
+            // それ以外は非活性
             registerDeck.setEnabled(false);
         }
     }
 
+    /**
+     * 右側のメガミのチェックボックス一覧を取得。
+     * @return 右側のメガミのチェックボックスの一覧を返します。
+     */
     fun getRightMegamiCheckBoxes(): Array<CheckBox> {
         return arrayOf(
             megami0_check0,
@@ -195,6 +143,10 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
         );
     }
 
+    /**
+     * 左側のメガミのチェックボックス一覧を取得。
+     * @return 左側のメガミのチェックボックスの一覧を返します。
+     */
     fun getLeftMegamiCheckBoxes(): Array<CheckBox> {
         return arrayOf(
             megami1_check0,
@@ -211,14 +163,18 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
         );
     }
 
-    fun setCheckBoxHandlers(csvData: List<List<String>>, isRight: Boolean) {
+    /**
+     * チェックボックスに対してハンドラを設定。
+     * @param cardCsv カードのcsvデータ。
+     */
+    fun setCheckBoxHandlers(cardCsv: List<List<String>>, isRight: Boolean) {
         var checkBoxes = if (isRight == true) getRightMegamiCheckBoxes() else getLeftMegamiCheckBoxes();
 
         // 通常カードのチェックボックスにハンドラ設定
         for (i in 0..6) {
             val checkBox = checkBoxes[i];
             checkBox.setOnCheckedChangeListener {_, isChecked ->
-                val targetData = csvData[i];
+                val targetData = cardCsv[i];
                 if (isChecked) {
                     chosenNormalCards.add(targetData);
                 } else {
@@ -241,9 +197,9 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
             val checkBox = checkBoxes[i];
             checkBox.setOnCheckedChangeListener {_, isChecked ->
                 if (isChecked) {
-                    chosenSpecialCards.add(csvData[i]);
+                    chosenSpecialCards.add(cardCsv[i]);
                 } else {
-                    chosenSpecialCards.remove(csvData[i]);
+                    chosenSpecialCards.remove(cardCsv[i]);
                 }
 
                 // テキスト更新
@@ -257,13 +213,17 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
         }
     }
 
+    /**
+     * デッキ情報をデッキ情報管理リストに追加。
+     * @param deckFileName 新規に作成したデッキのファイル名。
+     */
     @RequiresApi(Build.VERSION_CODES.O)
-    fun addDeckToList(fileName: String) {
+    fun addDeckToList(deckFileName: String) {
         // 書き込むデータの作成
         val title = dialog.getInput();//findViewById<TextView>(R.id.deckNameField)?.text;
         val date = ZonedDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
-        val dataList = listOf(title, megami0, megami1, fileName, date);
-        val data = dataList.joinToString(",") + "\n";
+        val dataList = listOf(title, megami0, megami1, deckFileName, date);
+        val data = dataList.joinToString(",");
         val deckList = File(applicationContext.filesDir, "deckList.csv");
 
         // データの書き込み
@@ -271,7 +231,7 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
             val fileWriter = FileWriter(deckList, true);
             val bufferedWriter = BufferedWriter(fileWriter);
 
-            bufferedWriter.append(data);
+            bufferedWriter.append("\n" + data);
             bufferedWriter.close();
         } else {
             File(applicationContext.filesDir, "deckList.csv").writer().use {
@@ -280,12 +240,17 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
         }
     }
 
+    /**
+     * デッキのカード一覧情報をcsvファイルとして書き込み。
+     * @param deckFileName 新規に作成したデッキのファイル名。
+     * @param csvData デッキのcsvデータ。
+     */
     @RequiresApi(Build.VERSION_CODES.O)
-    fun saveFile(fileName: String, data: String) {
-        File(applicationContext.filesDir, fileName).writer().use {
+    fun saveFile(deckFileName: String, csvData: String) {
+        File(applicationContext.filesDir, deckFileName).writer().use {
             try {
-                it.write(data);
-                addDeckToList(fileName);
+                it.write(csvData);
+                addDeckToList(deckFileName);
                 Toast.makeText(applicationContext, "デッキを登録しました", Toast.LENGTH_SHORT).show();
             }
             catch (e: IOException) {
@@ -294,6 +259,9 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
         }
     }
 
+    /**
+     * ダイアログの「登録」ボタン押下時の処理。
+     */
     @RequiresApi(Build.VERSION_CODES.O)
     override fun register() {
         val normalCsvDataList = chosenNormalCards.map{it.joinToString(",")};
@@ -311,6 +279,9 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
         startActivity(intent);
     }
 
+    /**
+     * ダイアログの「キャンセル」ボタン押下時の処理。
+     */
     override fun cancel() {
         // 処理なし
     }
@@ -318,6 +289,9 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_choose_cards)
+
+        val res = resources;
+        val context = applicationContext;
 
         var chosenMegami = intent.getStringArrayExtra("CHOSEN_MEGAMI")
         megami0 = chosenMegami?.get(0);
@@ -328,12 +302,12 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
         }
 
         // メガミ画像の設定
-        setMegamiImage(megami0 + ".jpg", "left");
-        setMegamiImage(megami1 + ".jpg", "right");
+        setImageToImageView(megami0 + ".jpg", megamiImage0_view, assets);
+        setImageToImageView(megami1 + ".jpg", megamiImage1_view, assets);
 
         // カード情報の取得
-        val megamiCardList0 = readFile(getResources().getIdentifier(megami0, "raw", getPackageName()));
-        val megamiCardList1 = readFile(getResources().getIdentifier(megami1, "raw", getPackageName()));
+        val megamiCardList0 = readRawCsv(res.getIdentifier(megami0, "raw", packageName), res, context);
+        val megamiCardList1 = readRawCsv(res.getIdentifier(megami1, "raw", packageName), res, context);
 
         // 画面の初期化
         // ボタン一覧を取得する

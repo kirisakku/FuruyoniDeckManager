@@ -3,19 +3,12 @@ package com.example.furuyonideckmanager
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
-import android.content.DialogInterface
-import android.content.DialogInterface.BUTTON1
 import android.content.DialogInterface.BUTTON_POSITIVE
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v7.widget.AppCompatEditText
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.AttributeSet
-import android.util.Log
-import android.view.View
-import android.widget.EditText
-import kotlinx.android.synthetic.main.dialog_register.*
 
 class DeckNameDialog: DialogFragment() {
     interface Listener {
@@ -52,9 +45,9 @@ class DeckNameDialog: DialogFragment() {
 
         val dialog = builder.create();
 
-        dialog.setOnShowListener({
+        dialog.setOnShowListener {
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
-        });
+        };
 
         // バリデーション設定
         val editText = dialogLayout.findViewById<AppCompatEditText>(R.id.deckNameField);
