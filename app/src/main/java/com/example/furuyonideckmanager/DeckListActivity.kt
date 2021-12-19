@@ -167,7 +167,6 @@ class DeckListActivity : AppCompatActivity(), DeleteConfirmDialog.Listener {
             // 横整列レイアウト作成
             val hLinearLayout = LinearLayout(this);
             hLinearLayout.orientation = LinearLayout.HORIZONTAL;
-            hLinearLayout.setPadding(0, convertDpToPixel(5, this), 0, convertDpToPixel(5, this));
 
             // 削除ボタン追加
             val deleteButton = Button(this);
@@ -202,17 +201,19 @@ class DeckListActivity : AppCompatActivity(), DeleteConfirmDialog.Listener {
             setImageToImageView(elem[2] + ".jpg", imageView1, assets);
 
             // TODO: 後でここのコード綺麗にしたい
-            val layoutParams = ViewGroup.LayoutParams(convertDpToPixel(45, this), convertDpToPixel(45, this));
+            val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.FILL_PARENT).apply {
+                width = convertDpToPixel(30, context);
+                height = convertDpToPixel(30, context);
+                gravity = Gravity.CENTER_VERTICAL;
+                marginEnd = convertDpToPixel(8, context);
+            }
             imageView0.layoutParams = layoutParams;
             imageView1.layoutParams = layoutParams;
-            val marginParams = ViewGroup.MarginLayoutParams(imageView1.layoutParams);
-            marginParams.setMargins(convertDpToPixel(8, this), 0, convertDpToPixel(8, this), 0);
-            imageView1.layoutParams = marginParams;
 
             // ボタン追加
             val button = Button(this);
             button.setText(elem[0]);
-            button.width = convertDpToPixel(200, this);
+            button.width = convertDpToPixel(230, this);
             button.setOnClickListener {
                 // 画面遷移
                 val intent = Intent(this, ViewDeckActivity::class.java);
@@ -225,10 +226,11 @@ class DeckListActivity : AppCompatActivity(), DeleteConfirmDialog.Listener {
                 intent.putExtra("CHOSEN_MEGAMI", selectedMegamiArray)
                 startActivity(intent);
             }
+            button.setPadding(0, 0, 0, 0);
             button.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.FILL_PARENT).apply {
+                height = convertDpToPixel(40, context);
                 gravity = Gravity.CENTER_VERTICAL;
             }
-
 
             // 作成した要素を全て横整列レイアウトに足す
             hLinearLayout.addView(deleteButton);
