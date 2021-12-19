@@ -2,11 +2,12 @@ package CsvUtil
 
 import android.content.Context
 import android.content.res.Resources
+import android.os.Build
+import android.support.annotation.RequiresApi
 import android.widget.Toast
-import java.io.BufferedReader
-import java.io.File
-import java.io.IOException
-import java.io.InputStreamReader
+import java.io.*
+import java.nio.file.Files
+import java.nio.file.Paths
 
 /**
  * RawからCSVを読み込む。
@@ -62,4 +63,20 @@ fun readInternalFile(fileName: String, context: Context): List<List<String>> {
     }
 
     return separatedList;
+}
+
+/**
+ * csvファイルの削除処理。
+ * @param fileName ファイル名。
+ * @param context 呼び出し元のコンテキスト。
+ */
+@RequiresApi(Build.VERSION_CODES.O)
+fun removeCsvFile(fileName: String, context: Context) {
+    val path = Paths.get(context.filesDir.path, fileName);
+
+    try {
+        Files.deleteIfExists(path);
+    } catch (e: IOException) {
+        e.printStackTrace();
+    }
 }
