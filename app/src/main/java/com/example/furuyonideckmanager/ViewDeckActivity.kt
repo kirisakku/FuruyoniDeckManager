@@ -1,9 +1,7 @@
 package com.example.furuyonideckmanager
 
-import CsvUtil.classifiedCsvData
 import CsvUtil.getClassifiedCsvData
 import CsvUtil.readInternalFile
-import CsvUtil.readRawCsv
 import PartsUtil.setButtonStyles
 import SetImageUtil.setImageToImageView
 import android.content.Intent
@@ -12,7 +10,21 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_view_deck.*
 
-class ViewDeckActivity : AppCompatActivity() {
+class ViewDeckActivity : AppCompatActivity(), CommentDialog.Listener {
+    val dialog = CommentDialog();
+
+    override fun update() {
+        // コメント部分を更新
+        comment.setText(dialog.getInput());
+    }
+
+    /**
+     * ダイアログの「キャンセル」ボタン押下時の処理。
+     */
+    override fun cancel() {
+        // 処理なし
+    }
+
     /**
      * 左側のメガミのボタン情報を取得。
      * @return ボタンの種類とボタンのマップの配列を返します。
@@ -104,6 +116,17 @@ class ViewDeckActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * コメントにハンドラを設定。
+     */
+    fun setCommentHandler() {
+        comment.setOnClickListener {
+            val dialogArgs = Bundle();
+            dialogArgs.putString("comment", comment.text.toString());
+            dialog.show(supportFragmentManager, "comment_dialog");
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_deck);
@@ -168,7 +191,10 @@ class ViewDeckActivity : AppCompatActivity() {
         setButtonsView(megamiButtonList1, cardList1, deckCardList);
 
         // カード表示画面に遷移するためのハンドラ設定
+
         setButtonsHandler(megamiButtonList0, cardList0);
         setButtonsHandler(megamiButtonList1, cardList1);
+        // コメント部分にコメント編集用のハンドラを設定
+        setCommentHandler();
     }
 }
