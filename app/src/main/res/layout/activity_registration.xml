@@ -8,7 +8,7 @@
 
     <TableLayout
         android:layout_width="wrap_content"
-        android:layout_height="300dp"
+        android:layout_height="350dp"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -353,6 +353,45 @@
                 app:srcCompat="@drawable/kanae"
                 tools:layout_editor_absoluteX="16dp"
                 tools:layout_editor_absoluteY="16dp" />
+        </TableRow>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp">
+
+            <ImageButton
+                android:id="@+id/kamui"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="#0000"
+                android:contentDescription="カムヰ"
+                android:padding="5dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/kamui"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="16dp" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <ImageButton
+                android:id="@+id/renri"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="#0000"
+                android:contentDescription="レンリ"
+                android:padding="5dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/renri"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="16dp" />
+
         </TableRow>
     </TableLayout>
 
