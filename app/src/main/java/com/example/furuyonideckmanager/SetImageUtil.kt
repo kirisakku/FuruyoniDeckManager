@@ -14,10 +14,8 @@ import java.io.IOException
 fun setImageToImageView(imageName: String, target: ImageView, assets: AssetManager) {
     try {
         val instream = assets.open(imageName);
-        if (instream != null && target != null) {
-            val bitmap = BitmapFactory.decodeStream(instream);
-            target.setImageBitmap(bitmap);
-        }
+        val bitmap = BitmapFactory.decodeStream(instream);
+        target.setImageBitmap(bitmap);
     } catch (e: IOException) {
         e.printStackTrace();
     }

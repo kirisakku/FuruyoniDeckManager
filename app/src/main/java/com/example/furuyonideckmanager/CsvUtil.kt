@@ -3,8 +3,8 @@ package CsvUtil
 import android.content.Context
 import android.content.res.Resources
 import android.os.Build
-import android.support.annotation.RequiresApi
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import java.io.*
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -17,10 +17,9 @@ import java.nio.file.Paths
  * @return CSVデータを文字列リストのリストにした結果を返します。
  */
 fun readRawCsv(fileId: Int, res: Resources, context: Context): List<List<String>> {
-    var bufferReader: BufferedReader? = null;
     var separatedList = mutableListOf<List<String>>();
-    val inputStream = res.openRawResource(fileId);
-    bufferReader = BufferedReader(InputStreamReader(inputStream));
+    val input = res.openRawResource(fileId);
+    var bufferReader = BufferedReader(InputStreamReader(input));
 
     try {
         try {
@@ -32,9 +31,7 @@ fun readRawCsv(fileId: Int, res: Resources, context: Context): List<List<String>
                 str = bufferReader.readLine();
             }
         } finally {
-            if (bufferReader != null) {
-                bufferReader.close();
-            }
+            bufferReader.close();
         }
     } catch (e: IOException) {
         Toast.makeText(context, "読み込み失敗", Toast.LENGTH_SHORT).show();

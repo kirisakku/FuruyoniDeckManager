@@ -5,26 +5,27 @@ import PartsUtil.setButtonStyles
 import SetImageUtil.setImageToImageView
 import android.content.Intent
 import android.graphics.Color
-import android.os.Build
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.annotation.RequiresApi
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
+import io.realm.Realm
+import io.realm.RealmConfiguration
+import io.realm.kotlin.createObject
 import kotlinx.android.synthetic.main.activity_choose_cards.*
 import java.io.*
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
+    private lateinit var realm: Realm;
+
     // 通常札の選択されたカード
     val chosenNormalCards = mutableListOf<List<String>>();
     // 切札の選択されたカード
     val chosenSpecialCards = mutableListOf<List<String>>();
     // 選ばれたメガミその1
-    var megami0: String? = null;
+    var megami0Name: String? = null;
     // 選ばれたメガミその2
-    var megami1: String? = null;
+    var megami1Name: String? = null;
     // ダイアログ
     val dialog = DeckNameDialog();
 
@@ -217,27 +218,16 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
      * デッキ情報をデッキ情報管理リストに追加。
      * @param deckFileName 新規に作成したデッキのファイル名。
      */
-    @RequiresApi(Build.VERSION_CODES.O)
     fun addDeckToList(deckFileName: String) {
-        // 書き込むデータの作成
-        val title = dialog.getInput();//findViewById<TextView>(R.id.deckNameField)?.text;
-        val date = ZonedDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
-        val dataList = listOf(title, megami0, megami1, deckFileName, date);
-        val data = dataList.joinToString(",");
-        val deckList = File(applicationContext.filesDir, "deckList.csv");
-
-        // データの書き込み
-        if(deckList.exists()) {
-            val fileWriter = FileWriter(deckList, true);
-            val bufferedWriter = BufferedWriter(fileWriter);
-
-            bufferedWriter.append("\n" + data);
-            bufferedWriter.close();
-        } else {
-            File(applicationContext.filesDir, "deckList.csv").writer().use {
-                it.write(data);
-            }
+        // DBにデッキ情報を書き込む
+        realm.beginTransaction();
+        realm.createObject<Deck>(deckFileName).apply {
+            title = dialog.getInput().toString()
+            megami0 = megami0Name ?: ""
+            megami1 = megami1Name ?: ""
+            comment = ""
         }
+        realm.commitTransaction();
     }
 
     /**
@@ -245,7 +235,6 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
      * @param deckFileName 新規に作成したデッキのファイル名。
      * @param csvData デッキのcsvデータ。
      */
-    @RequiresApi(Build.VERSION_CODES.O)
     fun saveFile(deckFileName: String, csvData: String) {
         File(applicationContext.filesDir, deckFileName).writer().use {
             try {
@@ -262,7 +251,6 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
     /**
      * ダイアログの「登録」ボタン押下時の処理。
      */
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun register() {
         val normalCsvDataList = chosenNormalCards.map{it.joinToString(",")};
         val specialCsvDataList = chosenSpecialCards.map{it.joinToString(",")};
@@ -289,25 +277,28 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_choose_cards)
+        var config = RealmConfiguration.Builder().allowWritesOnUiThread(true).build();
+        Realm.setDefaultConfiguration(config);
+        realm = Realm.getDefaultInstance();
 
         val res = resources;
         val context = applicationContext;
 
         var chosenMegami = intent.getStringArrayExtra("CHOSEN_MEGAMI")
-        megami0 = chosenMegami?.get(0);
-        megami1 = chosenMegami?.get(1);
-        if (megami0 == null || megami1 ==null) {
+        megami0Name = chosenMegami?.get(0);
+        megami1Name = chosenMegami?.get(1);
+        if (megami0Name == null || megami1Name ==null) {
             // TODO: 後でエラー処理書きたい
             return;
         }
 
         // メガミ画像の設定
-        setImageToImageView(megami0 + ".jpg", megamiImage0_view, assets);
-        setImageToImageView(megami1 + ".jpg", megamiImage1_view, assets);
+        setImageToImageView(megami0Name + ".jpg", megamiImage0_view, assets);
+        setImageToImageView(megami1Name + ".jpg", megamiImage1_view, assets);
 
         // カード情報の取得
-        val megamiCardList0 = readRawCsv(res.getIdentifier(megami0, "raw", packageName), res, context);
-        val megamiCardList1 = readRawCsv(res.getIdentifier(megami1, "raw", packageName), res, context);
+        val megamiCardList0 = readRawCsv(res.getIdentifier(megami0Name, "raw", packageName), res, context);
+        val megamiCardList1 = readRawCsv(res.getIdentifier(megami1Name, "raw", packageName), res, context);
 
         // 画面の初期化
         // ボタン一覧を取得する
@@ -329,5 +320,10 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
         registerDeck.setOnClickListener {
             dialog.show(supportFragmentManager, "register_dialog");
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy();
+        realm.close();
     }
 }
