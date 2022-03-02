@@ -5,10 +5,10 @@ import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface.BUTTON_POSITIVE
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v7.widget.AppCompatEditText
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.appcompat.widget.AppCompatEditText
+import androidx.fragment.app.DialogFragment
 
 class DeckNameDialog: DialogFragment() {
     interface Listener {
@@ -35,12 +35,12 @@ class DeckNameDialog: DialogFragment() {
         val inflater = requireActivity().layoutInflater;
         val dialogLayout = inflater.inflate(R.layout.dialog_register, null);
         builder.setView(dialogLayout)
-            .setPositiveButton(R.string.register) { dialog, which ->
+            .setPositiveButton(R.string.register) { _, _ ->
                 listener?.register();
             }
-            .setNegativeButton(R.string.cancel) {dialog, which ->
+            .setNegativeButton(R.string.cancel) {_, _ ->
                 // 画面閉じる処理
-                getDialog().cancel();
+                getDialog()?.cancel();
             }
 
         val dialog = builder.create();

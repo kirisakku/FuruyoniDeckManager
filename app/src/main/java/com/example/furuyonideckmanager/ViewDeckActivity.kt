@@ -5,10 +5,9 @@ import CsvUtil.readRawCsv
 import PartsUtil.setButtonStyles
 import SetImageUtil.setImageToImageView
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_view_deck.*
 
 class ViewDeckActivity : AppCompatActivity() {

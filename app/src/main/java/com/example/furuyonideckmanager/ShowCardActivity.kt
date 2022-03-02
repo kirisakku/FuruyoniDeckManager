@@ -1,8 +1,8 @@
 package com.example.furuyonideckmanager
 
 import SetImageUtil.setImageToImageView
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_show_card.*
 
 class ShowCardActivity : AppCompatActivity() {
