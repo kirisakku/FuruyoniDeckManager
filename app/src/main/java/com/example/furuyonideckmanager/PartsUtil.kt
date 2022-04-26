@@ -37,16 +37,3 @@ fun setButtonStyles(button: Button?, type: String) {
         }
     }
 }
-
-/**
- * dpをpixelに変換。
- * @param dp 変換対象のdp。
- * @param context 呼び出し元のcontext。
- */
-fun convertDpToPixel(dp: Int, context: Context): Int {
-    val density = context.resources.displayMetrics.density;
-    val result = ((dp * density) + 0.5).toInt();
-    return result;
-}
-
-

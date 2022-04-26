@@ -23,7 +23,6 @@ class DeckAdapter(private val data: OrderedRealmCollection<Deck>, private val co
     init {
         setHasStableIds(true);
     }
-
     
     class ViewHolder(cell: View): RecyclerView.ViewHolder(cell) {
         // パーツを保持しておく場所

@@ -1,5 +1,6 @@
 package com.example.furuyonideckmanager
 
+import CsvUtil.classifiedCsvData
 import CsvUtil.readRawCsv
 import PartsUtil.setButtonStyles
 import SetImageUtil.setImageToImageView
@@ -74,15 +75,15 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
      * @param buttons ボタン配列。
      * @param cardCsv カードのcsvデータ。
      */
-    fun setButtonsView(buttons: Array<Map<String, Button?>>, csvData: List<List<String>>) {
+    fun setButtonsView(buttons: Array<Map<String, Button?>>, csvData: List<Map<String, String>>) {
         for (i in csvData.indices) {
             val targetData = csvData[i];
             val targetButtons = buttons[i];
             // カード名設定
-            targetButtons.get("card")?.setText(targetData[1]);
+            targetButtons.get("card")?.setText(targetData.get("actionName"));
             // 色変更
-            setButtonStyles(targetButtons.get("type0"), targetData[2]);
-            setButtonStyles(targetButtons.get("type1"), targetData[3]);
+            setButtonStyles(targetButtons.get("type0"), targetData.get("mainType").orEmpty());
+            setButtonStyles(targetButtons.get("type1"), targetData.get("subType").orEmpty());
         }
     }
 
@@ -91,7 +92,7 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
      * @param buttons ボタン配列。
      * @param cardCsv カードのcsvデータ。
      */
-    fun setButtonsHandler(buttons: Array<Map<String, Button?>>, cardCsv: List<List<String>>) {
+    fun setButtonsHandler(buttons: Array<Map<String, Button?>>, cardCsv: List<Map<String, String>>) {
         for (i in cardCsv.indices) {
             val targetData = cardCsv[i];
             val targetButtons = buttons[i];
@@ -102,7 +103,7 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
                 // 画面遷移
                 val intent = Intent(this, ShowCardActivity::class.java);
                 // 画像データ
-                val image = targetData[4];
+                val image = targetData.get("fileName");
                 // 画像データを渡す
                 intent.putExtra("IMAGE_FILE_NAME", image);
                 startActivity(intent);
@@ -168,7 +169,7 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
      * チェックボックスに対してハンドラを設定。
      * @param cardCsv カードのcsvデータ。
      */
-    fun setCheckBoxHandlers(cardCsv: List<List<String>>, isRight: Boolean) {
+    fun setCheckBoxHandlers(cardCsv: List<Map<String, String>>, isRight: Boolean) {
         var checkBoxes = if (isRight == true) getRightMegamiCheckBoxes() else getLeftMegamiCheckBoxes();
 
         // 通常カードのチェックボックスにハンドラ設定
@@ -177,9 +178,9 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
             checkBox.setOnCheckedChangeListener {_, isChecked ->
                 val targetData = cardCsv[i];
                 if (isChecked) {
-                    chosenNormalCards.add(targetData);
+                    chosenNormalCards.add(targetData.values.toList());
                 } else {
-                    chosenNormalCards.remove(targetData);
+                    chosenNormalCards.remove(targetData.values.toList());
                 }
 
                 // TODO: 関数化したい
@@ -198,9 +199,9 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
             val checkBox = checkBoxes[i];
             checkBox.setOnCheckedChangeListener {_, isChecked ->
                 if (isChecked) {
-                    chosenSpecialCards.add(cardCsv[i]);
+                    chosenSpecialCards.add(cardCsv[i].values.toList());
                 } else {
-                    chosenSpecialCards.remove(cardCsv[i]);
+                    chosenSpecialCards.remove(cardCsv[i].values.toList());
                 }
 
                 // テキスト更新
@@ -297,24 +298,40 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
         setImageToImageView(megami1Name + ".jpg", megamiImage1_view, assets);
 
         // カード情報の取得
-        val megamiCardList0 = readRawCsv(res.getIdentifier(megami0Name, "raw", packageName), res, context);
-        val megamiCardList1 = readRawCsv(res.getIdentifier(megami1Name, "raw", packageName), res, context);
+        // csvをparse
+        val csvData0 = readRawCsv(res.getIdentifier(megami0Name, "raw", packageName), res, context);
+        val csvData1 = readRawCsv(res.getIdentifier(megami1Name, "raw", packageName), res, context);
+        // オリジン、A-1、A-2に分類
+        val classifiedCardList0 = classifiedCsvData(csvData0);
+        val classifiedCardList1 = classifiedCsvData(csvData1);
+        // オリジン
+        val originCardList0 = classifiedCardList0.get("origin");
+        val originCardList1 = classifiedCardList1.get("origin");
+        val a1CardList0 = classifiedCardList0.get("A-1");
+        val a1CardList1 = classifiedCardList1.get("A-1");
+        val a2CardList0 = classifiedCardList0.get("A-2");
+        val a2CardList1 = classifiedCardList1.get("A-2");
+
+        if (originCardList0 == null || originCardList1 == null) {
+            return;
+        }
 
         // 画面の初期化
         // ボタン一覧を取得する
         val megamiButtonList0 = getLeftMegamiCardButtons();
         val megamiButtonList1 = getRightMegamiCardButtons();
         // ボタンの見た目設定
-        setButtonsView(megamiButtonList0, megamiCardList0);
-        setButtonsView(megamiButtonList1, megamiCardList1);
+        // 最初はオリジンで設定する
+        setButtonsView(megamiButtonList0, originCardList0);
+        setButtonsView(megamiButtonList1, originCardList1);
 
         // カード表示画面に遷移するためのハンドラ設定
-        setButtonsHandler(megamiButtonList0, megamiCardList0);
-        setButtonsHandler(megamiButtonList1, megamiCardList1);
+        setButtonsHandler(megamiButtonList0, originCardList0);
+        setButtonsHandler(megamiButtonList1, originCardList1);
 
         // チェックボックスにハンドラ設定
-        setCheckBoxHandlers(megamiCardList0, true);
-        setCheckBoxHandlers(megamiCardList1, false);
+        setCheckBoxHandlers(originCardList0, true);
+        setCheckBoxHandlers(originCardList1, false);
 
         // 登録
         registerDeck.setOnClickListener {

@@ -77,3 +77,50 @@ fun removeCsvFile(fileName: String, context: Context) {
         e.printStackTrace();
     }
 }
+
+/**
+ * csvデータをオリジン/A-1/A-2に分類。
+ * @param csvData csvDataをparseした結果。
+ * @return csvデータをオリジン/A-1/A-2に分類した結果。
+ */
+fun classifiedCsvData(csvData: List<List<String>>): Map<String, List<Map<String, String>>> {
+    // まずMapのリストに変換
+    val mapList = csvData.map{elem ->
+        mapOf(
+            "no" to elem[0], "actionName" to elem[1], "mainType" to elem[2], "subType" to elem[3], "fileName" to elem[4], "type" to elem[5]
+        );
+    }
+
+    // 各種のリスト作成
+    val origin = mapList.filter{elem -> elem.get("type") == "O"}
+    var A1List = mapList.filter{ elem -> elem.get("type") == "A-1"}.toMutableList();
+    var A2List = mapList.filter{elem -> elem.get("type") == "A-2"}.toMutableList();
+
+    // マージ用関数
+    fun merge(origin: List<Map<String, String>>, another: List<Map<String, String>>): List<Map<String, String>> {
+        if (another.count() == 0) {
+            // 長さが0の場合はそのまま返す
+            return another;
+        }
+
+        // オリジンをコピー
+        val anotherList = origin.toMutableList();
+        // 以下は長さが1以上のケース
+        for (i in another.indices) {
+            // 同じNoのカードを探す
+            val targetIndex = origin.indexOfFirst{elem: Map<String, String> ->
+                elem.get("no") == another[i].get("no")
+            }
+            // アナザーのカードで置き換える
+            anotherList[targetIndex] = another[i];
+        }
+
+        return anotherList.toList();
+    }
+
+    return mapOf(
+        "origin" to origin,
+        "A-1" to merge(origin, A1List),
+        "A-2" to merge(origin, A2List)
+    )
+}
