@@ -124,3 +124,15 @@ fun classifiedCsvData(csvData: List<List<String>>): Map<String, List<Map<String,
         "A-2" to merge(origin, A2List)
     )
 }
+
+/**
+ * RawからCSVを読み込み、オリジン/A-1/A-2に分類。
+ * @param fileId リソース内におけるファイルID。
+ * @param res リソース。
+ * @param context 呼び出し元のcontext。エラー表示に使います。
+ * @return CSVデータを文字列リストのリストにした結果を返します。
+ */
+fun getClassifiedCsvData(fileId: Int, res: Resources, context: Context): Map<String, List<Map<String, String>>> {
+    val csvData = readRawCsv(fileId, res, context);
+    return classifiedCsvData(csvData);
+}

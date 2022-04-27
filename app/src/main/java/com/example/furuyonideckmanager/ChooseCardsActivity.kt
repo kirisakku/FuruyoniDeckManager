@@ -1,18 +1,21 @@
 package com.example.furuyonideckmanager
 
 import CsvUtil.classifiedCsvData
+import CsvUtil.getClassifiedCsvData
 import CsvUtil.readRawCsv
-import PartsUtil.setButtonStyles
+import PartsUtil.*
 import SetImageUtil.setImageToImageView
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.widget.*
+import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.kotlin.createObject
 import kotlinx.android.synthetic.main.activity_choose_cards.*
+import kotlinx.android.synthetic.main.deck_item.*
 import java.io.*
 import java.util.*
 
@@ -80,7 +83,12 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
             val targetData = csvData[i];
             val targetButtons = buttons[i];
             // カード名設定
-            targetButtons.get("card")?.setText(targetData.get("actionName"));
+            val cardNameButton = targetButtons.get("card");
+            cardNameButton?.setText(targetData.get("actionName"));
+            // 背景色設定
+            if (cardNameButton != null) {
+                setButtonBackgroundColor(cardNameButton, targetData)
+            }
             // 色変更
             setButtonStyles(targetButtons.get("type0"), targetData.get("mainType").orEmpty());
             setButtonStyles(targetButtons.get("type1"), targetData.get("subType").orEmpty());
@@ -169,8 +177,8 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
      * チェックボックスに対してハンドラを設定。
      * @param cardCsv カードのcsvデータ。
      */
-    fun setCheckBoxHandlers(cardCsv: List<Map<String, String>>, isRight: Boolean) {
-        var checkBoxes = if (isRight == true) getRightMegamiCheckBoxes() else getLeftMegamiCheckBoxes();
+    fun setCheckBoxHandlers(cardCsv: List<Map<String, String>>, isLeft: Boolean) {
+        var checkBoxes = if (isLeft == true) getRightMegamiCheckBoxes() else getLeftMegamiCheckBoxes();
 
         // 通常カードのチェックボックスにハンドラ設定
         for (i in 0..6) {
@@ -249,6 +257,48 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
         }
     }
 
+    fun setUnselectedAlpha(originImageView: ImageView, a1ImageView: ImageView, a2ImageView: ImageView) {
+        originImageView.alpha = 0.25F;
+        a1ImageView.alpha = 0.25F;
+        a2ImageView.alpha = 0.25F;
+    }
+
+    /**
+     * メガミimageViewに画像とイベントハンドラを設定。
+     * @param imageView 画像とイベントハンドラ設定対象のボタン。
+     * @param imageFileName 画像ファイル名
+     */
+    fun setMegamiButton(
+        imageView: ImageView,
+        imageFileName: String,
+        megamiButtonList: Array<Map<String, Button?>>,
+        cardCsvList: List<Map<String, String>>,
+        isLeft: Boolean
+    ) {
+        // 画像設定
+        setImageToImageView(imageFileName, imageView, assets);
+
+        // 一律非選択の見た目にするための関数を選択
+        var setAlphaFunc = { -> setUnselectedAlpha(megamiImage0_view, megamiImage0_A1_view, megamiImage0_A2_view)};
+
+        if (isLeft == false) {
+            setAlphaFunc = { -> setUnselectedAlpha(megamiImage1_view, megamiImage1_A1_view, megamiImage1_A2_view)};
+        }
+        // ハンドラ設定
+        imageView.setOnClickListener {
+            // 一律非選択の見た目に設定
+            setAlphaFunc();
+            // 対象のメガミのalphaを1にして選択の見た目にする
+            imageView.alpha = 1F;
+            // カード名ボタンの見た目設定
+            setButtonsView(megamiButtonList, cardCsvList);
+            // カード表示画面に遷移するためのハンドラ設定
+            setButtonsHandler(megamiButtonList, cardCsvList);
+            // チェックボックスにハンドラ設定
+            setCheckBoxHandlers(cardCsvList, isLeft);
+        }
+    }
+
     /**
      * ダイアログの「登録」ボタン押下時の処理。
      */
@@ -293,17 +343,10 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
             return;
         }
 
-        // メガミ画像の設定
-        setImageToImageView(megami0Name + ".jpg", megamiImage0_view, assets);
-        setImageToImageView(megami1Name + ".jpg", megamiImage1_view, assets);
-
         // カード情報の取得
-        // csvをparse
-        val csvData0 = readRawCsv(res.getIdentifier(megami0Name, "raw", packageName), res, context);
-        val csvData1 = readRawCsv(res.getIdentifier(megami1Name, "raw", packageName), res, context);
-        // オリジン、A-1、A-2に分類
-        val classifiedCardList0 = classifiedCsvData(csvData0);
-        val classifiedCardList1 = classifiedCsvData(csvData1);
+        // オリジン、A-1、A-2に分類されたcsvDataを取得
+        val classifiedCardList0 = getClassifiedCsvData(res.getIdentifier(megami0Name, "raw", packageName), res, context);
+        val classifiedCardList1 = getClassifiedCsvData(res.getIdentifier(megami1Name, "raw", packageName), res, context);
         // オリジン
         val originCardList0 = classifiedCardList0.get("origin");
         val originCardList1 = classifiedCardList1.get("origin");
@@ -316,22 +359,33 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
             return;
         }
 
-        // 画面の初期化
         // ボタン一覧を取得する
         val megamiButtonList0 = getLeftMegamiCardButtons();
         val megamiButtonList1 = getRightMegamiCardButtons();
-        // ボタンの見た目設定
-        // 最初はオリジンで設定する
-        setButtonsView(megamiButtonList0, originCardList0);
-        setButtonsView(megamiButtonList1, originCardList1);
 
-        // カード表示画面に遷移するためのハンドラ設定
-        setButtonsHandler(megamiButtonList0, originCardList0);
-        setButtonsHandler(megamiButtonList1, originCardList1);
+        // 各ボタン初期化処理
+        // オリジン
+        setMegamiButton(megamiImage0_view, megami0Name + ".jpg", megamiButtonList0, originCardList0, true);
+        setMegamiButton(megamiImage1_view, megami1Name + ".jpg", megamiButtonList1, originCardList1, false);
+        // A1
+        if (isAnotherExist(a1CardList0)) {
+            setMegamiButton(megamiImage0_A1_view, megami0Name + "_a1.jpg", megamiButtonList0, a1CardList0!!, true);
+        }
+        if (isAnotherExist(a1CardList1)) {
+            setMegamiButton(megamiImage1_A1_view, megami1Name + "_a1.jpg", megamiButtonList1, a1CardList1!!, false);
+        }
 
-        // チェックボックスにハンドラ設定
-        setCheckBoxHandlers(originCardList0, true);
-        setCheckBoxHandlers(originCardList1, false);
+        // A2
+        if (isAnotherExist(a2CardList0)) {
+            setMegamiButton(megamiImage0_A2_view, megami0Name + "_a2.jpg", megamiButtonList0, a2CardList0!!, true);
+        }
+        if (isAnotherExist(a2CardList1)) {
+            setMegamiButton(megamiImage1_A2_view, megami1Name + "_a2.jpg", megamiButtonList1, a2CardList1!!, false);
+        }
+
+        // 初期状態を設定するためにonClickを実行
+        megamiImage0_view.performClick();
+        megamiImage1_view.performClick();
 
         // 登録
         registerDeck.setOnClickListener {
