@@ -1,5 +1,7 @@
 package com.example.furuyonideckmanager
 
+import CsvUtil.classifiedCsvData
+import CsvUtil.getClassifiedCsvData
 import CsvUtil.readInternalFile
 import CsvUtil.readRawCsv
 import PartsUtil.setButtonStyles
@@ -57,18 +59,18 @@ class ViewDeckActivity : AppCompatActivity() {
      * @param cardCsv カードのcsvデータ。
      * @param chosenCardCsv 選ばれたーカードのcsvデータ
      */
-    fun setButtonsView(buttons: Array<Map<String, Button?>>, cardCsv: List<List<String>>, chosenCardCsv: List<List<String>>) {
+    fun setButtonsView(buttons: Array<Map<String, Button?>>, cardCsv: List<Map<String, String>>, chosenCardCsv: List<List<String>>) {
         for (i in cardCsv.indices) {
             val targetData = cardCsv[i];
             val targetButtons = buttons[i];
             // カード名設定
-            targetButtons.get("card")?.setText(targetData[1]);
+            targetButtons.get("card")?.setText(targetData.get("actionName"));
             // 色変更
-            setButtonStyles(targetButtons.get("type0"), targetData[2]);
-            setButtonStyles(targetButtons.get("type1"), targetData[3]);
+            setButtonStyles(targetButtons.get("type0"), targetData.get("mainType").orEmpty());
+            setButtonStyles(targetButtons.get("type1"), targetData.get("subType").orEmpty());
             // 活性か非活性か（リストにあれば活性）
             // TODO: ここの処理は別関数に分けたほうが綺麗な気がする
-            val isEnable = chosenCardCsv.any{it[1] == targetData[1]}
+            val isEnable = chosenCardCsv.any{it[1] == targetData.get("actionName")}
             targetButtons.get("card")?.isEnabled = isEnable;
             if (isEnable == false) {
                 targetButtons.get("card")?.alpha = 0.75F;
@@ -83,7 +85,7 @@ class ViewDeckActivity : AppCompatActivity() {
      * @param buttons ボタン配列。
      * @param cardCsv カードのcsvデータ。
      */
-    fun setButtonsHandler(buttons: Array<Map<String, Button?>>, cardCsv: List<List<String>>) {
+    fun setButtonsHandler(buttons: Array<Map<String, Button?>>, cardCsv: List<Map<String, String>>) {
         for (i in cardCsv.indices) {
             val targetData = cardCsv[i];
             val targetButtons = buttons[i];
@@ -94,7 +96,7 @@ class ViewDeckActivity : AppCompatActivity() {
                 // 画面遷移
                 val intent = Intent(this, ShowCardActivity::class.java);
                 // 画像データ
-                val image = targetData[4];
+                val image = targetData.get("fileName");
                 // 画像データを渡す
                 intent.putExtra("IMAGE_FILE_NAME", image);
                 startActivity(intent);
@@ -129,8 +131,28 @@ class ViewDeckActivity : AppCompatActivity() {
         setImageToImageView(megami1 + ".jpg", megamiImage1_view, assets);
 
         // カード情報の取得
-        val megamiCardList0 = readRawCsv(res.getIdentifier(megami0, "raw", packageName), res, context);
-        val megamiCardList1 = readRawCsv(res.getIdentifier(megami1, "raw", packageName), res, context);
+        val splitedName0 = megami0.split('_');
+        val splitedName1 = megami1.split('_');
+        // オリジナルのメガミ名を取得
+        val originMegamiName0 = splitedName0[0];
+        val originMegamiName1 = splitedName1[0];
+        // オリジン、A-1、A-2に分類されたcsvDataを取得
+        val classifiedCardList0 = getClassifiedCsvData(res.getIdentifier(originMegamiName0, "raw", packageName), res, context);
+        val classifiedCardList1 = getClassifiedCsvData(res.getIdentifier(originMegamiName1, "raw", packageName), res, context);
+        // 対応するカードリストを取得
+        var cardList0 = classifiedCardList0.get("origin");
+        var cardList1 = classifiedCardList1.get("origin");
+        if (splitedName0.count() > 1) {
+            cardList0 = classifiedCardList0.get(splitedName0[1]);
+        }
+        if (splitedName1.count() > 1) {
+            cardList1 = classifiedCardList1.get(splitedName1[1]);
+        }
+
+        if (cardList0 == null || cardList1 == null) {
+            return;
+        }
+
         var deckCardList: List<List<String>> = listOf();
         // csvファイルからデッキ情報を読み込む
         if (deckCSV != null) {
@@ -142,11 +164,11 @@ class ViewDeckActivity : AppCompatActivity() {
         val megamiButtonList0 = getLeftMegamiCardButtons();
         val megamiButtonList1 = getRightMegamiCardButtons();
         // ボタンの見た目設定
-        setButtonsView(megamiButtonList0, megamiCardList0, deckCardList);
-        setButtonsView(megamiButtonList1, megamiCardList1, deckCardList);
+        setButtonsView(megamiButtonList0, cardList0, deckCardList);
+        setButtonsView(megamiButtonList1, cardList1, deckCardList);
 
         // カード表示画面に遷移するためのハンドラ設定
-        setButtonsHandler(megamiButtonList0, megamiCardList0);
-        setButtonsHandler(megamiButtonList1, megamiCardList1);
+        setButtonsHandler(megamiButtonList0, cardList0);
+        setButtonsHandler(megamiButtonList1, cardList1);
     }
 }

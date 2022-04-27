@@ -1,6 +1,7 @@
 package PartsUtil
 
 import android.content.Context
+import android.graphics.Color
 import android.view.View
 import android.widget.Button
 import com.example.furuyonideckmanager.R
@@ -39,14 +40,42 @@ fun setButtonStyles(button: Button?, type: String) {
 }
 
 /**
- * dpをpixelに変換。
- * @param dp 変換対象のdp。
- * @param context 呼び出し元のcontext。
+ * カード名ボタンに背景色を設定。
+ * @param button ボタン。
+ * @param cardData カードデータ。
  */
-fun convertDpToPixel(dp: Int, context: Context): Int {
-    val density = context.resources.displayMetrics.density;
-    val result = ((dp * density) + 0.5).toInt();
-    return result;
+fun setButtonBackgroundColor(button: Button, cardData: Map<String, String>) {
+    if (isAnother(cardData) && cardData.get("actionName") != "") {
+        button.setBackgroundColor(Color.parseColor("#ffe4e1"));
+    } else {
+        val color = if (isSpecialCard(cardData)) "#eee8aa" else "#d6d7d7";
+        button.setBackgroundColor((Color.parseColor(color)));
+    }
 }
 
+/**
+ * アナザーかどうかを判定。
+ * @param cardData カードデータ。
+ * @return　オリジンならtrue、アナザーならfalse。
+ */
+fun isAnother(cardData: Map<String, String>): Boolean {
+    return cardData.get("type") != "O";
+}
 
+/**
+ * 切札かどうかを判定。
+ * @param cardData カードデータ。
+ * @return 切札ならtrue、通常札ならfalse。
+ */
+fun isSpecialCard(cardData: Map<String, String>): Boolean {
+    return cardData.get("no")?.startsWith('S') == true
+}
+
+/**
+ * アナザーが存在するかどうかを判定。
+ * @param anotherCardList アナザーのカードリスト。
+ * @return アナザーが存在するならtrue、存在しないならfalse。
+ */
+fun isAnotherExist(anotherCardList: List<Map<String, String>>?): Boolean {
+    return anotherCardList != null && anotherCardList?.count() != 0;
+}

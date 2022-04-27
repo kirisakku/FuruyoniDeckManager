@@ -1,11 +1,14 @@
-N-1,Burning Steam,攻撃,-,na_11_thallya_o_n_1.png
-N-2,Waving Edge,攻撃,-,na_11_thallya_o_n_2.png
-N-3,Shield Charge,攻撃,-,na_11_thallya_o_n_3.png
-N-4,Steam Cannon,攻撃,全力,na_11_thallya_o_n_4.png
-N-5,Stunt,行動,-,na_11_thallya_o_n_5.png
-N-6,Roaring,行動,-,na_11_thallya_o_n_6.png
-N-7,Turbo Switch,行動,対応,na_11_thallya_o_n_7.png
-S-1,Alpha-Edge,攻撃,-,na_11_thallya_o_s_1.png
-S-2,Omega-Burst,行動,対応,na_11_thallya_o_s_2.png
-S-3,Thallya's Masterpiece,行動,-,na_11_thallya_o_s_3_s3.png
-S-4,Julia's BlackBox,行動,全力,na_11_thallya_o_s_4_s3.png
+N-1,Burning Steam,攻撃,-,na_11_thallya_o_n_1.png,O
+N-2,Waving Edge,攻撃,-,na_11_thallya_o_n_2.png,O
+N-3,Shield Charge,攻撃,-,na_11_thallya_o_n_3.png,O
+N-4,Steam Cannon,攻撃,全力,na_11_thallya_o_n_4.png,O
+N-5,Stunt,行動,-,na_11_thallya_o_n_5.png,O
+N-6,Roaring,行動,-,na_11_thallya_o_n_6.png,O
+N-7,Turbo Switch,行動,対応,na_11_thallya_o_n_7.png,O
+S-1,Alpha-Edge,攻撃,-,na_11_thallya_o_s_1.png,O
+S-2,Omega-Burst,行動,対応,na_11_thallya_o_s_2.png,O
+S-3,Thallya's Masterpiece,行動,-,na_11_thallya_o_s_3_s3.png,O
+S-4,Julia's BlackBox,行動,全力,na_11_thallya_o_s_4_s3.png,O
+N-5,Quick Change,付与,-,na_11_thallya_a1_n_5.png,a1
+S-1,BlackBox NEO,行動,-,na_11_thallya_a1_s_1.png,a1
+S-2,OMNIS-Blaster,攻撃,-,na_11_thallya_a1_s_2.png,a1
