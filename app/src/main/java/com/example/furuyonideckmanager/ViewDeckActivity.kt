@@ -1,6 +1,7 @@
 package com.example.furuyonideckmanager
 
 import CsvUtil.classifiedCsvData
+import CsvUtil.getClassifiedCsvData
 import CsvUtil.readInternalFile
 import CsvUtil.readRawCsv
 import PartsUtil.setButtonStyles
@@ -126,27 +127,29 @@ class ViewDeckActivity : AppCompatActivity() {
         }
 
         // メガミ画像の設定
-        setImageToImageView(megami0 + ".jpg", megamiImage0_A2_view, assets);
+        setImageToImageView(megami0 + ".jpg", megamiImage0_view, assets);
         setImageToImageView(megami1 + ".jpg", megamiImage1_view, assets);
 
         // カード情報の取得
-        // csvをparse
-        val csvData0 = readRawCsv(res.getIdentifier(megami0, "raw", packageName), res, context);
-        val csvData1 = readRawCsv(res.getIdentifier(megami1, "raw", packageName), res, context);
-        // オリジン、A-1、A-2に分類
-        val classifiedCardList0 = classifiedCsvData(csvData0);
-        val classifiedCardList1 = classifiedCsvData(csvData1);
-        // オリジン
-        val originCardList0 = classifiedCardList0.get("origin");
-        val originCardList1 = classifiedCardList1.get("origin");
-        // A1
-        val a1CardList0 = classifiedCardList0.get("A-1");
-        val a1CardList1 = classifiedCardList1.get("A-1");
-        // A2
-        val a2CardList0 = classifiedCardList0.get("A-2");
-        val a2CardList1 = classifiedCardList1.get("A-2");
+        val splitedName0 = megami0.split('_');
+        val splitedName1 = megami1.split('_');
+        // オリジナルのメガミ名を取得
+        val originMegamiName0 = splitedName0[0];
+        val originMegamiName1 = splitedName1[0];
+        // オリジン、A-1、A-2に分類されたcsvDataを取得
+        val classifiedCardList0 = getClassifiedCsvData(res.getIdentifier(originMegamiName0, "raw", packageName), res, context);
+        val classifiedCardList1 = getClassifiedCsvData(res.getIdentifier(originMegamiName1, "raw", packageName), res, context);
+        // 対応するカードリストを取得
+        var cardList0 = classifiedCardList0.get("origin");
+        var cardList1 = classifiedCardList1.get("origin");
+        if (splitedName0.count() > 1) {
+            cardList0 = classifiedCardList0.get(splitedName0[1]);
+        }
+        if (splitedName1.count() > 1) {
+            cardList1 = classifiedCardList1.get(splitedName1[1]);
+        }
 
-        if (originCardList0 == null || originCardList1 == null) {
+        if (cardList0 == null || cardList1 == null) {
             return;
         }
 
@@ -161,12 +164,11 @@ class ViewDeckActivity : AppCompatActivity() {
         val megamiButtonList0 = getLeftMegamiCardButtons();
         val megamiButtonList1 = getRightMegamiCardButtons();
         // ボタンの見た目設定
-        // ### 一旦origin固定
-        setButtonsView(megamiButtonList0, originCardList0, deckCardList);
-        setButtonsView(megamiButtonList1, originCardList1, deckCardList);
+        setButtonsView(megamiButtonList0, cardList0, deckCardList);
+        setButtonsView(megamiButtonList1, cardList1, deckCardList);
 
         // カード表示画面に遷移するためのハンドラ設定
-        setButtonsHandler(megamiButtonList0, originCardList0);
-        setButtonsHandler(megamiButtonList1, originCardList1);
+        setButtonsHandler(megamiButtonList0, cardList0);
+        setButtonsHandler(megamiButtonList1, cardList1);
     }
 }

@@ -726,7 +726,7 @@
         android:background="@drawable/circle_default"
         android:text="Button"
         app:layout_constraintStart_toEndOf="@+id/megami0_type00_view"
-        app:layout_constraintTop_toBottomOf="@+id/megamiImage0_A2_view" />
+        app:layout_constraintTop_toBottomOf="@+id/megamiImage0_view" />
 
     <Button
         android:id="@+id/megami0_card1_view"
@@ -753,7 +753,7 @@
         app:layout_constraintTop_toBottomOf="@+id/megami0_type00_view" />
 
     <ImageView
-        android:id="@+id/megamiImage0_A2_view"
+        android:id="@+id/megamiImage0_view"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="8dp"
@@ -779,7 +779,7 @@
         android:background="@drawable/circle_default"
         android:text="Button"
         app:layout_constraintStart_toEndOf="@+id/megami0_card0_view"
-        app:layout_constraintTop_toBottomOf="@+id/megamiImage0_A2_view" />
+        app:layout_constraintTop_toBottomOf="@+id/megamiImage0_view" />
 
     <Button
         android:id="@+id/megami0_card0_view"
@@ -792,7 +792,7 @@
         android:maxLines="1"
         android:text="Button"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/megamiImage0_A2_view" />
+        app:layout_constraintTop_toBottomOf="@+id/megamiImage0_view" />
 
     <TextView
         android:id="@+id/deckName"

@@ -8,34 +8,34 @@
     tools:context=".ChooseCardsActivity">
 
     <ImageView
-        android:id="@+id/megamiImage1_A2_view"
+        android:id="@+id/megamiImage1_A2_edit"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/megamiImage1_A1_view"
-        app:layout_constraintTop_toBottomOf="@+id/megamiImage1_view" />
+        app:layout_constraintEnd_toStartOf="@+id/megamiImage1_A1_edit"
+        app:layout_constraintTop_toBottomOf="@+id/megamiImage1_edit" />
 
     <ImageView
-        android:id="@+id/megamiImage1_A1_view"
+        android:id="@+id/megamiImage1_A1_edit"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/megamiImage1_view" />
+        app:layout_constraintTop_toBottomOf="@+id/megamiImage1_edit" />
 
     <ImageView
-        android:id="@+id/megamiImage0_A1_view"
+        android:id="@+id/megamiImage0_A1_edit"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/megamiImage0_view" />
+        app:layout_constraintTop_toBottomOf="@+id/megamiImage0_edit" />
 
     <ImageView
-        android:id="@+id/megamiImage0_view"
+        android:id="@+id/megamiImage0_edit"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="8dp"
@@ -54,7 +54,7 @@
         android:maxLines="1"
         android:text="Button"
         app:layout_constraintEnd_toStartOf="@+id/megami1_type00_view"
-        app:layout_constraintTop_toBottomOf="@+id/megamiImage1_A2_view" />
+        app:layout_constraintTop_toBottomOf="@+id/megamiImage1_A2_edit" />
 
     <Button
         android:id="@+id/megami1_type21_view"
@@ -199,7 +199,7 @@
         android:background="@drawable/circle_default"
         android:text="Button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/megamiImage1_A1_view" />
+        app:layout_constraintTop_toBottomOf="@+id/megamiImage1_A1_edit" />
 
     <Button
         android:id="@+id/megami1_type20_view"
@@ -242,7 +242,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toStartOf="@+id/megami1_card0_view"
-        app:layout_constraintTop_toBottomOf="@+id/megamiImage1_A1_view" />
+        app:layout_constraintTop_toBottomOf="@+id/megamiImage1_A1_edit" />
 
     <Button
         android:id="@+id/megami1_type00_view"
@@ -253,7 +253,7 @@
         android:background="@drawable/circle_default"
         android:text="Button"
         app:layout_constraintEnd_toStartOf="@+id/megami1_type01_view"
-        app:layout_constraintTop_toBottomOf="@+id/megamiImage1_A1_view" />
+        app:layout_constraintTop_toBottomOf="@+id/megamiImage1_A1_edit" />
 
     <Button
         android:id="@+id/megami1_type30_view"
@@ -932,7 +932,7 @@
         android:background="@drawable/circle_default"
         android:text="Button"
         app:layout_constraintStart_toEndOf="@+id/megami0_type00_view"
-        app:layout_constraintTop_toBottomOf="@+id/megamiImage0_A2_view" />
+        app:layout_constraintTop_toBottomOf="@+id/megamiImage0_A2_edit" />
 
     <Button
         android:id="@+id/megami0_card1_view"
@@ -958,16 +958,16 @@
         app:layout_constraintTop_toBottomOf="@+id/megami0_type00_view" />
 
     <ImageView
-        android:id="@+id/megamiImage0_A2_view"
+        android:id="@+id/megamiImage0_A2_edit"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintStart_toEndOf="@+id/megamiImage0_A1_view"
-        app:layout_constraintTop_toBottomOf="@+id/megamiImage0_view" />
+        app:layout_constraintStart_toEndOf="@+id/megamiImage0_A1_edit"
+        app:layout_constraintTop_toBottomOf="@+id/megamiImage0_edit" />
 
     <ImageView
-        android:id="@+id/megamiImage1_view"
+        android:id="@+id/megamiImage1_edit"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginTop="8dp"
@@ -984,7 +984,7 @@
         android:background="@drawable/circle_default"
         android:text="Button"
         app:layout_constraintStart_toEndOf="@+id/megami0_card0_view"
-        app:layout_constraintTop_toBottomOf="@+id/megamiImage0_A2_view" />
+        app:layout_constraintTop_toBottomOf="@+id/megamiImage0_A2_edit" />
 
     <Button
         android:id="@+id/megami0_card0_view"
@@ -996,7 +996,7 @@
         android:maxLines="1"
         android:text="Button"
         app:layout_constraintStart_toEndOf="@+id/megami0_check0"
-        app:layout_constraintTop_toBottomOf="@+id/megamiImage0_A2_view" />
+        app:layout_constraintTop_toBottomOf="@+id/megamiImage0_A2_edit" />
 
     <CheckBox
         android:id="@+id/megami0_check0"
@@ -1006,7 +1006,7 @@
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toStartOf="@+id/megami0_card0_view"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/megamiImage0_A2_view" />
+        app:layout_constraintTop_toBottomOf="@+id/megamiImage0_A2_edit" />
 
     <Button
         android:id="@+id/registerDeck"

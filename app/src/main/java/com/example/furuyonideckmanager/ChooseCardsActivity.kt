@@ -1,15 +1,12 @@
 package com.example.furuyonideckmanager
 
-import CsvUtil.classifiedCsvData
 import CsvUtil.getClassifiedCsvData
-import CsvUtil.readRawCsv
 import PartsUtil.*
 import SetImageUtil.setImageToImageView
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.widget.*
-import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
 import io.realm.Realm
 import io.realm.RealmConfiguration
@@ -107,6 +104,12 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
 
             // ハンドラ定義
             val cardButton = targetButtons.get("card");
+            // カード名が無かったらハンドラを取り除いて終了
+            if (targetData.get("actionName") == "") {
+                cardButton?.setOnClickListener(null);
+                continue;
+            }
+
             cardButton?.setOnClickListener {
                 // 画面遷移
                 val intent = Intent(this, ShowCardActivity::class.java);
@@ -205,6 +208,15 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
         // 切札のチェックボックスにハンドラ設定
         for (i in 7..10) {
             val checkBox = checkBoxes[i];
+            // 活性/非活性制御
+            if (cardCsv[i].get("actionName") == "") {
+                checkBox.isEnabled = false;
+                checkBox.isChecked = false;
+                continue;
+            } else {
+                checkBox.isEnabled = true;
+            }
+            // ハンドラ設定
             checkBox.setOnCheckedChangeListener {_, isChecked ->
                 if (isChecked) {
                     chosenSpecialCards.add(cardCsv[i].values.toList());
@@ -266,23 +278,26 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
     /**
      * メガミimageViewに画像とイベントハンドラを設定。
      * @param imageView 画像とイベントハンドラ設定対象のボタン。
-     * @param imageFileName 画像ファイル名
+     * @param megamiName メガミ名。
+     * @param megamiButtonList メガミのボタン一覧。
+     * @param cardCsvList カードのCSVデータ一覧。
+     * @param isLeft 左側のメガミかどうか。
      */
     fun setMegamiButton(
         imageView: ImageView,
-        imageFileName: String,
+        megamiName: String,
         megamiButtonList: Array<Map<String, Button?>>,
         cardCsvList: List<Map<String, String>>,
         isLeft: Boolean
     ) {
         // 画像設定
-        setImageToImageView(imageFileName, imageView, assets);
+        setImageToImageView("$megamiName.jpg", imageView, assets);
 
         // 一律非選択の見た目にするための関数を選択
-        var setAlphaFunc = { -> setUnselectedAlpha(megamiImage0_view, megamiImage0_A1_view, megamiImage0_A2_view)};
+        var setAlphaFunc = { -> setUnselectedAlpha(megamiImage0_edit, megamiImage0_A1_edit, megamiImage0_A2_edit)};
 
         if (isLeft == false) {
-            setAlphaFunc = { -> setUnselectedAlpha(megamiImage1_view, megamiImage1_A1_view, megamiImage1_A2_view)};
+            setAlphaFunc = { -> setUnselectedAlpha(megamiImage1_edit, megamiImage1_A1_edit, megamiImage1_A2_edit)};
         }
         // ハンドラ設定
         imageView.setOnClickListener {
@@ -296,6 +311,12 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
             setButtonsHandler(megamiButtonList, cardCsvList);
             // チェックボックスにハンドラ設定
             setCheckBoxHandlers(cardCsvList, isLeft);
+            // メガミ選択状態を更新
+            if (isLeft) {
+                megami0Name = megamiName;
+            } else {
+                megami1Name = megamiName;
+            }
         }
     }
 
@@ -350,10 +371,10 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
         // オリジン
         val originCardList0 = classifiedCardList0.get("origin");
         val originCardList1 = classifiedCardList1.get("origin");
-        val a1CardList0 = classifiedCardList0.get("A-1");
-        val a1CardList1 = classifiedCardList1.get("A-1");
-        val a2CardList0 = classifiedCardList0.get("A-2");
-        val a2CardList1 = classifiedCardList1.get("A-2");
+        val a1CardList0 = classifiedCardList0.get("a1");
+        val a1CardList1 = classifiedCardList1.get("a1");
+        val a2CardList0 = classifiedCardList0.get("a2");
+        val a2CardList1 = classifiedCardList1.get("a2");
 
         if (originCardList0 == null || originCardList1 == null) {
             return;
@@ -365,27 +386,27 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
 
         // 各ボタン初期化処理
         // オリジン
-        setMegamiButton(megamiImage0_view, megami0Name + ".jpg", megamiButtonList0, originCardList0, true);
-        setMegamiButton(megamiImage1_view, megami1Name + ".jpg", megamiButtonList1, originCardList1, false);
+        setMegamiButton(megamiImage0_edit, megami0Name!!, megamiButtonList0, originCardList0, true);
+        setMegamiButton(megamiImage1_edit, megami1Name!!, megamiButtonList1, originCardList1, false);
         // A1
         if (isAnotherExist(a1CardList0)) {
-            setMegamiButton(megamiImage0_A1_view, megami0Name + "_a1.jpg", megamiButtonList0, a1CardList0!!, true);
+            setMegamiButton(megamiImage0_A1_edit, megami0Name + "_a1", megamiButtonList0, a1CardList0!!, true);
         }
         if (isAnotherExist(a1CardList1)) {
-            setMegamiButton(megamiImage1_A1_view, megami1Name + "_a1.jpg", megamiButtonList1, a1CardList1!!, false);
+            setMegamiButton(megamiImage1_A1_edit, megami1Name + "_a1", megamiButtonList1, a1CardList1!!, false);
         }
 
         // A2
         if (isAnotherExist(a2CardList0)) {
-            setMegamiButton(megamiImage0_A2_view, megami0Name + "_a2.jpg", megamiButtonList0, a2CardList0!!, true);
+            setMegamiButton(megamiImage0_A2_edit, megami0Name + "_a2", megamiButtonList0, a2CardList0!!, true);
         }
         if (isAnotherExist(a2CardList1)) {
-            setMegamiButton(megamiImage1_A2_view, megami1Name + "_a2.jpg", megamiButtonList1, a2CardList1!!, false);
+            setMegamiButton(megamiImage1_A2_edit, megami1Name + "_a2", megamiButtonList1, a2CardList1!!, false);
         }
 
         // 初期状態を設定するためにonClickを実行
-        megamiImage0_view.performClick();
-        megamiImage1_view.performClick();
+        megamiImage0_edit.performClick();
+        megamiImage1_edit.performClick();
 
         // 登録
         registerDeck.setOnClickListener {

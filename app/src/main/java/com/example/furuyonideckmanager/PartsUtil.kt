@@ -45,7 +45,7 @@ fun setButtonStyles(button: Button?, type: String) {
  * @param cardData カードデータ。
  */
 fun setButtonBackgroundColor(button: Button, cardData: Map<String, String>) {
-    if (isOrigin(cardData)) {
+    if (isAnother(cardData) && cardData.get("actionName") != "") {
         button.setBackgroundColor(Color.parseColor("#ffe4e1"));
     } else {
         val color = if (isSpecialCard(cardData)) "#eee8aa" else "#d6d7d7";
@@ -54,11 +54,11 @@ fun setButtonBackgroundColor(button: Button, cardData: Map<String, String>) {
 }
 
 /**
- * オリジンかどうかを判定。
+ * アナザーかどうかを判定。
  * @param cardData カードデータ。
  * @return　オリジンならtrue、アナザーならfalse。
  */
-fun isOrigin(cardData: Map<String, String>): Boolean {
+fun isAnother(cardData: Map<String, String>): Boolean {
     return cardData.get("type") != "O";
 }
 

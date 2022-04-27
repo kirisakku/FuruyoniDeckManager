@@ -93,8 +93,8 @@ fun classifiedCsvData(csvData: List<List<String>>): Map<String, List<Map<String,
 
     // 各種のリスト作成
     val origin = mapList.filter{elem -> elem.get("type") == "O"}
-    var A1List = mapList.filter{ elem -> elem.get("type") == "A-1"}.toMutableList();
-    var A2List = mapList.filter{elem -> elem.get("type") == "A-2"}.toMutableList();
+    var A1List = mapList.filter{ elem -> elem.get("type") == "a1"}.toMutableList();
+    var A2List = mapList.filter{elem -> elem.get("type") == "a2"}.toMutableList();
 
     // マージ用関数
     fun merge(origin: List<Map<String, String>>, another: List<Map<String, String>>): List<Map<String, String>> {
@@ -120,8 +120,8 @@ fun classifiedCsvData(csvData: List<List<String>>): Map<String, List<Map<String,
 
     return mapOf(
         "origin" to origin,
-        "A-1" to merge(origin, A1List),
-        "A-2" to merge(origin, A2List)
+        "a1" to merge(origin, A1List),
+        "a2" to merge(origin, A2List)
     )
 }
 

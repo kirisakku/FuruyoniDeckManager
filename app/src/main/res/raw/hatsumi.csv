@@ -9,6 +9,6 @@ S-1,イサナ海域,攻撃,-,na_17_hatsumi_o_s_1.png,O
 S-2,オヨギビ砲火,攻撃,-,na_17_hatsumi_o_s_2.png,O
 S-3,カラハリ灯台,行動,-,na_17_hatsumi_o_s_3.png,O
 S-4,ミオビキ航路,行動,-,na_17_hatsumi_o_s_4.png,O
-N-4,潜雷,付与,-,na_17_hatsumi_a1_n_4.png,A-1
-S-1,サギリ海域,付与,対応,na_17_hatsumi_a1_s_1.png,A-1
-S-4,ワダナカ航路,付与,-,na_17_hatsumi_a1_s_4.png,A-1
+N-4,潜雷,付与,-,na_17_hatsumi_a1_n_4.png,a1
+S-1,サギリ海域,付与,対応,na_17_hatsumi_a1_s_1.png,a1
+S-4,ワダナカ航路,付与,-,na_17_hatsumi_a1_s_4.png,a1
