@@ -34,6 +34,7 @@ class CommentDialog: DialogFragment() {
         // inflate = レイアウトXMLからビューを生成するもの
         val inflater = requireActivity().layoutInflater;
         val dialogLayout = inflater.inflate(R.layout.dialog_comment, null);
+
         builder.setView(dialogLayout)
             .setPositiveButton(R.string.update) { dialog, which ->
                 listener?.update();
@@ -43,13 +44,13 @@ class CommentDialog: DialogFragment() {
                 getDialog()?.cancel();
             }
 
-        val dialog = builder.create();
-
-        dialog.setOnShowListener {
+        builder.apply {
             val deckComment = dialogLayout.findViewById<AppCompatEditText>(R.id.deckComment);
             val currentComment = arguments?.getString("comment", "");
             deckComment.setText(currentComment);
-        };
+        }
+
+        val dialog = builder.create();
 
         // バリデーション設定
         val editText = dialogLayout.findViewById<AppCompatEditText>(R.id.deckComment);
