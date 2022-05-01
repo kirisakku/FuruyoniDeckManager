@@ -1,18 +1,41 @@
 package com.example.furuyonideckmanager
 
-import CsvUtil.classifiedCsvData
 import CsvUtil.getClassifiedCsvData
 import CsvUtil.readInternalFile
-import CsvUtil.readRawCsv
 import PartsUtil.setButtonStyles
 import SetImageUtil.setImageToImageView
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import io.realm.Realm
+import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_view_deck.*
 
-class ViewDeckActivity : AppCompatActivity() {
+class ViewDeckActivity : AppCompatActivity(), CommentDialog.Listener {
+    private lateinit var realm: Realm;
+    val dialog = CommentDialog();
+
+    override fun update() {
+        // 画面のコメント部分を更新
+        comment.setText(dialog.getInput());
+
+        // DBを更新
+        // 更新対象のデータを検索
+        var deckCSV = intent.getStringExtra("DECK_CSV");
+        var targetData = realm.where<Deck>().equalTo("fileName", deckCSV).findFirst();
+        realm.executeTransaction {
+            targetData?.comment = dialog.getInput().toString();
+        }
+    }
+
+    /**
+     * ダイアログの「キャンセル」ボタン押下時の処理。
+     */
+    override fun cancel() {
+        // 処理なし
+    }
+
     /**
      * 左側のメガミのボタン情報を取得。
      * @return ボタンの種類とボタンのマップの配列を返します。
@@ -104,9 +127,23 @@ class ViewDeckActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * コメントにハンドラを設定。
+     */
+    fun setCommentHandler() {
+        comment.setOnClickListener {
+            val dialogArgs = Bundle();
+            val comment = comment.text.toString();
+            dialogArgs.putString("comment", comment);
+            dialog.arguments = dialogArgs;
+            dialog.show(supportFragmentManager, "comment_dialog");
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_deck);
+        realm = Realm.getDefaultInstance();
 
         val res = resources;
         val context = applicationContext;
@@ -170,5 +207,16 @@ class ViewDeckActivity : AppCompatActivity() {
         // カード表示画面に遷移するためのハンドラ設定
         setButtonsHandler(megamiButtonList0, cardList0);
         setButtonsHandler(megamiButtonList1, cardList1);
+
+        // コメントの設定
+        var targetData = realm.where<Deck>().equalTo("fileName", deckCSV).findFirst();
+        comment.setText(targetData?.comment);
+        // コメント部分にコメント編集用のハンドラを設定
+        setCommentHandler();
+    }
+
+    override fun onDestroy() {
+        super.onDestroy();
+        realm.close();
     }
 }

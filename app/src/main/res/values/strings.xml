@@ -25,6 +25,7 @@
     <string name="startCreation">デッキ構築開始</string>
     <string name="deckName">デッキ名</string>
     <string name="register">登録</string>
+    <string name="update">更新</string>
     <string name="cancel">キャンセル</string>
     <string name="registerDeck">デッキを登録</string>
     <string name="credit">本アプリは以下の画像を用いております。</string>

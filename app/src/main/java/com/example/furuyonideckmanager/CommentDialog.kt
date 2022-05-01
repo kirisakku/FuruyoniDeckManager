@@ -3,20 +3,20 @@ package com.example.furuyonideckmanager
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
-import android.content.DialogInterface.BUTTON_POSITIVE
 import android.os.Bundle
+import androidx.appcompat.widget.AppCompatEditText
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.appcompat.widget.AppCompatEditText
 import androidx.fragment.app.DialogFragment
 
-class DeckNameDialog: DialogFragment() {
+
+class CommentDialog: DialogFragment() {
     interface Listener {
-        fun register();
+        fun update();
         fun cancel();
     }
     private var listener: Listener? = null;
-    private var text: String? = null;
+    private var text: String = "";
 
     override fun onAttach(context: Context) {
         super.onAttach(context);
@@ -33,21 +33,24 @@ class DeckNameDialog: DialogFragment() {
         val builder = AlertDialog.Builder(requireActivity());
         // inflate = レイアウトXMLからビューを生成するもの
         val inflater = requireActivity().layoutInflater;
-        val dialogLayout = inflater.inflate(R.layout.dialog_register, null);
+        val dialogLayout = inflater.inflate(R.layout.dialog_comment, null);
+
         builder.setView(dialogLayout)
-            .setPositiveButton(R.string.register) { _, _ ->
-                listener?.register();
+            .setPositiveButton(R.string.update) { dialog, which ->
+                listener?.update();
             }
-            .setNegativeButton(R.string.cancel) {_, _ ->
+            .setNegativeButton(R.string.cancel) {dialog, which ->
                 // 画面閉じる処理
                 getDialog()?.cancel();
             }
 
-        val dialog = builder.create();
+        builder.apply {
+            val deckComment = dialogLayout.findViewById<AppCompatEditText>(R.id.deckComment);
+            val currentComment = arguments?.getString("comment", "");
+            deckComment.setText(currentComment);
+        }
 
-        dialog.setOnShowListener {
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
-        };
+        val dialog = builder.create();
 
         // バリデーション設定
         val editText = dialogLayout.findViewById<AppCompatEditText>(R.id.deckComment);
@@ -55,17 +58,8 @@ class DeckNameDialog: DialogFragment() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun afterTextChanged(s: Editable?) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                // テキスト情報を更新
                 text = s.toString();
-                val registerButton = dialog.getButton(BUTTON_POSITIVE);
-                if (s.length == 0) {
-                    editText.setError("必須項目です。デッキ名を入力してください");
-                    registerButton.setEnabled(false);
-                } else if (s.length > 15) {
-                    editText.setError("デッキ名は15文字以内で入力してください");
-                    registerButton.setEnabled(false);
-                } else {
-                    registerButton.setEnabled(true);
-                }
             }
         })
 

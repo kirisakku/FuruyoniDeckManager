@@ -145,6 +145,7 @@ class DeckListActivity : AppCompatActivity(), DeleteConfirmDialog.Listener {
                 override fun onDeckNameButtonClick(view: View, item: Deck) {
                     // 画面遷移
                     val intent = Intent(context, ViewDeckActivity::class.java);
+
                     // デッキ名を渡す
                     intent.putExtra("DECK_TITLE", item.title);
                     // デッキ情報のcsvを渡す

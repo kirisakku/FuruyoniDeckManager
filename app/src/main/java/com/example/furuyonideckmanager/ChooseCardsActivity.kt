@@ -338,7 +338,6 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
         val intent = Intent(this, DeckListActivity::class.java);
         startActivity(intent);
     }
-
     /**
      * ダイアログの「キャンセル」ボタン押下時の処理。
      */
