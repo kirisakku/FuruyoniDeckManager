@@ -107,6 +107,7 @@ class ViewDeckActivity : AppCompatActivity(), CommentDialog.Listener {
      * ボタンにハンドラを設定。
      * @param buttons ボタン配列。
      * @param cardCsv カードのcsvデータ。
+     * @oaran context コンテキスト。
      */
     fun setButtonsHandler(buttons: Array<Map<String, Button?>>, cardCsv: List<Map<String, String>>) {
         for (i in cardCsv.indices) {

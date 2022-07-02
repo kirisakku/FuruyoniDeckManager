@@ -1,5 +1,6 @@
 import SetImageUtil.setImageToImageView
 import android.content.Context
+import android.util.Log
 import android.view.View
 import com.example.furuyonideckmanager.Deck
 import io.realm.OrderedRealmCollection
@@ -39,7 +40,7 @@ class DeckAdapter(private val data: OrderedRealmCollection<Deck>, private val co
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val deck: Deck = data.get(position);//data[position];
+        val deck: Deck = data.get(position);
         // データ設定
         holder.deleteButton.setOnClickListener {
             listener?.onDeleteButtonClick(it, deck)
@@ -56,7 +57,16 @@ class DeckAdapter(private val data: OrderedRealmCollection<Deck>, private val co
     fun setListener(listener: Listener) {
         this.listener = listener;
     }
+
     override fun getItemCount(): Int {
         return data.size
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong();
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position;
     }
 }

@@ -1,11 +1,15 @@
 package com.example.furuyonideckmanager
 
+import CsvUtil.convertCsvToStringArray
 import CsvUtil.getClassifiedCsvData
+import CsvUtil.isAnotherExist
 import PartsUtil.*
 import SetImageUtil.setImageToImageView
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import io.realm.Realm
@@ -29,6 +33,8 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
     var megami1Name: String? = null;
     // ダイアログ
     val dialog = DeckNameDialog();
+    // 追加札表示ダイアログ
+    val additionalCardDialog = AdditionalCardDialogs();
 
     /**
      * 左側のメガミのボタン情報を取得。
@@ -281,6 +287,7 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
      * @param megamiName メガミ名。
      * @param megamiButtonList メガミのボタン一覧。
      * @param cardCsvList カードのCSVデータ一覧。
+     * @param extraCardCsvList 追加札カードのCSVデータ一覧。
      * @param isLeft 左側のメガミかどうか。
      */
     fun setMegamiButton(
@@ -288,6 +295,7 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
         megamiName: String,
         megamiButtonList: Array<Map<String, Button?>>,
         cardCsvList: List<Map<String, String>>,
+        extraCardCsvList: List<Map<String, String>>,
         isLeft: Boolean
     ) {
         // 画像設定
@@ -299,6 +307,8 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
         if (isLeft == false) {
             setAlphaFunc = { -> setUnselectedAlpha(megamiImage1_edit, megamiImage1_A1_edit, megamiImage1_A2_edit)};
         }
+        var additionalButton = if (isLeft)  additionalCardButton0 else additionalCardButton1;
+
         // ハンドラ設定
         imageView.setOnClickListener {
             // 一律非選択の見た目に設定
@@ -311,12 +321,35 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
             setButtonsHandler(megamiButtonList, cardCsvList);
             // チェックボックスにハンドラ設定
             setCheckBoxHandlers(cardCsvList, isLeft);
+            // 追加札ボタン設定
+            setAdditionalCardButton(additionalButton, extraCardCsvList, isLeft);
             // メガミ選択状態を更新
             if (isLeft) {
                 megami0Name = megamiName;
             } else {
                 megami1Name = megamiName;
             }
+        }
+    }
+
+    /**
+     * 追加札ボタンの設定
+     * @param additionalButton 追加札一覧ボタン。
+     * @param extraCardList 追加札一覧。
+     * @param isLeft 左側のメガミかどうか。
+     */
+    fun setAdditionalCardButton(
+        additionalButton: ImageButton,
+        extraCardList: List<Map<String, String>>,
+        isLeft: Boolean
+    ) {
+        if (isExtraExist(extraCardList) == false) {
+            // 追加札一覧ボタンを非活性
+            additionalButton.visibility = INVISIBLE;
+        } else {
+            // 追加札一覧ボタンを活性化
+            additionalButton.visibility = VISIBLE;
+            setShowAdditionalCardsHandler(additionalButton, extraCardList, isLeft);
         }
     }
 
@@ -345,6 +378,34 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
         // 処理なし
     }
 
+    /**
+     * 追加札一覧の画面を表示するハンドラ
+     * @param extraCardCsvList 追加札一覧
+     * @param isLeft 左側のメガミかどうか
+     */
+    fun showAdditionalCardsHandler(extraCardCsvList: List<Map<String, String>>, isLeft: Boolean) {
+        val dialogArgs = Bundle();
+        dialogArgs.putStringArray("extraCardList", convertCsvToStringArray(extraCardCsvList));
+        additionalCardDialog.arguments = dialogArgs;
+        additionalCardDialog.show(supportFragmentManager, "additionalCard_dialog");
+    }
+
+    /**
+     * 追加札ボタンにハンドラを設定
+     * @param additionalCardButton ハンドラ設定対象の追加札ボタン
+     * @param extraCardList 追加札一覧。
+     * @param isLeft 左側のメガミかどうか
+     */
+    fun setShowAdditionalCardsHandler(
+        additionalCardButton: ImageButton,
+        extraCardCsvList: List<Map<String, String>>,
+        isLeft: Boolean
+    ) {
+        additionalCardButton.setOnClickListener {
+            showAdditionalCardsHandler(extraCardCsvList, isLeft);
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_choose_cards)
@@ -370,10 +431,22 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
         // オリジン
         val originCardList0 = classifiedCardList0.get("origin");
         val originCardList1 = classifiedCardList1.get("origin");
+        // a1
         val a1CardList0 = classifiedCardList0.get("a1");
         val a1CardList1 = classifiedCardList1.get("a1");
+        // a2
         val a2CardList0 = classifiedCardList0.get("a2");
         val a2CardList1 = classifiedCardList1.get("a2");
+        // 追加札
+        // オリジン
+        val originExtraCardList0 = classifiedCardList0.get("extra-origin");
+        val originExtraCardList1 = classifiedCardList1.get("extra-origin");
+        // a1
+        val a1ExtraCardList0 = classifiedCardList0.get("extra-a1");
+        val a1ExtraCardList1 = classifiedCardList1.get("extra-a1");
+        // a2
+        val a2ExtraCardList0 = classifiedCardList0.get("extra-a2");
+        val a2ExtraCardList1 = classifiedCardList1.get("extra-a2");
 
         if (originCardList0 == null || originCardList1 == null) {
             return;
@@ -385,22 +458,23 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
 
         // 各ボタン初期化処理
         // オリジン
-        setMegamiButton(megamiImage0_edit, megami0Name!!, megamiButtonList0, originCardList0, true);
-        setMegamiButton(megamiImage1_edit, megami1Name!!, megamiButtonList1, originCardList1, false);
+        setMegamiButton(megamiImage0_edit, megami0Name!!, megamiButtonList0, originCardList0, originExtraCardList0!!, true);
+        setMegamiButton(megamiImage1_edit, megami1Name!!, megamiButtonList1, originCardList1, originExtraCardList1!!, false);
+
         // A1
         if (isAnotherExist(a1CardList0)) {
-            setMegamiButton(megamiImage0_A1_edit, megami0Name + "_a1", megamiButtonList0, a1CardList0!!, true);
+            setMegamiButton(megamiImage0_A1_edit, megami0Name + "_a1", megamiButtonList0, a1CardList0!!, a1ExtraCardList0!!, true);
         }
         if (isAnotherExist(a1CardList1)) {
-            setMegamiButton(megamiImage1_A1_edit, megami1Name + "_a1", megamiButtonList1, a1CardList1!!, false);
+            setMegamiButton(megamiImage1_A1_edit, megami1Name + "_a1", megamiButtonList1, a1CardList1!!, a1ExtraCardList1!!, false);
         }
 
         // A2
         if (isAnotherExist(a2CardList0)) {
-            setMegamiButton(megamiImage0_A2_edit, megami0Name + "_a2", megamiButtonList0, a2CardList0!!, true);
+            setMegamiButton(megamiImage0_A2_edit, megami0Name + "_a2", megamiButtonList0, a2CardList0!!, a2ExtraCardList0!!, true);
         }
         if (isAnotherExist(a2CardList1)) {
-            setMegamiButton(megamiImage1_A2_edit, megami1Name + "_a2", megamiButtonList1, a2CardList1!!, false);
+            setMegamiButton(megamiImage1_A2_edit, megami1Name + "_a2", megamiButtonList1, a2CardList1!!, a2ExtraCardList1!!, false);
         }
 
         // 初期状態を設定するためにonClickを実行

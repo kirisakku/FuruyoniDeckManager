@@ -16,6 +16,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.realm.Realm
 import io.realm.RealmConfiguration
+import io.realm.Sort
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_deck_list.*
 
@@ -115,7 +116,7 @@ class DeckListActivity : AppCompatActivity(), DeleteConfirmDialog.Listener {
         Realm.setDefaultConfiguration(config);
         realm = Realm.getDefaultInstance();
         itemList.layoutManager = LinearLayoutManager(this);
-        val deckList = realm.where<Deck>().findAll();
+        val deckList = realm.where<Deck>().findAll().sort("date", Sort.DESCENDING);
 
         //　データが無ければ専用の画面にする
         if (deckList.size == 0) {
