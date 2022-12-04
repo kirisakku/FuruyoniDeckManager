@@ -392,6 +392,37 @@
                 tools:layout_editor_absoluteX="16dp"
                 tools:layout_editor_absoluteY="16dp" />
 
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <ImageButton
+                android:id="@+id/akina"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="#0000"
+                android:contentDescription="アキナ"
+                android:padding="5dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/akina"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="16dp" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <ImageButton
+                android:id="@+id/sisui"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="#0000"
+                android:contentDescription="シスイ"
+                android:padding="5dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/sisui"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="16dp" />
         </TableRow>
     </TableLayout>
 
