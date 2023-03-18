@@ -7,10 +7,12 @@ import PartsUtil.*
 import SetImageUtil.setImageToImageView
 import android.content.Intent
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import io.realm.Realm
 import io.realm.RealmConfiguration
@@ -186,6 +188,7 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
      * チェックボックスに対してハンドラを設定。
      * @param cardCsv カードのcsvデータ。
      */
+    @RequiresApi(Build.VERSION_CODES.N)
     fun setCheckBoxHandlers(cardCsv: List<Map<String, String>>, isLeft: Boolean) {
         var checkBoxes = if (isLeft == true) getRightMegamiCheckBoxes() else getLeftMegamiCheckBoxes();
 
@@ -197,7 +200,7 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
                 if (isChecked) {
                     chosenNormalCards.add(targetData.values.toList());
                 } else {
-                    chosenNormalCards.remove(targetData.values.toList());
+                    chosenNormalCards.removeIf{it[0] == targetData.get("no")}
                 }
 
                 // TODO: 関数化したい
@@ -227,7 +230,7 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
                 if (isChecked) {
                     chosenSpecialCards.add(cardCsv[i].values.toList());
                 } else {
-                    chosenSpecialCards.remove(cardCsv[i].values.toList());
+                    chosenSpecialCards.removeIf{it[0] == cardCsv[i].get("no")}
                 }
 
                 // テキスト更新
@@ -290,6 +293,7 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
      * @param extraCardCsvList 追加札カードのCSVデータ一覧。
      * @param isLeft 左側のメガミかどうか。
      */
+    @RequiresApi(Build.VERSION_CODES.N)
     fun setMegamiButton(
         imageView: ImageView,
         megamiName: String,
@@ -406,6 +410,7 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_choose_cards)
