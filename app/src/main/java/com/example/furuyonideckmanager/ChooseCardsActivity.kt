@@ -409,6 +409,7 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_choose_cards)
+
         var config = RealmConfiguration.Builder().allowWritesOnUiThread(true).build();
         Realm.setDefaultConfiguration(config);
         realm = Realm.getDefaultInstance();
