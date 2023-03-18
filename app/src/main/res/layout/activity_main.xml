@@ -7,6 +7,19 @@
     tools:context=".MainActivity">
 
     <Button
+        android:id="@+id/registeration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="56dp"
+        android:width="300dp"
+        android:text="@string/modeButton1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
         android:id="@+id/view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,17 +33,17 @@
         app:layout_constraintTop_toBottomOf="@+id/registeration" />
 
     <Button
-        android:id="@+id/registeration"
+        android:id="@+id/cardList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="55dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="56dp"
         android:width="300dp"
-        android:text="@string/modeButton1"
+        android:text="@string/cardList"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/view" />
 
     <TextView
         android:id="@+id/credit"

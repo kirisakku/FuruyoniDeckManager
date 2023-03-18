@@ -80,7 +80,7 @@ class ViewDeckActivity : AppCompatActivity(), CommentDialog.Listener {
      * ボタンの見た目を設定。
      * @param buttons ボタン配列。
      * @param cardCsv カードのcsvデータ。
-     * @param chosenCardCsv 選ばれたーカードのcsvデータ
+     * @param chosenCardCsv 選ばれたカードのcsvデータ
      */
     fun setButtonsView(buttons: Array<Map<String, Button?>>, cardCsv: List<Map<String, String>>, chosenCardCsv: List<List<String>>) {
         for (i in cardCsv.indices) {
