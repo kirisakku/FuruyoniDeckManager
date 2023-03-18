@@ -18,5 +18,10 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, DeckListActivity::class.java);
             startActivity(intent);
         }
+
+        cardList.setOnClickListener {
+            val intent = Intent(this, CardListActivity::class.java);
+            startActivity(intent);
+        }
     }
 }

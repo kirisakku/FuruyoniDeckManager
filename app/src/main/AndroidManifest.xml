@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.furuyonideckmanager">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:name=".DeckManagementApplication"
         android:allowBackup="true"
@@ -12,12 +14,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FuruyoniDeckManager"
         tools:ignore="Instantiatable">
-        <activity android:name=".ViewDeckActivity"></activity>
+        <activity android:name=".CardListActivity" />
+        <activity android:name=".ViewDeckActivity" />
         <activity android:name=".DeckListActivity" />
         <activity android:name=".ShowCardActivity" />
         <activity android:name=".ChooseCardsActivity" />
         <activity android:name=".RegistrationActivity" />
-        <activity android:name=".MainActivity" android:exported="true">
+        <activity android:name=".MegamiCardListActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,6 +31,5 @@
             </intent-filter>
         </activity>
     </application>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
 </manifest>
