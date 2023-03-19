@@ -200,7 +200,7 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
                 if (isChecked) {
                     chosenNormalCards.add(targetData.values.toList());
                 } else {
-                    chosenNormalCards.removeIf{it[0] == targetData.get("no")}
+                    chosenNormalCards.removeIf{it[0] == targetData.get("no") && it[6] == targetData.get("megamiName")}
                 }
 
                 // TODO: 関数化したい
@@ -230,7 +230,7 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
                 if (isChecked) {
                     chosenSpecialCards.add(cardCsv[i].values.toList());
                 } else {
-                    chosenSpecialCards.removeIf{it[0] == cardCsv[i].get("no")}
+                    chosenSpecialCards.removeIf{it[0] == cardCsv[i].get("no") && it[6] == cardCsv[i].get("megamiName")}
                 }
 
                 // テキスト更新
@@ -432,8 +432,8 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
 
         // カード情報の取得
         // オリジン、A-1、A-2に分類されたcsvDataを取得
-        val classifiedCardList0 = getClassifiedCsvData(res.getIdentifier(megami0Name, "raw", packageName), res, context);
-        val classifiedCardList1 = getClassifiedCsvData(res.getIdentifier(megami1Name, "raw", packageName), res, context);
+        val classifiedCardList0 = getClassifiedCsvData(res.getIdentifier(megami0Name, "raw", packageName), res, context, megami0Name!!);
+        val classifiedCardList1 = getClassifiedCsvData(res.getIdentifier(megami1Name, "raw", packageName), res, context, megami1Name!!);
         // オリジン
         val originCardList0 = classifiedCardList0.get("origin");
         val originCardList1 = classifiedCardList1.get("origin");
