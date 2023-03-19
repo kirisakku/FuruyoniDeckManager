@@ -175,8 +175,8 @@ class ViewDeckActivity : AppCompatActivity(), CommentDialog.Listener {
         val originMegamiName0 = splitedName0[0];
         val originMegamiName1 = splitedName1[0];
         // オリジン、A-1、A-2に分類されたcsvDataを取得
-        val classifiedCardList0 = getClassifiedCsvData(res.getIdentifier(originMegamiName0, "raw", packageName), res, context);
-        val classifiedCardList1 = getClassifiedCsvData(res.getIdentifier(originMegamiName1, "raw", packageName), res, context);
+        val classifiedCardList0 = getClassifiedCsvData(res.getIdentifier(originMegamiName0, "raw", packageName), res, context, originMegamiName0);
+        val classifiedCardList1 = getClassifiedCsvData(res.getIdentifier(originMegamiName1, "raw", packageName), res, context, originMegamiName1);
         // 対応するカードリストを取得
         var cardList0 = classifiedCardList0.get("origin");
         var cardList1 = classifiedCardList1.get("origin");

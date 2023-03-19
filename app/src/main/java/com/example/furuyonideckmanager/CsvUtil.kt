@@ -82,13 +82,14 @@ fun removeCsvFile(fileName: String, context: Context) {
 /**
  * csvデータをオリジン/A-1/A-2に分類。
  * @param csvData csvDataをparseした結果。
+ * @param megamiName メガミ名。
  * @return csvデータをオリジン/A-1/A-2に分類した結果。
  */
-fun classifiedCsvData(csvData: List<List<String>>): Map<String, List<Map<String, String>>> {
+fun classifiedCsvData(csvData: List<List<String>>, megamiName: String): Map<String, List<Map<String, String>>> {
     // まずMapのリストに変換
     val mapList = csvData.map{elem ->
         mapOf(
-            "no" to elem[0], "actionName" to elem[1], "mainType" to elem[2], "subType" to elem[3], "fileName" to elem[4], "type" to elem[5]
+            "no" to elem[0], "actionName" to elem[1], "mainType" to elem[2], "subType" to elem[3], "fileName" to elem[4], "type" to elem[5], "megamiName" to megamiName
         );
     }
 
@@ -137,11 +138,12 @@ fun classifiedCsvData(csvData: List<List<String>>): Map<String, List<Map<String,
  * @param fileId リソース内におけるファイルID。
  * @param res リソース。
  * @param context 呼び出し元のcontext。エラー表示に使います。
+ * @param megamiName メガミ名。
  * @return CSVデータを文字列リストのリストにした結果を返します。
  */
-fun getClassifiedCsvData(fileId: Int, res: Resources, context: Context): Map<String, List<Map<String, String>>> {
+fun getClassifiedCsvData(fileId: Int, res: Resources, context: Context, megamiName: String): Map<String, List<Map<String, String>>> {
     val csvData = readRawCsv(fileId, res, context);
-    return classifiedCsvData(csvData);
+    return classifiedCsvData(csvData, megamiName);
 }
 
 /**

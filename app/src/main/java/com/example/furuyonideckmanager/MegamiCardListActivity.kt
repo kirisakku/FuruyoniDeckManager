@@ -205,13 +205,13 @@ class MegamiCardListActivity : AppCompatActivity() {
 
         // カード情報の取得
         // オリジン、A-1、A-2に分類されたcsvDataを取得
-        val classifiedCardList = getClassifiedCsvData(res.getIdentifier(megamiName, "raw", packageName), res, context);
+        val classifiedCardList = getClassifiedCsvData(res.getIdentifier(megamiName, "raw", packageName), res, context, megamiName);
         // オリジン
         val originCardList = classifiedCardList.get("origin");
         // a1
         val a1CardList = classifiedCardList.get("a1");
         // a2
-        val a2CardList = classifiedCardList.get("a2");
+        val a2CardList =classifiedCardList.get("a2");
 
         // 追加札
         // オリジン
