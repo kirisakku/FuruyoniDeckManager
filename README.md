@@ -16,7 +16,7 @@
 * オリジンとアナザー間で切り替えを行った際に枚数が正しく数えられない不良の修正
 
 ## 使い方
-app/release/app-release.apk をダウンロード後、インストールしてください。
+https://github.com/kirisakku/FuruyoniDeckManager/releases からapp-release.apkをダウンロード後、インストールしてください。
 
 **注意**
 * 個人利用用に作成したため、Google Playストアでは公開しておりません。自己責任でインストールし、使用してください
