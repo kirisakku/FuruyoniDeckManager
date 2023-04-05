@@ -1,6 +1,7 @@
 package com.example.furuyonideckmanager
 
 import CsvUtil.convertCsvToStringArray
+import CsvUtil.getChosenMegamiCsvList
 import CsvUtil.getClassifiedCsvData
 import CsvUtil.isAnotherExist
 import PartsUtil.*
@@ -26,13 +27,17 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
     private lateinit var realm: Realm;
 
     // 通常札の選択されたカード
-    val chosenNormalCards = mutableListOf<List<String>>();
+    val chosenNormalCards = mutableListOf<Map<String, String>>();
     // 切札の選択されたカード
-    val chosenSpecialCards = mutableListOf<List<String>>();
+    val chosenSpecialCards = mutableListOf<Map<String, String>>();
     // 選ばれたメガミその1
     var megami0Name: String? = null;
     // 選ばれたメガミその2
     var megami1Name: String? = null;
+    // メガミの種類その1
+    var megamiKind0: String = "origin";
+    // メガミの種類その2
+    var megamiKind1: String = "origin";
     // ダイアログ
     val dialog = DeckNameDialog();
     // 追加札表示ダイアログ
@@ -198,9 +203,10 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
             checkBox.setOnCheckedChangeListener {_, isChecked ->
                 val targetData = cardCsv[i];
                 if (isChecked) {
-                    chosenNormalCards.add(targetData.values.toList());
+                    // noとメガミ情報だけ保持しておく
+                    chosenNormalCards.add(mapOf("no" to targetData.get("no")!!, "megamiName" to targetData.get("megamiName")!!));
                 } else {
-                    chosenNormalCards.removeIf{it[0] == targetData.get("no") && it[6] == targetData.get("megamiName")}
+                    chosenNormalCards.removeIf{it.get("no") == targetData.get("no") && it.get("megamiName") == targetData.get("megamiName")}
                 }
 
                 // TODO: 関数化したい
@@ -228,9 +234,9 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
             // ハンドラ設定
             checkBox.setOnCheckedChangeListener {_, isChecked ->
                 if (isChecked) {
-                    chosenSpecialCards.add(cardCsv[i].values.toList());
+                    chosenSpecialCards.add(mapOf("no" to cardCsv[i].get("no")!!, "megamiName" to cardCsv[i].get("megamiName")!!));
                 } else {
-                    chosenSpecialCards.removeIf{it[0] == cardCsv[i].get("no") && it[6] == cardCsv[i].get("megamiName")}
+                    chosenSpecialCards.removeIf{it.get("no") == cardCsv[i].get("no") && it.get("megamiName") == cardCsv[i].get("megamiName")}
                 }
 
                 // テキスト更新
@@ -291,6 +297,7 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
      * @param megamiButtonList メガミのボタン一覧。
      * @param cardCsvList カードのCSVデータ一覧。
      * @param extraCardCsvList 追加札カードのCSVデータ一覧。
+     * @param megamiKind メガミの種類（O, A1, A2)。
      * @param isLeft 左側のメガミかどうか。
      */
     @RequiresApi(Build.VERSION_CODES.N)
@@ -300,6 +307,7 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
         megamiButtonList: Array<Map<String, Button?>>,
         cardCsvList: List<Map<String, String>>,
         extraCardCsvList: List<Map<String, String>>,
+        megamiKind: String,
         isLeft: Boolean
     ) {
         // 画像設定
@@ -330,8 +338,10 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
             // メガミ選択状態を更新
             if (isLeft) {
                 megami0Name = megamiName;
+                megamiKind0 = megamiKind;
             } else {
                 megami1Name = megamiName;
+                megamiKind1 = megamiKind;
             }
         }
     }
@@ -361,8 +371,8 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
      * ダイアログの「登録」ボタン押下時の処理。
      */
     override fun register() {
-        val normalCsvDataList = chosenNormalCards.map{it.joinToString(",")};
-        val specialCsvDataList = chosenSpecialCards.map{it.joinToString(",")};
+        val normalCsvDataList = getChosenMegamiCsvList(megami0Name!!, megami1Name!!, chosenNormalCards, resources, applicationContext);
+        val specialCsvDataList = getChosenMegamiCsvList(megami0Name!!, megami1Name!!, chosenSpecialCards, resources, applicationContext);
         val normalCsvData = normalCsvDataList.joinToString("\n");
         val specialCsvData = specialCsvDataList.joinToString("\n");
         // 連結
@@ -464,23 +474,23 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
 
         // 各ボタン初期化処理
         // オリジン
-        setMegamiButton(megamiImage0_edit, megami0Name!!, megamiButtonList0, originCardList0, originExtraCardList0!!, true);
-        setMegamiButton(megamiImage1_edit, megami1Name!!, megamiButtonList1, originCardList1, originExtraCardList1!!, false);
+        setMegamiButton(megamiImage0_edit, megami0Name!!, megamiButtonList0, originCardList0, originExtraCardList0!!, "origin", true);
+        setMegamiButton(megamiImage1_edit, megami1Name!!, megamiButtonList1, originCardList1, originExtraCardList1!!, "origin", false);
 
         // A1
         if (isAnotherExist(a1CardList0)) {
-            setMegamiButton(megamiImage0_A1_edit, megami0Name + "_a1", megamiButtonList0, a1CardList0!!, a1ExtraCardList0!!, true);
+            setMegamiButton(megamiImage0_A1_edit, megami0Name + "_a1", megamiButtonList0, a1CardList0!!, a1ExtraCardList0!!, "a1", true);
         }
         if (isAnotherExist(a1CardList1)) {
-            setMegamiButton(megamiImage1_A1_edit, megami1Name + "_a1", megamiButtonList1, a1CardList1!!, a1ExtraCardList1!!, false);
+            setMegamiButton(megamiImage1_A1_edit, megami1Name + "_a1", megamiButtonList1, a1CardList1!!, a1ExtraCardList1!!, "a1", false);
         }
 
         // A2
         if (isAnotherExist(a2CardList0)) {
-            setMegamiButton(megamiImage0_A2_edit, megami0Name + "_a2", megamiButtonList0, a2CardList0!!, a2ExtraCardList0!!, true);
+            setMegamiButton(megamiImage0_A2_edit, megami0Name + "_a2", megamiButtonList0, a2CardList0!!, a2ExtraCardList0!!, "a2", true);
         }
         if (isAnotherExist(a2CardList1)) {
-            setMegamiButton(megamiImage1_A2_edit, megami1Name + "_a2", megamiButtonList1, a2CardList1!!, a2ExtraCardList1!!, false);
+            setMegamiButton(megamiImage1_A2_edit, megami1Name + "_a2", megamiButtonList1, a2CardList1!!, a2ExtraCardList1!!, "a2", false);
         }
 
         // 初期状態を設定するためにonClickを実行

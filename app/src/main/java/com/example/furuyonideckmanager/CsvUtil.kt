@@ -86,10 +86,13 @@ fun removeCsvFile(fileName: String, context: Context) {
  * @return csvデータをオリジン/A-1/A-2に分類した結果。
  */
 fun classifiedCsvData(csvData: List<List<String>>, megamiName: String): Map<String, List<Map<String, String>>> {
+    // メガミ名の取得
+    val megami = megamiName.split('_')[0];
+
     // まずMapのリストに変換
     val mapList = csvData.map{elem ->
         mapOf(
-            "no" to elem[0], "actionName" to elem[1], "mainType" to elem[2], "subType" to elem[3], "fileName" to elem[4], "type" to elem[5], "megamiName" to megamiName
+            "no" to elem[0], "actionName" to elem[1], "mainType" to elem[2], "subType" to elem[3], "fileName" to elem[4], "type" to elem[5], "megamiName" to megami
         );
     }
 
@@ -267,4 +270,53 @@ fun isSpecialCard(cardData: Map<String, String>): Boolean {
  */
 fun isAnotherExist(anotherCardList: List<Map<String, String>>?): Boolean {
     return anotherCardList != null && anotherCardList?.count() != 0;
+}
+
+/**
+ * 選ばれたカードのCSVデータを取得。
+ * @param megamiName0 メガミ名1。
+ * @param megamiName1 メガミ名2。
+ * @param chosenCards 選択されているカードの情報。
+ * @param res resources。
+ * @return 選ばれたカードのCSVデータ。
+ */
+fun getChosenMegamiCsvList(
+    megamiName0: String,
+    megamiName1: String,
+    chosenCards: MutableList<Map<String, String>>,
+    res: Resources,
+    context: Context
+): List<String> {
+    // メガミ情報の取得
+    val splitedName0 = megamiName0.split('_');
+    val splitedName1 = megamiName1.split('_');
+    val megami0 = splitedName0[0];
+    val megami1 = splitedName1[0];
+    val megamiKind0 = if (splitedName0.count() > 1) splitedName0[1] else "origin";
+    val megamiKind1 = if (splitedName1.count() > 1) splitedName1[1] else "origin";
+
+    // カード情報の取得
+    // オリジン、A-1、A-2に分類されたcsvDataを取得
+    val classifiedCardList0 = getClassifiedCsvData(res.getIdentifier(megami0, "raw", context.packageName), res, context, megamiName0!!);
+    val classifiedCardList1 = getClassifiedCsvData(res.getIdentifier(megami1, "raw", context.packageName), res, context, megamiName1!!);
+
+    // 対象のデータを拾う
+    val megamiCardList0 = classifiedCardList0.get(megamiKind0);
+    val megamiCardList1 = classifiedCardList1.get(megamiKind1);
+    // 合体させる
+    val cardList: List<Map<String, String>> = megamiCardList0!!.plus(megamiCardList1!!);
+
+    // 対象のcsvデータをかき集める
+    val resultList: MutableList<String> = mutableListOf();
+    for (i in chosenCards.indices) {
+        val chosenCard = chosenCards[i];
+        val target = cardList?.find{ it.get("no") == chosenCard.get("no") && it.get("megamiName") == chosenCard.get("megamiName")}
+        if (target != null) {
+            // csvに変換
+            val result = target.values.toList().joinToString(",");
+            resultList.add(result);
+        }
+    }
+
+    return resultList.toList();
 }
