@@ -21,6 +21,9 @@
         <activity android:name=".ChooseCardsActivity" />
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".MegamiCardListActivity" />
+        <activity android:name=".CardListKindActivity" />
+        <activity android:name=".CardKindActivity" />
+        <activity android:name=".KindListActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

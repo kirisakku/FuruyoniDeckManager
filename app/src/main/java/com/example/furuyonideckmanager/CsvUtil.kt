@@ -137,6 +137,47 @@ fun classifiedCsvData(csvData: List<List<String>>, megamiName: String): Map<Stri
 }
 
 /**
+ * 全メガミの全カードデータを読み込みます。
+ * @param res リソース。
+ * @param packageName パッケージ名。
+ * @param context 呼び出し元のcontext。エラー表示に使います。
+ */
+fun getAllCardData(res: Resources, packageName: String, context:Context): List<Map<String, String>> {
+    // 全メガミの一覧を取得
+    val megamiList = getAllMegamiNames();
+    // 全csvデータを取得
+    var result: MutableList<Map<String, String>> = mutableListOf();
+    for (i in megamiList.indices) {
+        val data = readRawCsv(res.getIdentifier(megamiList[i], "raw", packageName), res, context);
+
+        // map形式に変換
+        val mapList = data.map { elem ->
+            mapOf(
+                "no" to elem[0],
+                "actionName" to elem[1],
+                "mainType" to elem[2],
+                "subType" to elem[3],
+                "fileName" to elem[4],
+                "type" to elem[5],
+                "nohandling" to elem[6],
+                "distance" to elem[7],
+                "arrow" to elem[8],
+                "life" to elem[9],
+                "hyphen" to elem[10],
+                "buff" to elem[11],
+                "megamiName" to megamiList[i]
+            );
+        }.distinctBy {it.get("actionName")};
+        // 通常札、追加札だけ足す
+        result.addAll(mapList.filter { !isSpecialCard((it)) });
+        // 切札だけ足す
+        result.addAll(mapList.filter { isSpecialCard(it) });
+    }
+
+    return result;
+}
+
+/**
  * RawからCSVを読み込み、オリジン/A-1/A-2に分類。
  * @param fileId リソース内におけるファイルID。
  * @param res リソース。
@@ -319,4 +360,36 @@ fun getChosenMegamiCsvList(
     }
 
     return resultList.toList();
+}
+
+/**
+ * 全てのメガミの名前を取得します。
+ */
+fun getAllMegamiNames(): List<String> {
+    return listOf(
+        "yurina",
+        "himika",
+        "tokoyo",
+        "oboro",
+        "yukihi",
+        "shinra",
+        "saine",
+        "hagane",
+        "chikage",
+        "kururu",
+        "sariya",
+        "utsuro",
+        "honoka",
+        "raira",
+        "korunu",
+        "yatsuha",
+        "hatsumi",
+        "mizuki",
+        "megumi",
+        "kanae",
+        "kamui",
+        "renri",
+        "akina",
+        "sisui"
+    );
 }

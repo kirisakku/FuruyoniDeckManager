@@ -2,10 +2,14 @@ package PartsUtil
 
 import CsvUtil.isAnother
 import CsvUtil.isSpecialCard
+import android.app.ActionBar
 import android.content.Context
 import android.graphics.Color
+import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import com.example.furuyonideckmanager.R
 
 /**
@@ -51,12 +55,14 @@ fun setButtonStyles(button: Button?, type: String) {
  * カード名ボタンに背景色を設定。
  * @param button ボタン。
  * @param cardData カードデータ。
+ * @param changeAColor アナザーのカードの背景色を変えるかどうか。デフォルトはtrue。
+ * @param changeExColor 追加札の背景色を変えるかどうか。デフォルトはtrue。
  */
-fun setButtonBackgroundColor(button: Button, cardData: Map<String, String>) {
+fun setButtonBackgroundColor(button: Button, cardData: Map<String, String>, changeAColor: Boolean = true, changeExColor: Boolean = true) {
     // アナザーのカードかつ追加札でない場合は桃色を設定
-    if (isAnother(cardData) && cardData.get("actionName") != "" && cardData.get("no")?.startsWith('A') == false) {
+    if (isAnother(cardData) && cardData.get("actionName") != "" && cardData.get("no")?.startsWith('A') == false && changeAColor) {
         button.setBackgroundColor(Color.parseColor("#ffe4e1"));
-    } else if(cardData.get("no") == "A-E")  {
+    } else if(cardData.get("no") == "A-E" && changeExColor)  {
         // 追加札の場合は薄紫色
         button.setBackgroundColor((Color.parseColor("#e6e6fa")))
     } else {
@@ -84,4 +90,70 @@ fun convertDpToPixel(dp: Int, context: Context): Int {
     val density = context.resources.displayMetrics.density;
     val result = ((dp * density) + 0.5).toInt();
     return result;
+}
+
+/**
+ * ボタンのレイアウト設定。
+ * @param button レイアウト設定済みのボタン
+ * @param context 呼び出し元のcontext。
+ */
+fun setLayoutParamsToButton(button: Button, context:Context) {
+    button.layoutParams = ActionBar.LayoutParams(
+        ViewGroup.LayoutParams.WRAP_CONTENT,
+        ViewGroup.LayoutParams.MATCH_PARENT
+    ).apply {
+        width = convertDpToPixel(230, context);
+        height = convertDpToPixel(30, context);
+        gravity = Gravity.CENTER_VERTICAL;
+        marginEnd = convertDpToPixel(8, context);
+        topMargin = convertDpToPixel(8, context);
+        bottomMargin = convertDpToPixel(8, context);
+        marginStart = convertDpToPixel(8, context);
+    }
+    button.setPadding(0, 0, 0, 0);
+}
+
+/**
+ * 属性を表すボタンを生成。
+ * @param type 属性
+ * @param context 呼び出し元のcontext。
+ * @return 属性を表すボタン
+ */
+fun createTypeButton(type: String, context: Context): Button {
+    val typeButton = Button(context);
+    setButtonStyles(typeButton, type);
+    typeButton.textSize = 15.0f;
+    typeButton.setPadding(0, 0, 0, 0);
+    typeButton.layoutParams = ActionBar.LayoutParams(
+        ViewGroup.LayoutParams.WRAP_CONTENT,
+        ViewGroup.LayoutParams.MATCH_PARENT
+    ).apply {
+        width = convertDpToPixel(20, context);
+        height = convertDpToPixel(20, context);
+        gravity = Gravity.CENTER;
+        marginEnd = convertDpToPixel(8, context);
+    }
+
+    return typeButton;
+}
+
+/**
+ * ImageViewのレイアウト設定。
+ * @param imageView ImageView。
+ * @param context 呼び出し元のcontext。
+ */
+fun setLayoutParamsToImageView(imageView: ImageView, context:Context) {
+    imageView.layoutParams = ActionBar.LayoutParams(
+        ViewGroup.LayoutParams.WRAP_CONTENT,
+        ViewGroup.LayoutParams.MATCH_PARENT
+    ).apply {
+        width = convertDpToPixel(30, context);
+        height = convertDpToPixel(30, context);
+        gravity = Gravity.CENTER_VERTICAL;
+        marginEnd = convertDpToPixel(8, context);
+        topMargin = convertDpToPixel(8, context);
+        bottomMargin = convertDpToPixel(8, context);
+        marginStart = convertDpToPixel(8, context);
+    }
+    imageView.setPadding(0, 0, 0, 0);
 }

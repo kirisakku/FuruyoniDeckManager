@@ -9,4 +9,10 @@
     <color name="white">#FFFFFFFF</color>
     <color name="pink">#FFC0CB</color>
     <color name="lightgreen">#DAF7B8</color>
+    <color name="red">#FF7F50</color>
+    <color name="blue">#6495ED</color>
+    <color name="green">#32CD32</color>
+    <color name="purple">#DA70D6</color>
+    <color name="gold">#FFFF00</color>
+    <color name="gray">#DCDCDC</color>
 </resources>
