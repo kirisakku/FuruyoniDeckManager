@@ -1,9 +1,7 @@
 package com.example.furuyonideckmanager
 
 import CsvUtil.convertJsonArrayToMapList
-import PartsUtil.convertDpToPixel
-import PartsUtil.setButtonBackgroundColor
-import PartsUtil.setButtonStyles
+import PartsUtil.*
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
@@ -33,43 +31,6 @@ class AdditionalCardDialogs: DialogFragment() {
         }
     }
 
-    /**
-     * 属性を表すボタンを生成。
-     * @param type 属性
-     * @return 属性を表すボタン
-     */
-    fun createTypeButton(type: String): Button {
-        val typeButton = Button(context);
-        setButtonStyles(typeButton, type);
-        typeButton.textSize = 15.0f;
-        typeButton.setPadding(0, 0, 0, 0);
-        typeButton.layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT).apply {
-            width = convertDpToPixel(20, context!!);
-            height = convertDpToPixel(20, context!!);
-            gravity = Gravity.CENTER;
-            marginEnd = convertDpToPixel(8, context!!);
-        }
-
-        return typeButton;
-    }
-
-    /**
-     * ボタンのレイアウト設定。
-     * @param button レイアウト設定済みのボタン
-     */
-    fun setLayoutParamsToButton(button: Button) {
-        button.layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT).apply {
-            width = convertDpToPixel(230, context!!);
-            height = convertDpToPixel(30, context!!);
-            gravity = Gravity.CENTER_VERTICAL;
-            marginEnd = convertDpToPixel(8, context!!);
-            topMargin = convertDpToPixel(8, context!!);
-            bottomMargin = convertDpToPixel(8, context!!);
-            marginStart = convertDpToPixel(8, context!!);
-        }
-        button.setPadding(0, 0, 0, 0);
-    }
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireActivity());
         // inflate = レイアウトXMLからビューを生成するもの
@@ -93,7 +54,7 @@ class AdditionalCardDialogs: DialogFragment() {
             setButtonBackgroundColor(button, elem);
             button.setText(elem.get("actionName"));
             // ボタンのレイアウト設定
-            setLayoutParamsToButton(button);
+            setLayoutParamsToButton(button, context!!);
 
             // ハンドラ設定
             button?.setOnClickListener {
@@ -107,8 +68,8 @@ class AdditionalCardDialogs: DialogFragment() {
             }
 
             // 属性ボタン追加
-            val typeButton0 = createTypeButton(elem.get("mainType").orEmpty());
-            val typeButton1 = createTypeButton(elem.get("subType").orEmpty())
+            val typeButton0 = createTypeButton(elem.get("mainType").orEmpty(), context!!);
+            val typeButton1 = createTypeButton(elem.get("subType").orEmpty(), context!!)
 
             // 作成した要素を横整列
             hLinearLayout.addView(button);

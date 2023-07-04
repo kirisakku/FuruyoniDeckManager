@@ -5,22 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import kotlinx.android.synthetic.main.activity_main.*
 import android.os.Bundle
 
-class MainActivity : AppCompatActivity() {
+class CardListKindActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_cardlistkind)
         attack.setOnClickListener {
-            val intent = Intent(this, RegistrationActivity::class.java);
+            val intent = Intent(this, CardListActivity::class.java);
             startActivity(intent);
         }
 
         action.setOnClickListener {
-            val intent = Intent(this, DeckListActivity::class.java);
-            startActivity(intent);
-        }
-
-        cardList.setOnClickListener {
-            val intent = Intent(this, CardListKindActivity::class.java);
+            val intent = Intent(this, CardKindActivity::class.java);
             startActivity(intent);
         }
     }

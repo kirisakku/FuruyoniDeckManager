@@ -44,4 +44,18 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="megamiKind">メガミ種別</string>
+    <string name="cardkind">カード種別</string>
+    <string name="attack">攻撃</string>
+    <string name="action">行動</string>
+    <string name="assignment">付与</string>
+    <string name="handling">対応</string>
+    <string name="fullpower">全力</string>
+    <string name="nohandling">対応不可（※通常札限定含む）</string>
+    <string name="distance">距離増減</string>
+    <string name="buff">他カードへのバフ</string>
+    <string name="indefinite">不定</string>
+    <string name="arrow">矢印効果</string>
+    <string name="life">ライフ回復</string>
+    <string name="hyphen">ハイフン</string>
 </resources>
