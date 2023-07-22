@@ -7,6 +7,10 @@
 * ふるよにコモンズ/BakaFire,TOKIAME （https://main-bakafire.ssl-lolipop.jp/furuyoni/na/rule.html）
 
 ## リリースノート
+### v1.4(2023/07/22）
+* カード種別ごとにカード一覧を眺められる機能を実装
+* シーズン8-2に対応
+
 ### v1.3(2023/03/19）
 * カード一覧参照機能を追加（トップ画面から行けます）
 
@@ -75,8 +79,11 @@ https://github.com/kirisakku/FuruyoniDeckManager/releases からapp-release.apk�
 
 <img src="https://user-images.githubusercontent.com/41281605/205490292-d7f5336d-4b95-48c6-bc3d-d3c3a47b6331.png" width="250px">
 
-「デッキ一覧」モードでは、ある特定のメガミのカード一覧を確認することができます。
-以下の画面から、カード一覧を確認したいメガミのアイコンをタップしてください。
+「カード一覧」モードでは、メガミ種別またはカード種別ごとにカードの一覧を確認することができます。
+
+メガミ種別ごとにカードの一覧を確認したい場合は「メガミ種別」をタップしてください。
+
+タップ後に表示される画面から、カード一覧を確認したいメガミのアイコンをタップしてください。
 
 <img src="https://user-images.githubusercontent.com/41281605/226122435-ad84f1b6-1bf2-4d5a-b228-a9ae041ce67f.jpg" width="250px">
 
@@ -87,3 +94,14 @@ https://github.com/kirisakku/FuruyoniDeckManager/releases からapp-release.apk�
 アナザー版にすることによって切り替わったカードは、ボタンの色がピンク色になります。
 
 <img src="https://user-images.githubusercontent.com/41281605/226122558-59db43fa-0f6d-4abe-a640-5afa21551d1f.jpg" width="250px">
+
+カード種別ごとにカードの一覧を確認したい場合は「カード種別」をタップしてください。
+
+タップ後に表示される画面から、カード一覧を確認したい種別のボタンをタップしてください。
+
+<img src="https://github.com/kirisakku/FuruyoniDeckManager/assets/41281605/424b9de1-d4c3-446e-b26c-768b9e0ed827" width="250px">
+
+タップしたカード種別のカード一覧が表示されます。
+カード選択画面同様、カード名をタップすることで、実際のカードを確認することができます。
+
+<img src="https://github.com/kirisakku/FuruyoniDeckManager/assets/41281605/424b9de1-d4c3-446e-b26c-768b9e0ed827" width="250px">
