@@ -149,11 +149,12 @@ class DeckListActivity : AppCompatActivity(), DeleteConfirmDialog.Listener {
 
                     // デッキ名を渡す
                     intent.putExtra("DECK_TITLE", item.title);
-                    // デッキ情報のcsvを渡す
-                    intent.putExtra("DECK_CSV", item.fileName);
+                    // デッキ名を渡す
+                    intent.putExtra("DECK_FILENAME", item.fileName);
                     // メガミ情報を渡す
                     val selectedMegamiArray: Array<String> = arrayOf(item.megami0, item.megami1);
                     intent.putExtra("CHOSEN_MEGAMI", selectedMegamiArray)
+
                     startActivity(intent);
                 }
             }
