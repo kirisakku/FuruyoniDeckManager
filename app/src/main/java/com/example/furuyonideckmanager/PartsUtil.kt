@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import com.example.furuyonideckmanager.R
 
 /**
@@ -130,6 +131,28 @@ fun createTypeButton(type: String, context: Context): Button {
     ).apply {
         width = convertDpToPixel(20, context);
         height = convertDpToPixel(20, context);
+        gravity = Gravity.CENTER;
+        marginEnd = convertDpToPixel(8, context);
+    }
+
+    return typeButton;
+}
+
+/**
+ * 属性を表すボタンを生成。（追加カード用）
+ * @param type 属性
+ * @param context 呼び出し元のcontext。
+ * @return 属性を表すボタン
+ */
+fun createTypeButtonForAdditionalCard(type: String, context: Context): Button {
+    val typeButton = Button(context);
+    setButtonStyles(typeButton, type);
+    typeButton.textSize = 15.0f;
+    typeButton.setPadding(0, 0, 0, 0);
+    typeButton.layoutParams = LinearLayout.LayoutParams(
+        convertDpToPixel(20, context),
+        convertDpToPixel(20, context)
+    ).apply {
         gravity = Gravity.CENTER;
         marginEnd = convertDpToPixel(8, context);
     }

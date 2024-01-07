@@ -68,6 +68,7 @@ class RegistrationActivity : AppCompatActivity() {
         renri.setOnClickListener {onButtonTapped(renri, "renri")}
         akina.setOnClickListener {onButtonTapped(akina, "akina")}
         sisui.setOnClickListener {onButtonTapped(sisui, "sisui")}
+        misora.setOnClickListener {onButtonTapped(misora, "misora")}
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
