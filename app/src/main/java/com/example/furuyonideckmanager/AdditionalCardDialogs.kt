@@ -14,6 +14,8 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.LinearLayout.*
 import android.widget.ScrollView
+import android.widget.Space
+import androidx.core.view.marginRight
 import androidx.core.view.marginTop
 import androidx.fragment.app.DialogFragment
 
@@ -68,8 +70,12 @@ class AdditionalCardDialogs: DialogFragment() {
             }
 
             // 属性ボタン追加
-            val typeButton0 = createTypeButton(elem.get("mainType").orEmpty(), context!!);
-            val typeButton1 = createTypeButton(elem.get("subType").orEmpty(), context!!)
+            val size = convertDpToPixel(20, context!!);
+            val typeButton0 = createTypeButtonForAdditionalCard(elem.get("mainType").orEmpty(), context!!);
+//            typeButton0.layoutParams = LayoutParams(size, size).apply { gravity = Gravity.CENTER }
+
+            val typeButton1 = createTypeButtonForAdditionalCard(elem.get("subType").orEmpty(), context!!)
+//            typeButton1.layoutParams = LayoutParams(size, size).apply { gravity = Gravity.CENTER }
 
             // 作成した要素を横整列
             hLinearLayout.addView(button);

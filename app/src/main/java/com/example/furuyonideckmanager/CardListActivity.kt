@@ -47,6 +47,7 @@ class CardListActivity : AppCompatActivity() {
         renri.setOnClickListener {onButtonTapped("renri")}
         akina.setOnClickListener {onButtonTapped("akina")}
         sisui.setOnClickListener {onButtonTapped("sisui")}
+        misora.setOnClickListener {onButtonTapped("misora")}
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

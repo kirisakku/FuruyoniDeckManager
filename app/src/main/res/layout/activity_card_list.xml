@@ -436,6 +436,21 @@
                     app:srcCompat="@drawable/sisui"
                     tools:layout_editor_absoluteX="16dp"
                     tools:layout_editor_absoluteY="16dp" />
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+
+                <ImageButton
+                    android:id="@+id/misora"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="#0000"
+                    android:contentDescription="ミソラ"
+                    android:padding="5dp"
+                    android:scaleType="centerInside"
+                    app:srcCompat="@drawable/misora"
+                    tools:layout_editor_absoluteX="16dp"
+                    tools:layout_editor_absoluteY="16dp" />
             </TableRow>
         </TableLayout>
     </LinearLayout>
