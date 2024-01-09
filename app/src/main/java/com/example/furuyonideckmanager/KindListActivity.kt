@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import kotlinx.android.synthetic.main.activity_main.*
 import android.os.Bundle
 import android.view.Gravity
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -100,5 +102,20 @@ class KindListActivity : AppCompatActivity() {
             // 作成した横整列レイアウトを縦整列レイアウトに足す
             vLinearLayout.addView(hLinearLayout);
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main, menu);
+        return true;
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item?.itemId) {
+            R.id.home -> {
+                val intent = Intent(this, MainActivity::class.java);
+                startActivity(intent);
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

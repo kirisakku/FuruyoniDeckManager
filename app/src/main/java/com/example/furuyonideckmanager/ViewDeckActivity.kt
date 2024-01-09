@@ -4,13 +4,62 @@ import CsvUtil.getClassifiedCsvData
 import CsvUtil.readInternalFile
 import PartsUtil.setButtonStyles
 import SetImageUtil.setImageToImageView
+import android.app.AlertDialog
+import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.DialogFragment
 import io.realm.Realm
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_view_deck.*
+
+class EditConfirmDialog: DialogFragment() {
+    interface Listener {
+        fun confirm(csvName: String);
+        fun cancel();
+    }
+    private var listener: Listener? = null;
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context);
+        when (context) {
+            is Listener -> listener = context;
+        }
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val builder = AlertDialog.Builder(requireActivity());
+
+        val deckName = arguments?.getString("DECK_TITLE");
+        val fileName = arguments?.getString("DECK_FILENAME");
+        val chosenMegami = arguments?.getStringArray("CHOSEN_MEGAMI");
+        val data = arguments?.getStringArray("DECK_DATA");
+
+        builder.setMessage("デッキ「$deckName」を編集します。よろしいですか？");
+
+        builder.setPositiveButton("編集") {_, _ ->
+            val intent = Intent(context, ChooseCardsActivity::class.java);
+
+            // データの受け渡し
+            intent.putExtra("DECK_FILENAME", fileName);
+            intent.putExtra("CHOSEN_MEGAMI", chosenMegami);
+            intent.putExtra("DECK_DATA", data);
+            intent.putExtra("DECK_NAME", deckName);
+
+            // 編集画面に画面遷移
+            startActivity(intent);
+        }
+        builder.setNegativeButton("キャンセル") {_, _ ->
+            listener?.cancel();
+        }
+        return builder.create();
+    }
+}
 
 class ViewDeckActivity : AppCompatActivity(), CommentDialog.Listener {
     private lateinit var realm: Realm;
@@ -22,7 +71,7 @@ class ViewDeckActivity : AppCompatActivity(), CommentDialog.Listener {
 
         // DBを更新
         // 更新対象のデータを検索
-        var deckCSV = intent.getStringExtra("DECK_CSV");
+        var deckCSV = intent.getStringExtra("DECK_FILENAME");
         var targetData = realm.where<Deck>().equalTo("fileName", deckCSV).findFirst();
         realm.executeTransaction {
             targetData?.comment = dialog.getInput().toString();
@@ -152,7 +201,7 @@ class ViewDeckActivity : AppCompatActivity(), CommentDialog.Listener {
         // データの取り出し
         var deckTitle = intent.getStringExtra("DECK_TITLE");
         var chosenMegami = intent.getStringArrayExtra("CHOSEN_MEGAMI");
-        var deckCSV = intent.getStringExtra("DECK_CSV");
+        var fileName = intent.getStringExtra("DECK_FILENAME");
 
         // タイトル設定
         deckName.setText(deckTitle);
@@ -193,8 +242,8 @@ class ViewDeckActivity : AppCompatActivity(), CommentDialog.Listener {
 
         var deckCardList: List<List<String>> = listOf();
         // csvファイルからデッキ情報を読み込む
-        if (deckCSV != null) {
-            deckCardList = readInternalFile(deckCSV, applicationContext);
+        if (fileName != null) {
+            deckCardList = readInternalFile(fileName, applicationContext);
         }
 
         // 画面の初期化
@@ -210,14 +259,45 @@ class ViewDeckActivity : AppCompatActivity(), CommentDialog.Listener {
         setButtonsHandler(megamiButtonList1, cardList1);
 
         // コメントの設定
-        var targetData = realm.where<Deck>().equalTo("fileName", deckCSV).findFirst();
+        var targetData = realm.where<Deck>().equalTo("fileName", fileName).findFirst();
         comment.setText(targetData?.comment);
         // コメント部分にコメント編集用のハンドラを設定
         setCommentHandler();
+
+        // 編集ボタンのハンドラ設定
+        editButton?.setOnClickListener {
+            val dialog = EditConfirmDialog();
+            // データ受け渡し
+            val dialogArgs = Bundle();
+            dialogArgs.putString("DECK_TITLE", deckTitle);
+            dialogArgs.putString("DECK_FILENAME", fileName);
+            dialogArgs.putStringArray("CHOSEN_MEGAMI", chosenMegami);
+            val data = deckCardList.map{elem -> elem.joinToString(",")}.toTypedArray();
+            dialogArgs.putStringArray("DECK_DATA", data);
+
+            dialog.arguments = dialogArgs;
+            // ダイアログ表示
+            dialog.show(supportFragmentManager, "edit_dialog");
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy();
         realm.close();
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main, menu);
+        return true;
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item?.itemId) {
+            R.id.home -> {
+                val intent = Intent(this, MainActivity::class.java);
+                startActivity(intent);
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

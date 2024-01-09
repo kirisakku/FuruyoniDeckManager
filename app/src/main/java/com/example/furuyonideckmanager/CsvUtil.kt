@@ -363,6 +363,17 @@ fun getChosenMegamiCsvList(
 }
 
 /**
+ * csvデータをマップ形式に変換。
+ * @param csvData csvDataを文字列配列に変換した結果
+ * @return csvデータをマップ形式に変換した結果
+ */
+fun convertCsvToMap(csvData: List<String>) : Map<String, String>{
+    return mapOf(
+        "no" to csvData[0], "actionName" to csvData[1], "mainType" to csvData[2], "subType" to csvData[3], "fileName" to csvData[4], "type" to csvData[5], "megamiName" to csvData[6]
+    );
+}
+
+/**
  * 全てのメガミの名前を取得します。
  */
 fun getAllMegamiNames(): List<String> {

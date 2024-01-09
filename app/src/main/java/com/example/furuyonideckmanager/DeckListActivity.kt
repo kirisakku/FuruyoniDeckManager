@@ -8,6 +8,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.View.VISIBLE
 import androidx.annotation.RequiresApi
@@ -149,11 +151,12 @@ class DeckListActivity : AppCompatActivity(), DeleteConfirmDialog.Listener {
 
                     // デッキ名を渡す
                     intent.putExtra("DECK_TITLE", item.title);
-                    // デッキ情報のcsvを渡す
-                    intent.putExtra("DECK_CSV", item.fileName);
+                    // デッキ名を渡す
+                    intent.putExtra("DECK_FILENAME", item.fileName);
                     // メガミ情報を渡す
                     val selectedMegamiArray: Array<String> = arrayOf(item.megami0, item.megami1);
                     intent.putExtra("CHOSEN_MEGAMI", selectedMegamiArray)
+
                     startActivity(intent);
                 }
             }
@@ -164,5 +167,20 @@ class DeckListActivity : AppCompatActivity(), DeleteConfirmDialog.Listener {
     override fun onDestroy() {
         super.onDestroy();
         realm.close();
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main, menu);
+        return true;
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item?.itemId) {
+            R.id.home -> {
+                val intent = Intent(this, MainActivity::class.java);
+                startActivity(intent);
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

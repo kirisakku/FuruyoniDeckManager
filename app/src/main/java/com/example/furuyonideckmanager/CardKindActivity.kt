@@ -4,6 +4,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity;
 import kotlinx.android.synthetic.main.activity_main.*
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import kotlinx.android.synthetic.main.activity_cardkind.*
 import kotlinx.android.synthetic.main.activity_main.action
 import kotlinx.android.synthetic.main.activity_main.attack
@@ -44,5 +47,20 @@ class CardKindActivity : AppCompatActivity() {
 
         // 全種類ボタンに押下時ハンドラ追加
         setClickListeners();
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main, menu);
+        return true;
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item?.itemId) {
+            R.id.home -> {
+                val intent = Intent(this, MainActivity::class.java);
+                startActivity(intent);
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
