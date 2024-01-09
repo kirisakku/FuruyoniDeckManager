@@ -361,11 +361,13 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
                 it.write(csvData);
                 if (!isEdit) {
                     addDeckToList(deckFileName);
+                    Toast.makeText(applicationContext, "デッキを登録しました", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(applicationContext, "デッキを更新しました", Toast.LENGTH_SHORT).show();
                 }
-                Toast.makeText(applicationContext, "デッキを登録しました", Toast.LENGTH_SHORT).show();
             }
             catch (e: IOException) {
-                Toast.makeText(applicationContext, "デッキ登録に失敗しました。もう1度試してみて下さい", Toast.LENGTH_LONG).show();
+                Toast.makeText(applicationContext, "デッキ登録 / 更新に失敗しました。もう1度試してみて下さい", Toast.LENGTH_LONG).show();
             }
         }
     }

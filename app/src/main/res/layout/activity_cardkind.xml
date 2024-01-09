@@ -21,12 +21,23 @@
             app:layout_constraintTop_toTopOf="parent"
             app:autoSizeMinTextSize="5dp">
 
+            <TextView
+                android:id="@+id/attention"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:text="※表示に時間がかかる場合があります"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <Button
                 android:id="@+id/attack"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_marginStart="55dp"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="56dp"
                 android:width="300dp"
                 android:background="@color/red"
@@ -189,6 +200,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/hyphen" />
+
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
