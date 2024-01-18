@@ -401,6 +401,7 @@ fun getAllMegamiNames(): List<String> {
         "kamui",
         "renri",
         "akina",
-        "sisui"
+        "sisui",
+        "misora"
     );
 }
