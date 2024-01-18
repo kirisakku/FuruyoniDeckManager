@@ -7,6 +7,11 @@
 * ふるよにコモンズ/BakaFire,TOKIAME （https://main-bakafire.ssl-lolipop.jp/furuyoni/na/rule.html）
 
 ## リリースノート
+### v1.5(2024/01/09)
+* シーズン9に対応
+* デッキ編集機能を追加
+* アクションバーにホーム画面に戻るためのボタンを追加
+
 ### v1.4(2023/07/22）
 * カード種別ごとにカード一覧を眺められる機能を実装
 * シーズン8-2に対応
@@ -68,6 +73,10 @@ https://github.com/kirisakku/FuruyoniDeckManager/releases からapp-release.apk�
 「デッキ参照」モードでデッキ名ボタンをタップすると、作成したデッキが表示されます。
 
 <img src="https://user-images.githubusercontent.com/41281605/205490191-c8e8e086-c069-4210-a510-5b59b8833fbe.png" width="250px">
+
+画面右上の鉛筆アイコンをタップすることで、デッキの編集画面に遷移することができます。
+
+<img src="https://github.com/kirisakku/FuruyoniDeckManager/assets/41281605/63dfeaf0-8cee-4374-80b1-5cf09e4954b8" width="250px">
 
 画面下部の緑色の領域をタップすることで、デッキに関するコメントを残すことができます。
 是非、実際にデッキを使ってみて見つかった改善点等を記載してください。
