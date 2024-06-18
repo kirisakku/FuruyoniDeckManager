@@ -11,6 +11,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -427,6 +428,7 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
                 setCheckBoxHandlers(cardCsvList, isLeft);
                 // 追加札ボタン設定
                 setAdditionalCardButton(additionalButton, extraCardCsvList, isLeft);
+
                 // メガミ選択状態を更新
                 if (isLeft) {
                     megami0Name = megamiName;
@@ -435,10 +437,22 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
                     megami1Name = megamiName;
                     megamiKind1 = megamiKind;
                 }
+
+                // A1トコヨ && A1サイネ考慮
+                if (megami0Name == "saine" && megamiKind0 == "a1" && megami1Name == "tokoyo" && megamiKind1 == "a1") {
+                    megami1_check3.isEnabled = false;
+                    megami1_check3.isChecked = false;
+                } else if (megami0Name == "tokoyo" && megamiKind0 == "a1" && megami1Name == "saine" && megamiKind1 == "a1") {
+                    megami1_check0.isEnabled = false;
+                    megami1_check0.isChecked = false;
+                } else {
+                    megami1_check0.isEnabled = true;
+                    megami1_check3.isEnabled = true;
+                }
             } else {
                 // タップ時に警告を出す
                 val layout = findViewById<View>(android.R.id.content);
-                val snackBar = Snackbar.make(layout, "編集時はメガミタイプを変更できません", Snackbar.LENGTH_SHORT);
+                val snackBar = Snackbar.make(layout, "メガミタイプを変更できません", Snackbar.LENGTH_SHORT);
                 snackBar.view.setBackgroundColor(Color.rgb(1, 135, 134));
                 snackBar.show();
             }
@@ -674,24 +688,7 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
         // 三柱管理画面から遷移した場合は種別切り替えを無効にする
         val uuid = intent.getStringExtra("UUID");
         if (uuid != null) {
-            if (megamiKind0 != "origin") {
-                megamiImage0_edit?.isEnabled = false;
-            }
-            if (megamiKind0 != "a1") {
-                megamiImage0_A1_edit?.isEnabled = false;
-            }
-            if (megamiKind0 != "a2") {
-                megamiImage0_A2_edit?.isEnabled = false;
-            }
-            if (megamiKind1 != "origin") {
-                megamiImage1_edit?.isEnabled = false;
-            }
-            if (megamiKind1 != "a1") {
-                megamiImage1_A1_edit?.isEnabled = false;
-            }
-            if (megamiKind1 != "a2") {
-                megamiImage1_A2_edit?.isEnabled = false;
-            }
+            forceDisableButtons = true;
         }
 
         // データがある場合はチェック状態をセット
