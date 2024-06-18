@@ -192,9 +192,7 @@ class MegamiCardListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_megami_card_list)
 
-        var config = RealmConfiguration.Builder().allowWritesOnUiThread(true).build();
-        Realm.setDefaultConfiguration(config);
-        realm = Realm.getDefaultInstance();
+        realm = RealmManager.getRealm();
 
         val res = resources;
         val context = applicationContext;

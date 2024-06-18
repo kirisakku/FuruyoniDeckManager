@@ -24,6 +24,10 @@
         <activity android:name=".CardListKindActivity" />
         <activity android:name=".CardKindActivity" />
         <activity android:name=".KindListActivity" />
+        <activity android:name=".ThreeMegamiRegisterActivity" />
+        <activity android:name=".ThreeMegamiDeckRegisterActivity" />
+        <activity android:name=".ThreeMegamiListActivity" />
+        <activity android:name=".SelectDeckActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
