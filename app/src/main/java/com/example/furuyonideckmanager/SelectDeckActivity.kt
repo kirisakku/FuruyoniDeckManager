@@ -2,6 +2,7 @@ package com.example.furuyonideckmanager
 
 import CsvUtil.removeCsvFile
 import DeckAdapter
+import DeckAdapter2
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
@@ -11,6 +12,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -21,44 +23,16 @@ import io.realm.RealmConfiguration
 import io.realm.Sort
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_deck_list.*
+import kotlinx.android.synthetic.main.activity_deck_list.itemList
+import kotlinx.android.synthetic.main.activity_deck_list.noDeckError0
+import kotlinx.android.synthetic.main.activity_deck_list.noDeckError1
+import kotlinx.android.synthetic.main.activity_deck_list.registerDeckButton
+import kotlinx.android.synthetic.main.activity_select_deck.*
+import java.lang.Exception
 
-class DeleteConfirmDialog: DialogFragment() {
-    interface Listener {
-        fun confirm(csvName: String);
-        fun cancel();
-    }
-    private var listener: Listener? = null;
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context);
-        when (context) {
-            is Listener -> listener = context;
-        }
-    }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = AlertDialog.Builder(requireActivity());
-        // 表示内容設定
-        val deckName = arguments?.getString("DECK_TITLE");
-
-        builder.setMessage("デッキ「$deckName」を削除します。よろしいですか？");
-
-        builder.setPositiveButton("削除") {_, _ ->
-            val csvName = arguments?.getString("DECK_CSV");
-            if (csvName != null) {
-                listener?.confirm(csvName);
-            }
-        }
-        builder.setNegativeButton("キャンセル") {_, _ ->
-            listener?.cancel();
-        }
-        return builder.create();
-    }
-}
-
-
-class DeckListActivity : AppCompatActivity(), DeleteConfirmDialog.Listener {
+class SelectDeckActivity : AppCompatActivity(), DeleteConfirmDialog.Listener {
     private lateinit var realm: Realm;
+    private var selectedData: Deck? = null;
 
     /**
      * 画面をリロード。
@@ -100,47 +74,73 @@ class DeckListActivity : AppCompatActivity(), DeleteConfirmDialog.Listener {
 
     /**
      * データが無い時の画面を生成。
+     * @param megami0 メガミ0
+     * @param megami1 メガミ1
+     * @param uuid uuid
+     * @param target ターゲット。01, 12, 20のいずれか。
      */
-    fun createEmptyView() {
+    fun createEmptyView(megami0: String, megami1: String, uuid: String, target: String) {
         noDeckError0.visibility = VISIBLE;
         noDeckError1.visibility = VISIBLE;
         registerDeckButton.visibility = VISIBLE;
+        setDeckButton.visibility = INVISIBLE;
+
         registerDeckButton.setOnClickListener {
-            val intent = Intent(this, RegistrationActivity::class.java);
+            val intent = Intent(this, ChooseCardsActivity::class.java);
+
+            // 選ばれたメガミの情報を渡す
+            val selectedMegamiArray: Array<String> = arrayOf(megami0, megami1);
+            intent.putExtra("CHOSEN_MEGAMI", selectedMegamiArray);
+            intent.putExtra("UUID", uuid);
+            intent.putExtra("TARGET", target)
+
             startActivity(intent);
         }
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_deck_list);
+        setContentView(R.layout.activity_select_deck);
+
+        var megami0 = intent.getStringExtra("MEGAMI0");
+        var megami1 = intent.getStringExtra("MEGAMI1");
+        val uuid = intent.getStringExtra("UUID");
+        val target = intent.getStringExtra("TARGET");
+        if (megami0 == null || megami1 == null || uuid == null || target == null) {
+            throw Exception();
+        }
 
         realm = RealmManager.getRealm();
         itemList.layoutManager = LinearLayoutManager(this);
-        val deckList = realm.where<Deck>().findAll().sort("date", Sort.DESCENDING);
+        val deckList = realm.where<Deck>().equalTo("megami0", megami0).equalTo("megami1", megami1)
+            .or()
+            .equalTo("megami0", megami1).equalTo("megami1", megami0).findAll()
+            .sort("date", Sort.DESCENDING);
 
         //　データが無ければ専用の画面にする
         if (deckList.size == 0) {
-            createEmptyView();
+            createEmptyView(megami0, megami1, uuid, target);
             return;
         }
 
         // 以下はデータがあるケース
+        var targetDeckId = intent.getStringExtra("TARGET_DECKID");
+        targetDeckId = if (targetDeckId != null) targetDeckId else "";
+        if (targetDeckId != null) {
+            selectedData = deckList.find{it.fileName == targetDeckId}
+            if (selectedData != null) {
+                setDeckButton.isEnabled = true;
+            }
+        }
 
         val context = this;
         // アダプタの作成＆設定
-        val adapter = DeckAdapter(deckList, context)
+        val adapter = DeckAdapter2(deckList, context, targetDeckId);
         adapter.setListener(
-            object: DeckAdapter.Listener {
-                override fun onDeleteButtonClick(view: View, item: Deck) {
-                    val dialog = DeleteConfirmDialog();
-                    // データ受け渡し
-                    val dialogArgs = Bundle();
-                    dialogArgs.putString("DECK_TITLE", item.title);
-                    dialogArgs.putString("DECK_CSV", item.fileName);
-                    dialogArgs.putBundle("DIALOG_ARGS", dialogArgs);
-                    dialog.arguments = dialogArgs;
-                    // ダイアログ表示
-                    dialog.show(supportFragmentManager, "delete_dialog");
+            object: DeckAdapter2.Listener {
+                override fun onRadioButtonClick(view: View, item: Deck) {
+                    selectedData = item;
+                    // 設定ボタンの活性化
+                    setDeckButton.isEnabled = true;
                 }
 
                 override fun onDeckNameButtonClick(view: View, item: Deck) {
@@ -154,12 +154,27 @@ class DeckListActivity : AppCompatActivity(), DeleteConfirmDialog.Listener {
                     // メガミ情報を渡す
                     val selectedMegamiArray: Array<String> = arrayOf(item.megami0, item.megami1);
                     intent.putExtra("CHOSEN_MEGAMI", selectedMegamiArray)
+                    // この画面固有のフラグ
+                    intent.putExtra("EDITABLE", false);
 
                     startActivity(intent);
                 }
             }
         )
         itemList.adapter = adapter;
+
+        setDeckButton.setOnClickListener {
+            // DB情報更新
+            // 更新対象のデータを検索
+            if (selectedData != null) {
+                DBUtil.registerSelectedDeck(realm, uuid, selectedData!!.fileName, selectedData!!.title, target);
+            }
+            // 画面遷移
+            val newIntent = Intent(applicationContext, ThreeMegamiDeckRegisterActivity::class.java);
+            newIntent.putExtra("UUID", uuid);
+
+            startActivity(newIntent);
+        }
     }
 
     override fun onDestroy() {

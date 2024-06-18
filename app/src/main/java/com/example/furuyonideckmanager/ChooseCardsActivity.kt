@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import io.realm.Realm
 import io.realm.RealmConfiguration
+import io.realm.RealmObject.getRealm
 import io.realm.kotlin.createObject
 import kotlinx.android.synthetic.main.activity_choose_cards.*
 import kotlinx.android.synthetic.main.activity_choose_cards.megami0_card0_view
@@ -497,9 +498,23 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
 
             startActivity(intent);
         } else {
-            // 新規作成時はデッキ参照画面に遷移
-            val intent = Intent(this, DeckListActivity::class.java);
-            startActivity(intent);
+            // 新規作成時
+            val uuid = intent.getStringExtra("UUID");
+            val target = intent.getStringExtra("TARGET");
+
+            if (uuid != null && target != null) {
+                // もしUUIDとTARGETがあれば三柱管理画面から遷移したのでデータを登録後、三柱管理画面に戻る
+                val title = dialog.getInput().toString()
+                DBUtil.registerSelectedDeck(realm, uuid, fileName!!, title, target);
+
+                val intent0 = Intent(this, ThreeMegamiDeckRegisterActivity::class.java);
+                intent0.putExtra("UUID", uuid);
+                startActivity(intent0);
+            } else {
+                // 通常のデッキ登録の場合は、デッキ参照画面に遷移
+                val intent1 = Intent(this, DeckListActivity::class.java);
+                startActivity(intent1);
+            }
         }
     }
     /**
@@ -560,12 +575,10 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_choose_cards)
 
-        var config = RealmConfiguration.Builder().allowWritesOnUiThread(true).build();
-        Realm.setDefaultConfiguration(config);
-        realm = Realm.getDefaultInstance();
-
         val res = resources;
         val context = applicationContext;
+
+        realm = RealmManager.getRealm();
 
         var chosenMegami = intent.getStringArrayExtra("CHOSEN_MEGAMI");
 
@@ -655,6 +668,29 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
             // 編集の場合は以降ボタンが動作しないように抑止する
             if (isEdit) {
                 forceDisableButtons = true;
+            }
+        }
+
+        // 三柱管理画面から遷移した場合は種別切り替えを無効にする
+        val uuid = intent.getStringExtra("UUID");
+        if (uuid != null) {
+            if (megamiKind0 != "origin") {
+                megamiImage0_edit?.isEnabled = false;
+            }
+            if (megamiKind0 != "a1") {
+                megamiImage0_A1_edit?.isEnabled = false;
+            }
+            if (megamiKind0 != "a2") {
+                megamiImage0_A2_edit?.isEnabled = false;
+            }
+            if (megamiKind1 != "origin") {
+                megamiImage1_edit?.isEnabled = false;
+            }
+            if (megamiKind1 != "a1") {
+                megamiImage1_A1_edit?.isEnabled = false;
+            }
+            if (megamiKind1 != "a2") {
+                megamiImage1_A2_edit?.isEnabled = false;
             }
         }
 

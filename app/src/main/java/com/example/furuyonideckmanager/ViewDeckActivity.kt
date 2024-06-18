@@ -11,6 +11,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
@@ -202,6 +203,7 @@ class ViewDeckActivity : AppCompatActivity(), CommentDialog.Listener {
         var deckTitle = intent.getStringExtra("DECK_TITLE");
         var chosenMegami = intent.getStringArrayExtra("CHOSEN_MEGAMI");
         var fileName = intent.getStringExtra("DECK_FILENAME");
+        var editable = intent.getBooleanExtra("EDITABLE", true);
 
         // タイトル設定
         deckName.setText(deckTitle);
@@ -262,7 +264,14 @@ class ViewDeckActivity : AppCompatActivity(), CommentDialog.Listener {
         var targetData = realm.where<Deck>().equalTo("fileName", fileName).findFirst();
         comment.setText(targetData?.comment);
         // コメント部分にコメント編集用のハンドラを設定
-        setCommentHandler();
+        if (editable) {
+            setCommentHandler();
+        }
+
+        // editable = falseの時は鉛筆アイコンは非表示
+        if (editable == false) {
+            editButton.visibility = View.INVISIBLE;
+        }
 
         // 編集ボタンのハンドラ設定
         editButton?.setOnClickListener {

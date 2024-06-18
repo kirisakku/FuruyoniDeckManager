@@ -10,6 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_registration.*
 
 class RegistrationActivity : AppCompatActivity() {
+    // 起動モード
+    var mode = "";
+
     // 選択済みのメガミを管理するリスト
     val selectedMegamiList: MutableList<String> = mutableListOf();
 
@@ -35,9 +38,13 @@ class RegistrationActivity : AppCompatActivity() {
         // 押下状態を反転させる
         imageButton.setSelected(!isPressed);
         // 作成ボタンの活性状態を変える
-        if (selectedMegamiList.size == 2) {
+        // デッキ登録の場合
+        if (selectedMegamiList.size == 2 && mode == "registerDeck") {
             startCreationButton.setEnabled(true);
-        } else {
+        } else if (selectedMegamiList.size == 3 && mode == "threeMegami")  {
+            startCreationButton.setEnabled(true);
+        }
+        else {
             startCreationButton.setEnabled(false);
         }
     }
@@ -76,6 +83,15 @@ class RegistrationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)
+
+        // モード情報の取得
+        val modeData = intent.getStringExtra("MODE");
+        mode = if (modeData != null) modeData else "registerDeck";
+
+        // モードが三柱選択の場合はボタンのテキストを変える
+        if (mode == "threeMegami") {
+            startCreationButton.setText("三柱登録");
+        }
 
         // 全メガミボタンに押下時ハンドラ追加
         setClickListeners();
