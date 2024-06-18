@@ -16,4 +16,5 @@
     <color name="gold">#FFFF00</color>
     <color name="gray">#DCDCDC</color>
     <color name="gray2">#D5CDCD</color>
+    <color name="gridBackground">#C5E0F7DB</color>
 </resources>
