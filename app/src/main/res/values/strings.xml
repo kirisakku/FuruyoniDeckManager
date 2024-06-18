@@ -58,4 +58,9 @@
     <string name="arrow">矢印効果</string>
     <string name="life">ライフ回復</string>
     <string name="hyphen">ハイフン</string>
+    <string-array name="spinner_items">
+        <item>2人</item>
+        <item>3人</item>
+        <item>1人</item>
+    </string-array>
 </resources>

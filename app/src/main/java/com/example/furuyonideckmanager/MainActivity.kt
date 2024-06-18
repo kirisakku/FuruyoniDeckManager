@@ -41,6 +41,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent);
         }
 
+        random_choose.setOnClickListener {
+            val intent = Intent(this, RandomChooseActivity::class.java);
+            startActivity(intent);
+        }
+
         instance = this;
     }
 }
