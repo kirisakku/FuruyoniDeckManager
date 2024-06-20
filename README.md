@@ -7,7 +7,12 @@
 * ふるよにコモンズ/BakaFire,TOKIAME （https://main-bakafire.ssl-lolipop.jp/furuyoni/na/rule.html）
 
 ## リリースノート
-### 1.5.1(2024/01/18)
+### v1.6
+* 三柱管理機能を追加
+* ランダムメガミ選択機能を追加
+* A1サイネとA1トコヨ選択時に合奏が2枚選択できるバグを修正
+
+### v1.5.1(2024/01/18)
 * A1トコヨの奏流しのカード画像が古い不良の修正
 * カード一覧にミソラのカードが表示されない不良の修正
 
@@ -32,12 +37,15 @@
 https://github.com/kirisakku/FuruyoniDeckManager/releases からapp-release.apkをダウンロード後、インストールしてください。
 
 **注意**
-* 個人利用用に作成したため、Google Playストアでは公開しておりません。自己責任でインストールし、使用してください
-* バージョンアップが上手く行かない現象を確認しております。こちら、原因調査中です。別アプリとしてインストールすることは可能のため、アプリIDを変更したビルド結果をご希望の方は https://twitter.com/kirisakku までご連絡ください。
+個人利用用に作成したため、Google Playストアでは公開しておりません。自己責任でインストールし、使用してください
 
-インストール後、アプリを起動してください。本アプリは「デッキ登録」と「デッキ参照」、「カード一覧」の3つのモードに大きく分かれています。
+インストール後、アプリを起動してください。本アプリは「デッキ登録」と「デッキ参照」、「三柱登録」と「三柱参照 / デッキ設定」、「カード一覧」、ランダムメガミ選択のモードがあります。
 
-<img src="https://user-images.githubusercontent.com/41281605/226122290-c409ff10-8beb-4051-a227-6a9972b20fac.jpg" width="250px">
+※縦長の画面のため、画面サイズによっては一部ボタンが見切れる場合があります。その場合は縦にスクロールすることで表示することができます。
+
+<img src="https://github.com/kirisakku/FuruyoniDeckManager/assets/41281605/3e7662c2-ca96-469f-85cd-2d5f40c307ac" width="250px">
+
+### デッキ登録、デッキ参照
 
 何もデッキを登録していない状態で「デッキ参照」を選択すると、以下の通りデッキ登録を促されます。まずは「デッキ登録」からデッキを登録してください。
 
@@ -92,6 +100,48 @@ https://github.com/kirisakku/FuruyoniDeckManager/releases からapp-release.apk�
 
 <img src="https://user-images.githubusercontent.com/41281605/205490292-d7f5336d-4b95-48c6-bc3d-d3c3a47b6331.png" width="250px">
 
+### 三柱登録、三柱参照 / デッキ設定
+
+三柱登録では、大会等で使うための三柱を登録することができます。
+
+メガミを3人選択後、画面下にある「三柱登録」を選択してください。
+選択されている人数が3人以外の場合は、「三柱登録」ボタンは非活性のため、押すことができません。
+選択したメガミはピンク枠で囲まれます。もう1度選択すると、選択解除されます。
+オリジンユリナとA1ユリナなど、同一のメガミを含む組み合わせは選べません。
+
+<img src="https://github.com/kirisakku/FuruyoniDeckManager/assets/41281605/2dafea9c-fdde-4b51-bef7-d7a209eb9077" width="250px">
+
+「三柱登録」ボタンを選択すると、グループ名称入力ダイアログが表示されます。
+デフォルト値が入力されていますが、1文字～20文字の範囲で、自由にグループ名称を設定することができます。
+入力後、「登録」を選択してください。
+
+<img src="https://github.com/kirisakku/FuruyoniDeckManager/assets/41281605/dde724d5-ebb5-4eaf-9656-f2219338099a" width="250px">
+
+登録すると、三柱一覧画面が表示されます。
+トップ画面で「三柱管理 / デッキ設定」ボタンを選択した場合も、同じ画面が表示されます。
+
+<img src="https://github.com/kirisakku/FuruyoniDeckManager/assets/41281605/e6bdc3fd-20ac-44e8-93aa-8a064e896635" width="250px">
+
+三柱一覧画面で、デッキを参照したい / 設定したいグループの名称を選択すると、三柱参照画面が表示されます。
+
+<img src="https://github.com/kirisakku/FuruyoniDeckManager/assets/41281605/89c11043-8ce6-47cf-bbc4-d017622bc19a" width="250px">
+
+画面の上半分はデッキ参照用です。既にデッキが設定されている場合、デッキ名ボタンを選択することで、設定されているデッキを確認することができます。
+
+**注意：あくまでも確認用のため、デッキの編集やコメントの編集はできません**
+
+画面の下半分では、デッキを選択し、ペアに対するデッキを登録することができます。
+既にデッキが設定済みの場合は、他のデッキに変更することができます。
+
+<img src="https://github.com/kirisakku/FuruyoniDeckManager/assets/41281605/86d63c33-b043-44d6-8dee-b47a99a97727" width="250px">
+
+ペアに設定する既存のデッキがない場合は、新規にデッキを作成することができます。
+作成後、作成したデッキは自動でペアに設定されます。
+
+<img src="https://github.com/kirisakku/FuruyoniDeckManager/assets/41281605/3443230a-f37a-4215-9dbf-0dbd675af0fe" width="250px">
+
+### カード一覧
+
 「カード一覧」モードでは、メガミ種別またはカード種別ごとにカードの一覧を確認することができます。
 
 メガミ種別ごとにカードの一覧を確認したい場合は「メガミ種別」をタップしてください。
@@ -118,3 +168,11 @@ https://github.com/kirisakku/FuruyoniDeckManager/releases からapp-release.apk�
 カード選択画面同様、カード名をタップすることで、実際のカードを確認することができます。
 
 <img src="https://github.com/kirisakku/FuruyoniDeckManager/assets/41281605/424b9de1-d4c3-446e-b26c-768b9e0ed827" width="250px">
+
+### ランダム選択
+
+ランダムでメガミを1～3人選択することができます。
+特定のメガミを除外することもできます。
+三柱の構成等を考える際のアイディア出し等にご活用下さい。
+
+<img src="https://github.com/kirisakku/FuruyoniDeckManager/assets/41281605/88bdfc98-92fc-473a-857f-044a7c5a20a0" width="250px">
