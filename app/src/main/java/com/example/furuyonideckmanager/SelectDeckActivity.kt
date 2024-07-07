@@ -72,31 +72,6 @@ class SelectDeckActivity : AppCompatActivity(), DeleteConfirmDialog.Listener {
         // 何もしない
     }
 
-    /**
-     * データが無い時の画面を生成。
-     * @param megami0 メガミ0
-     * @param megami1 メガミ1
-     * @param uuid uuid
-     * @param target ターゲット。01, 12, 20のいずれか。
-     */
-    fun createEmptyView(megami0: String, megami1: String, uuid: String, target: String) {
-        noDeckError0.visibility = VISIBLE;
-        noDeckError1.visibility = VISIBLE;
-        registerDeckButton.visibility = VISIBLE;
-        setDeckButton.visibility = INVISIBLE;
-
-        registerDeckButton.setOnClickListener {
-            val intent = Intent(this, ChooseCardsActivity::class.java);
-
-            // 選ばれたメガミの情報を渡す
-            val selectedMegamiArray: Array<String> = arrayOf(megami0, megami1);
-            intent.putExtra("CHOSEN_MEGAMI", selectedMegamiArray);
-            intent.putExtra("UUID", uuid);
-            intent.putExtra("TARGET", target)
-
-            startActivity(intent);
-        }
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_deck);
@@ -116,9 +91,30 @@ class SelectDeckActivity : AppCompatActivity(), DeleteConfirmDialog.Listener {
             .equalTo("megami0", megami1).equalTo("megami1", megami0).findAll()
             .sort("date", Sort.DESCENDING);
 
+        fun createDeck() {
+            val intent = Intent(this, ChooseCardsActivity::class.java);
+
+            // 選ばれたメガミの情報を渡す
+            val selectedMegamiArray: Array<String> = arrayOf(megami0, megami1);
+            intent.putExtra("CHOSEN_MEGAMI", selectedMegamiArray);
+            intent.putExtra("UUID", uuid);
+            intent.putExtra("TARGET", target)
+
+            startActivity(intent);
+        }
+
         //　データが無ければ専用の画面にする
         if (deckList.size == 0) {
-            createEmptyView(megami0, megami1, uuid, target);
+            noDeckError0.visibility = VISIBLE;
+            noDeckError1.visibility = VISIBLE;
+            registerDeckButton.visibility = VISIBLE;
+            setDeckButton.visibility = INVISIBLE;
+            createDeckButton.visibility = INVISIBLE;
+
+            registerDeckButton.setOnClickListener {
+                createDeck();
+            }
+
             return;
         }
 
@@ -174,6 +170,10 @@ class SelectDeckActivity : AppCompatActivity(), DeleteConfirmDialog.Listener {
             newIntent.putExtra("UUID", uuid);
 
             startActivity(newIntent);
+        }
+
+        createDeckButton.setOnClickListener {
+            createDeck();
         }
     }
 

@@ -73,7 +73,7 @@
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <Button
-                    android:id="@+id/viewDeck1"
+                    android:id="@+id/viewDeck2"
                     android:layout_width="150dp"
                     android:layout_height="40dp"
                     android:layout_gravity="end"
@@ -108,7 +108,7 @@
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <Button
-                    android:id="@+id/viewDeck2"
+                    android:id="@+id/viewDeck1"
                     android:layout_width="150dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center_vertical"

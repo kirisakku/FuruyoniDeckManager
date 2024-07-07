@@ -2,45 +2,15 @@ package com.example.furuyonideckmanager
 
 import SetImageUtil.setImageToImageView
 import android.content.Intent
-import android.graphics.Canvas
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.ImageButton
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import io.realm.Realm
 import io.realm.kotlin.where
-import kotlinx.android.synthetic.main.activity_registration.akina
-import kotlinx.android.synthetic.main.activity_registration.chikage
-import kotlinx.android.synthetic.main.activity_registration.hagane
-import kotlinx.android.synthetic.main.activity_registration.hatsumi
-import kotlinx.android.synthetic.main.activity_registration.himika
-import kotlinx.android.synthetic.main.activity_registration.honoka
-import kotlinx.android.synthetic.main.activity_registration.kamui
-import kotlinx.android.synthetic.main.activity_registration.kanae
-import kotlinx.android.synthetic.main.activity_registration.korunu
-import kotlinx.android.synthetic.main.activity_registration.kururu
-import kotlinx.android.synthetic.main.activity_registration.megumi
-import kotlinx.android.synthetic.main.activity_registration.misora
-import kotlinx.android.synthetic.main.activity_registration.mizuki
-import kotlinx.android.synthetic.main.activity_registration.oboro
-import kotlinx.android.synthetic.main.activity_registration.raira
-import kotlinx.android.synthetic.main.activity_registration.renri
-import kotlinx.android.synthetic.main.activity_registration.saine
-import kotlinx.android.synthetic.main.activity_registration.sariya
-import kotlinx.android.synthetic.main.activity_registration.shinra
-import kotlinx.android.synthetic.main.activity_registration.sisui
-import kotlinx.android.synthetic.main.activity_registration.startCreationButton
-import kotlinx.android.synthetic.main.activity_registration.tokoyo
-import kotlinx.android.synthetic.main.activity_registration.utsuro
-import kotlinx.android.synthetic.main.activity_registration.yatsuha
-import kotlinx.android.synthetic.main.activity_registration.yukihi
-import kotlinx.android.synthetic.main.activity_registration.yurina
 import kotlinx.android.synthetic.main.activity_three_megami_deck_register.*
-import kotlinx.android.synthetic.main.activity_three_megami_register.*
 
 class ThreeMegamiDeckRegisterActivity : AppCompatActivity() {
     private lateinit var realm: Realm;
