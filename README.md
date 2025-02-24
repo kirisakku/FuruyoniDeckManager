@@ -7,6 +7,9 @@
 * ふるよにコモンズ/BakaFire,TOKIAME （https://main-bakafire.ssl-lolipop.jp/furuyoni/na/rule.html）
 
 ## リリースノート
+### v1.7.2(2025/02/24)
+誤植修正
+
 ### v1.7.1(2024/08/08)
 ハガネの大山脈リスペクトのカードを修正
 
