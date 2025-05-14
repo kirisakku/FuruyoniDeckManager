@@ -88,3 +88,8 @@ lint/tmp/
 
 # Others
 app/src/main/assets/*
+app/src/main/res/drawable/*
+furuyoni.jks
+gradle.properties
+app/release/app-release.apk
+app/src/main/ic_launcher-playstore.png
