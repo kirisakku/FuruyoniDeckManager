@@ -85,3 +85,11 @@ lint/generated/
 lint/outputs/
 lint/tmp/
 # lint/reports/
+
+# Others
+app/src/main/assets/*
+app/src/main/res/drawable/*
+furuyoni.jks
+gradle.properties
+app/release/app-release.apk
+app/src/main/ic_launcher-playstore.png
