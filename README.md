@@ -7,6 +7,9 @@
 * ふるよにコモンズ/BakaFire,TOKIAME （https://main-bakafire.ssl-lolipop.jp/furuyoni/na/rule.html）
 
 ## リリースノート
+### v1.8（2025/05/15）
+最新のAndroid Studioでビルドできるように実装見直し
+
 ### v1.7.2(2025/02/24)
 誤植修正
 
