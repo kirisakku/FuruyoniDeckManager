@@ -93,3 +93,16 @@ furuyoni.jks
 gradle.properties
 app/release/app-release.apk
 app/src/main/ic_launcher-playstore.png
+app/src/main/res/mipmap-hdpi/*
+app/src/main/res/mipmap-mdpi/*
+app/src/main/res/mipmap-xhdpi/*
+app/src/main/res/mipmap-xxhdpi/*
+app/src/main/res/mipmap-xxxhdpi/*
+app/proguard-rules.pro
+app/release/baselineProfiles/0/app-release.dm
+app/release/baselineProfiles/1/app-release.dm
+app/release/output-metadata.json
+app/src/main/res/xml/backup_rules.xml
+app/src/main/res/xml/data_extraction_rules.xml
+gradle/libs.versions.toml
+gradlew.bat
