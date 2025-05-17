@@ -17,4 +17,6 @@
     <color name="gray">#DCDCDC</color>
     <color name="gray2">#D5CDCD</color>
     <color name="gridBackground">#C5E0F7DB</color>
+    <color name="fate_black">#222222</color>
+    <color name="gray3">#D6D7D7</color>
 </resources>

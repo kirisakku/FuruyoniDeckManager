@@ -8,7 +8,9 @@ import PartsUtil.*
 import SetImageUtil.setImageToImageView
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -17,6 +19,7 @@ import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import io.realm.kotlin.Realm
@@ -26,6 +29,7 @@ import com.example.furuyonideckmanager2.databinding.ActivityChooseCardsBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import androidx.core.content.withStyledAttributes
 
 class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
     private lateinit var binding: ActivityChooseCardsBinding
@@ -48,6 +52,8 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
     val dialog = DeckNameDialog();
     // 追加札表示ダイアログ
     val additionalCardDialog = AdditionalCardDialogs();
+    // 運命カード表示ダイアログ
+    val destinyCardDialog = DestinyCardDialog();
 
     // 画面上のチェックボックスを管理するマップ
     var checkBoxMap: Map<String, List<CheckBox>>? = null;
@@ -361,7 +367,7 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
                 // チェックボックスにハンドラ設定
                 setCheckBoxHandlers(cardCsvList, isLeft);
                 // 追加札ボタン設定
-                setAdditionalCardButton(additionalButton, extraCardCsvList, isLeft);
+                setAdditionalCardButton(additionalButton, extraCardCsvList, isLeft, megamiName + "_" + megamiKind);
 
                 // メガミ選択状態を更新
                 if (isLeft) {
@@ -398,18 +404,40 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
      * @param additionalButton 追加札一覧ボタン。
      * @param extraCardList 追加札一覧。
      * @param isLeft 左側のメガミかどうか。
+     * @param megami メガミ。
      */
     fun setAdditionalCardButton(
         additionalButton: ImageButton,
         extraCardList: List<Map<String, String>>,
-        isLeft: Boolean
+        isLeft: Boolean,
+        megami: String
     ) {
+        if (isDestinyExist(megami)) {
+            // 運命ボタンっぽくする
+            additionalButton.visibility = VISIBLE
+            val blackColor = ContextCompat.getColor(this, android.R.color.black)
+            additionalButton.backgroundTintList = ColorStateList.valueOf(blackColor)
+
+            var megamiName = "inuru"
+            if (megami == "iniru_a1") {
+                megamiName = "mahiru"
+            } else if (megami == "iniru_a2") {
+                megamiName = "akuru"
+            }
+
+            setShowDestinyCardsHandler(additionalButton, megamiName, isLeft);
+            // ### 一旦追加札と運命カードの共存は考えない
+            return;
+        }
+
         if (isExtraExist(extraCardList) == false) {
             // 追加札一覧ボタンを非活性
             additionalButton.visibility = INVISIBLE;
         } else {
             // 追加札一覧ボタンを活性化
             additionalButton.visibility = VISIBLE;
+
+            additionalButton.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#D6D7D7"))
             setShowAdditionalCardsHandler(additionalButton, extraCardList, isLeft);
         }
     }
@@ -485,6 +513,18 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
     }
 
     /**
+     * 運命カード一覧の画面を表示するハンドラ
+     * @param megamiName メガミ名
+     * @param isLeft 左側のメガミかどうか
+     */
+    fun showDestinyCardsHandler(megamiName: String, isLeft: Boolean) {
+        val dialogArgs = Bundle();
+        dialogArgs.putString("megamiName", megamiName)
+        destinyCardDialog.arguments = dialogArgs
+        destinyCardDialog.show(supportFragmentManager, "destinyCard_dialog")
+    }
+
+    /**
      * 追加札ボタンにハンドラを設定
      * @param additionalCardButton ハンドラ設定対象の追加札ボタン
      * @param extraCardList 追加札一覧。
@@ -497,6 +537,22 @@ class ChooseCardsActivity : AppCompatActivity(), DeckNameDialog.Listener {
     ) {
         additionalCardButton.setOnClickListener {
             showAdditionalCardsHandler(extraCardCsvList, isLeft);
+        }
+    }
+
+    /**
+     * 追加札ボタンに運命カード表示ハンドラを設定
+     * @param additionalCardButton ハンドラ設定対象の追加札ボタン
+     * @param megamiName メガミ名
+     * @param isLeft 左側のメガミかどうか
+     */
+    fun setShowDestinyCardsHandler(
+        additionalCardButton: ImageButton,
+        megamiName: String,
+        isLeft: Boolean
+    ) {
+        additionalCardButton.setOnClickListener {
+            showDestinyCardsHandler(megamiName, isLeft);
         }
     }
 

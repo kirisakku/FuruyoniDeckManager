@@ -161,6 +161,9 @@ class ThreeMegamiRegisterActivity : AppCompatActivity(), GroupNameDialog.Listene
         binding.akina.setOnClickListener {onButtonTapped(binding.akina, "akina")}
         binding.sisui.setOnClickListener {onButtonTapped(binding.sisui, "sisui")}
         binding.misora.setOnClickListener {onButtonTapped(binding.misora, "misora")}
+        binding.iniru.setOnClickListener {onButtonTapped(binding.iniru, "iniru")}
+        binding.iniruA1.setOnClickListener {onButtonTapped(binding.iniruA1, "iniru_a1")}
+        binding.iniruA2.setOnClickListener {onButtonTapped(binding.iniruA2, "iniru_a2")}
     }
 
     /**
@@ -195,6 +198,7 @@ class ThreeMegamiRegisterActivity : AppCompatActivity(), GroupNameDialog.Listene
             "akina" -> return "アキナ"
             "sisui" -> return "シスイ"
             "misora" -> return "ミソラ"
+            "iniru" -> return "イニル"
             else -> return ""
         }
     }
@@ -216,6 +220,13 @@ class ThreeMegamiRegisterActivity : AppCompatActivity(), GroupNameDialog.Listene
         // 特殊ケース
         if (megami == "yatsuha" && kind == "a2") {
             return "AAヤツハ";
+        } else if (megami == "iniru") {
+            if (kind == "a1") {
+                return "マヒル"
+            } else if (kind == "a2") {
+                return "アクル"
+            }
+            return "イヌル"
         }
 
         // 通常ケース

@@ -50,6 +50,7 @@ class CardListActivity : AppCompatActivity() {
         binding.akina.setOnClickListener {onButtonTapped("akina")}
         binding.sisui.setOnClickListener {onButtonTapped("sisui")}
         binding.misora.setOnClickListener {onButtonTapped("misora")}
+        binding.iniru.setOnClickListener {onButtonTapped("iniru")}
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
