@@ -6,6 +6,8 @@ import CsvUtil.isAnotherExist
 import PartsUtil.*
 import SetImageUtil.setImageToImageView
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
@@ -15,6 +17,7 @@ import android.view.View.VISIBLE
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.example.furuyonideckmanager2.databinding.ActivityMegamiCardListBinding
 import io.realm.kotlin.Realm
 import java.io.*
@@ -26,6 +29,8 @@ class MegamiCardListActivity : AppCompatActivity() {
 
     // 追加札表示ダイアログ
     val additionalCardDialog = AdditionalCardDialogs();
+    // 運命カード表示ダイアログ
+    val destinyCardDialog = DestinyCardDialog();
 
     /**
      * 左側のメガミのボタン情報を取得。
@@ -113,7 +118,6 @@ class MegamiCardListActivity : AppCompatActivity() {
      * @param cardCsvList カードのCSVデータ一覧。
      * @param extraCardCsvList 追加札カードのCSVデータ一覧。
      */
-    @RequiresApi(Build.VERSION_CODES.N)
     fun setMegamiButton(
         imageView: ImageView,
         megamiName: String,
@@ -138,7 +142,7 @@ class MegamiCardListActivity : AppCompatActivity() {
             // カード表示画面に遷移するためのハンドラ設定
             setButtonsHandler(megamiButtonList, cardCsvList);
             // 追加札ボタン設定
-            setAdditionalCardButton(binding.additionalCardButton, extraCardCsvList);
+            setAdditionalCardButton(binding.additionalCardButton, extraCardCsvList, megamiName);
         }
     }
 
@@ -146,17 +150,39 @@ class MegamiCardListActivity : AppCompatActivity() {
      * 追加札ボタンの設定
      * @param additionalButton 追加札一覧ボタン。
      * @param extraCardList 追加札一覧。
+     * @param megami メガミ。
      */
     fun setAdditionalCardButton(
         additionalButton: ImageButton,
-        extraCardList: List<Map<String, String>>
+        extraCardList: List<Map<String, String>>,
+        megami: String
     ) {
+        if (isDestinyExist(megami)) {
+            // 運命ボタンっぽくする
+            additionalButton.visibility = VISIBLE
+            val blackColor = ContextCompat.getColor(this, android.R.color.black)
+            additionalButton.backgroundTintList = ColorStateList.valueOf(blackColor)
+
+            var megamiName = "inuru"
+            if (megami == "iniru_a1") {
+                megamiName = "mahiru"
+            } else if (megami == "iniru_a2") {
+                megamiName = "akuru"
+            }
+
+            setShowDestinyCardsHandler(additionalButton, megamiName);
+            // ### 一旦追加札と運命カードの共存は考えない
+            return;
+        }
+
         if (isExtraExist(extraCardList) == false) {
             // 追加札一覧ボタンを非活性
             additionalButton.visibility = INVISIBLE;
         } else {
             // 追加札一覧ボタンを活性化
             additionalButton.visibility = VISIBLE;
+
+            additionalButton.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#D6D7D7"))
             setShowAdditionalCardsHandler(additionalButton, extraCardList);
         }
     }
@@ -170,6 +196,31 @@ class MegamiCardListActivity : AppCompatActivity() {
         dialogArgs.putStringArray("extraCardList", convertCsvToStringArray(extraCardCsvList));
         additionalCardDialog.arguments = dialogArgs;
         additionalCardDialog.show(supportFragmentManager, "additionalCard_dialog");
+    }
+
+    /**
+     * 追加札ボタンに運命カード表示ハンドラを設定
+     * @param additionalCardButton ハンドラ設定対象の追加札ボタン
+     * @param megamiName メガミ名
+     */
+    fun setShowDestinyCardsHandler(
+        additionalCardButton: ImageButton,
+        megamiName: String,
+    ) {
+        additionalCardButton.setOnClickListener {
+            showDestinyCardsHandler(megamiName);
+        }
+    }
+
+    /**
+     * 運命カード一覧の画面を表示するハンドラ
+     * @param megamiName メガミ名
+     */
+    fun showDestinyCardsHandler(megamiName: String) {
+        val dialogArgs = Bundle();
+        dialogArgs.putString("megamiName", megamiName)
+        destinyCardDialog.arguments = dialogArgs
+        destinyCardDialog.show(supportFragmentManager, "destinyCard_dialog")
     }
 
     /**

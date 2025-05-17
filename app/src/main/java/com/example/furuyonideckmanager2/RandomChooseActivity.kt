@@ -93,6 +93,9 @@ class RandomChooseActivity : AppCompatActivity() {
         if (binding.misoraCheckbox.isChecked() == true) {
             checkedMegami.add("ミソラ")
         }
+        if (binding.iniruCheckbox.isChecked() == true) {
+            checkedMegami.add("イニル")
+        }
 
         return checkedMegami;
     }
@@ -244,6 +247,7 @@ class RandomChooseActivity : AppCompatActivity() {
             binding.akinaCheckbox.setChecked(checked);
             binding.sisuiCheckbox.setChecked(checked);
             binding.misoraCheckbox.setChecked(checked);
+            binding.iniruCheckbox.setChecked(checked);
 
             // フラグを反転
             checked = !checked;

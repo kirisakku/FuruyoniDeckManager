@@ -22,7 +22,7 @@
             android:textSize="16sp" />
         <TableLayout
             android:layout_width="wrap_content"
-            android:layout_height="350dp"
+            android:layout_height="420dp"
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -452,6 +452,59 @@
                     app:srcCompat="@drawable/misora"
                     tools:layout_editor_absoluteX="16dp"
                     tools:layout_editor_absoluteY="16dp" />
+            </TableRow>
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp">
+
+                <ImageButton
+                    android:id="@+id/iniru"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="#0000"
+                    android:contentDescription="イニル"
+                    android:padding="5dp"
+                    android:scaleType="centerInside"
+                    app:srcCompat="@drawable/iniru"
+                    tools:layout_editor_absoluteX="16dp"
+                    tools:layout_editor_absoluteY="16dp" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+
+                <Space
+                    android:layout_width="60dp"
+                    android:layout_height="60dp" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+
+                <Space
+                    android:layout_width="60dp"
+                    android:layout_height="60dp" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+
+                <Space
+                    android:layout_width="60dp"
+                    android:layout_height="60dp" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+
+                <Space
+                    android:layout_width="60dp"
+                    android:layout_height="60dp" />
             </TableRow>
         </TableLayout>
     </LinearLayout>

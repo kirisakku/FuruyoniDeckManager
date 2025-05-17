@@ -83,6 +83,18 @@ fun isExtraExist(extraCardList: List<Map<String, String>>?): Boolean {
 }
 
 /**
+ * 運命カードが存在するかどうかを判定。
+ * @param megamiName メガミ名。
+ * @return 運命カードが存在するならtrue、存在しないならfalse。
+ */
+fun isDestinyExist(megamiName: String): Boolean {
+    if (megamiName.startsWith("iniru")) {
+        return true;
+    }
+    return false;
+}
+
+/**
  * dpをpixelに変換。
  * @param dp 変換対象のdp。
  * @param context 呼び出し元のcontext。

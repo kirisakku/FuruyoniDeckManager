@@ -80,6 +80,7 @@ class RegistrationActivity : AppCompatActivity() {
         binding.akina.setOnClickListener {onButtonTapped(binding.akina, "akina")}
         binding.sisui.setOnClickListener {onButtonTapped(binding.sisui, "sisui")}
         binding.misora.setOnClickListener {onButtonTapped(binding.misora, "misora")}
+        binding.inuru.setOnClickListener {onButtonTapped(binding.inuru, "iniru")}
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

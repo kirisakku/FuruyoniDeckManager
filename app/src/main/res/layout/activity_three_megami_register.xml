@@ -841,6 +841,59 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
 
+                    <ImageButton
+                        android:id="@+id/iniru"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:background="#0000"
+                        android:padding="5dp"
+                        android:scaleType="centerInside"
+                        app:srcCompat="@drawable/iniru"
+                        tools:layout_editor_absoluteX="16dp"
+                        tools:layout_editor_absoluteY="16dp" />
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <ImageButton
+                        android:id="@+id/iniru_a1"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:background="#0000"
+                        android:padding="5dp"
+                        android:scaleType="centerInside"
+                        app:srcCompat="@drawable/iniru_a1"
+                        tools:layout_editor_absoluteX="16dp"
+                        tools:layout_editor_absoluteY="16dp" />
+
+                </LinearLayout>
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/iniru_a2"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:background="#0000"
+                        android:padding="5dp"
+                        android:scaleType="centerInside"
+                        app:srcCompat="@drawable/iniru_a2"
+                        tools:layout_editor_absoluteX="16dp"
+                        tools:layout_editor_absoluteY="16dp" />
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
                     <Space
                         android:layout_width="60dp"
                         android:layout_height="60dp" />
@@ -854,6 +907,23 @@
                         android:layout_width="60dp"
                         android:layout_height="60dp" />
 
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <Space
+                        android:layout_width="60dp"
+                        android:layout_height="60dp" />
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <Space
+                        android:layout_width="60dp"
+                        android:layout_height="60dp" />
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
