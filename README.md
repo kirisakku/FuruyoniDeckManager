@@ -7,6 +7,9 @@
 * ふるよにコモンズ/BakaFire,TOKIAME （https://main-bakafire.ssl-lolipop.jp/furuyoni/na/rule.html）
 
 ## リリースノート
+### v2.1（2026/02/17）
+S10-2対応
+
 ### v2.0（2025/05/20）
 * S10正式対応
 * 以下のカードを「他のカード / 間合いへの距離増減」に追加
