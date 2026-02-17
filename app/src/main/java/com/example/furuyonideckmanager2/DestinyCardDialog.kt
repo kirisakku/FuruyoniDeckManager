@@ -71,7 +71,7 @@ class DestinyCardDialog: DialogFragment() {
                 card0.setImageResource(R.drawable.na_26_innealra_o3_f_3)
                 card1.setImageResource(R.drawable.na_26_innealra_o3_f_4)
                 card2.setImageResource(R.drawable.na_26_innealra_o3_f_2)
-                card3.setImageResource(R.drawable.na_26_innealra_o3_f_1)
+                card3.setImageResource(R.drawable.na_26_innealra_o3_f_1_s10_2)
 
             }
         }

@@ -1,4 +1,4 @@
-N-1,槍振るい,攻撃,-,na_26_innealra_o_n_1.png,O,n,n,n,n,n,n
+N-1,槍振るい,攻撃,-,na_26_innealra_o_n_1_s10_2.png,O,n,n,n,n,n,n
 N-2,呪詛,攻撃,-,na_26_innealra_o1_n_2.png,O,n,n,n,n,y,n
 N-3,祖槍,攻撃,-,na_26_innealra_o1_n_3.png,O,n,n,n,n,n,n
 N-4,悔恨,行動,-,na_26_innealra_o1_n_4.png,O,n,n,n,n,n,n
@@ -15,11 +15,11 @@ N-4,当惑,行動,-,na_26_innealra_o2_n_4.png,a1,n,n,n,n,n,n
 N-6,脆き意志,付与,-,na_26_innealra_o2_n_6.png,a1,n,n,n,n,n,n
 S-1,スピエル・ウレエル,攻撃,-,na_26_innealra_o2_s_1.png,a1,n,n,n,n,n,n
 S-2,スナハイド・ドウズレド,付与,対応,na_26_innealra_o2_s_2.png,a1,n,n,n,n,n,n
-S-3,シキリス・ホリス,攻撃,-,na_26_innealra_o2_s_3.png,a1,n,n,n,n,n,n
+S-3,シキリス・ホリス,攻撃,-,na_26_innealra_o2_s_3_s10_2.png,a1,n,n,n,n,n,n
 N-2,星空包み,攻撃,-,na_26_innealra_o3_n_2.png,a2,n,n,n,n,n,n
 N-3,怪槍,攻撃,-,na_26_innealra_o3_n_3.png,a2,n,n,n,n,n,n
 N-4,諦観,行動,-,na_26_innealra_o3_n_4.png,a2,n,n,n,n,n,n
-N-6,儚き意志,付与,-,na_26_innealra_o3_n_6.png,a2,n,n,n,n,n,n
+N-6,儚き意志,付与,-,na_26_innealra_o3_n_6_s10_2.png,a2,n,n,n,n,n,n
 S-1,スピエル・ナガラエル,攻撃,-,na_26_innealra_o3_s_1.png,a2,n,n,n,n,n,n
 S-2,アイリアス・アルアス,付与,対応,na_26_innealra_o3_s_2.png,a2,n,n,n,n,n,n
-S-3,クレーニャ・アンニャ,行動,-,na_26_innealra_o3_s_3.png,a2,n,n,n,n,n,n
+S-3,クレーニャ・アンニャ,行動,対応,na_26_innealra_o3_s_3_s10_2.png,a2,n,n,y,n,n,n
